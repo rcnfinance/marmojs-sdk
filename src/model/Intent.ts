@@ -8,7 +8,7 @@ export class Intent {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: number;
+    private data: string;
     private minGasLimit: number;
     private maxGasPrice: number;
 
@@ -19,7 +19,7 @@ export class Intent {
     public setId(id: string): void {
         this.id = id;
     }
-    
+
     public getDependencies(): Array<number> {
         return this.dependencies;
     }
@@ -68,11 +68,11 @@ export class Intent {
         this.value = value;
     }
 
-    public getData(): number {
+    public getData(): string {
         return this.data;
     }
 
-    public setData(data: number): void {
+    public setData(data: string): void {
         this.data = data;
     }
 

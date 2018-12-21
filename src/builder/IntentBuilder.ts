@@ -11,7 +11,7 @@ export class IntentBuilder {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: number;
+    private data: string;
     private minGasLimit: number;
     private maxGasPrice: number;
 

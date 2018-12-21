@@ -1,7 +1,7 @@
 export class IntentAction {
     private to: string;
     private value: number;
-    private data: number;
+    private data: string;
 
     public getTo(): string {
         return this.to;
@@ -19,11 +19,11 @@ export class IntentAction {
         this.value = value;
     }
 
-    public getData(): number {
+    public getData(): string {
         return this.data;
     }
 
-    public setData(data: number): void {
+    public setData(data: string): void {
         this.data = data;
     }
 
