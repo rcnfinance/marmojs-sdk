@@ -1,7 +1,7 @@
 # Marmojs-sdk
 
 # Description
-Marmojs-sdk helps developers to consume Marmo Relayer.
+Marmojs-sdk helps developers consume Marmo Relayer.
 
 # Simple Summary
 Allowing users to sign messages to show intent of execution, but allowing a third party relayer to execute them is an emerging pattern being used in many projects. 

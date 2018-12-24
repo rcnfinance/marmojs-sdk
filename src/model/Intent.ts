@@ -1,5 +1,5 @@
 export class Intent {
-    private id: string;
+    private id: Array<number>;
     private dependencies: Array<number>;
     private signer: string;
     private wallet: string;
@@ -8,15 +8,15 @@ export class Intent {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: string;
+    private data: Array<number>;
     private minGasLimit: number;
     private maxGasPrice: number;
 
-    public getId(): string {
+    public getId(): Array<number> {
         return this.id;
     }
 
-    public setId(id: string): void {
+    public setId(id: Array<number>): void {
         this.id = id;
     }
 
@@ -68,11 +68,11 @@ export class Intent {
         this.value = value;
     }
 
-    public getData(): string {
+    public getData(): Array<number> {
         return this.data;
     }
 
-    public setData(data: string): void {
+    public setData(data: Array<number>): void {
         this.data = data;
     }
 
