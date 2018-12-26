@@ -1,22 +1,22 @@
 import { Intent } from "../model/Intent";
 import { IntentAction } from "../model/IntentAction";
 
-const isHexPrefixed = require('is-hex-prefixed');
+const SIZE_32: number = 64; 
 const SIZE_64: number = 64; 
 const web3 = require('web3');
-
+const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
 export class IntentBuilder {
     private dependencies: Array<number>;
     private signer: string;
     private wallet: string;
-    private salt: number;
+    private salt: number = 0;
 
     /* For transactions */
     private to: string;
     private value: number;
     private data: Array<number>;
-    private minGasLimit: number;
-    private maxGasPrice: number;
+    private minGasLimit: number = 0;
+    private maxGasPrice: number = 9999999999;
 
     withDependencies(value: Array<number>): IntentBuilder {
         this.dependencies = value;
@@ -81,45 +81,51 @@ export class IntentBuilder {
     }
 
     private generateId(): Array<number> {
-        let wallet: string = this.wallet; console.log(wallet);
-        let dependencies: string = web3.utils.keccak256(this.sanitizeDependencies(this.dependencies)); console.log(dependencies);
-        let to: string= this.sanitizePrefix(this.to); console.log(to);
-        let value: string = this.toHexStringNoPrefixZeroPadded(this.value, SIZE_64); console.log(value);
-        let data: string = web3.utils.keccak256(this.data); console.log(data);
-        let minGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.minGasLimit, SIZE_64); console.log(minGasLimit);
-        let maxGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.maxGasPrice, SIZE_64); console.log(maxGasLimit);
-        let salt: string = this.sanitizePrefix(web3.utils.toHex(this.salt)); console.log(salt);
+        let wallet: string = this.wallet;
+        let dependencies: string = this.sanitizeDependencies(this.dependencies);
+        let to: string= this.sanitizePrefix(this.to);
+        let value: string = this.toHexStringNoPrefixZeroPadded(this.value, SIZE_64);
+        let data: string = this.sanitizePrefix(web3.utils.keccak256(this.data));
+        let minGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.minGasLimit, SIZE_64);
+        let maxGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.maxGasPrice, SIZE_64);
+        let salt: string = this.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
 
-        var encodePackedBuilder: string[] = [];
-        encodePackedBuilder.push(wallet)
-        encodePackedBuilder.push(dependencies)
-        encodePackedBuilder.push(to)
-        encodePackedBuilder.push(value)
-        encodePackedBuilder.push(data)
-        encodePackedBuilder.push(minGasLimit)
-        encodePackedBuilder.push(maxGasLimit)
-        encodePackedBuilder.push(salt);
+        var encodePackedBuilder: string = '';
+        encodePackedBuilder += wallet;
+        encodePackedBuilder += dependencies;
+        encodePackedBuilder += to;
+        encodePackedBuilder += value;
+        encodePackedBuilder += data;
+        encodePackedBuilder += minGasLimit;
+        encodePackedBuilder += maxGasLimit;
+        encodePackedBuilder += salt;
 
-        let encodePacked: string = web3.utils.keccak256(encodePackedBuilder.toString());
+        let encodePacked: string = web3.utils.sha3(encodePackedBuilder);
         return web3.utils.hexToBytes(encodePacked);
     }
 
     private sanitizeDependencies(dependencies: Array<number>): string  {
+        if (dependencies == undefined || dependencies.length == 0) {
+            return SHA3_NULL;
+        }
         var out: string[] = [];
         dependencies.forEach(element => {
             out.push(this.sanitizePrefix(element.toString()));
         });
-        return out.toString();
+        return web3.utils.sha3(out.toString());
     }
 
     private sanitizePrefix(str: string): string {
-        if (typeof str !== 'string') {
-          return str;
-        }
-        return isHexPrefixed(str) ? str.slice(2) : str;
+        return str.slice(2);
     }
 
     private toHexStringNoPrefixZeroPadded(value: number, lenght: number): string {
-        return "";
+        let source: string = web3.utils.toHex(value);
+        source = source.replace('0x', '');
+        if (source.length < lenght) {
+            const diff = lenght - source.length;
+            source = '0'.repeat(diff) + source;
+        }
+        return source;
     }
 }

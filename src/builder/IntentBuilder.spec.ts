@@ -15,7 +15,7 @@ describe('IntentBuilder Test', () => {
 
     let intentAction: IntentAction = new IntentAction();
     intentAction.setData(web3.utils.hexToBytes("0xa9059cbb0000000000000000000000007f5eb5bb5cf88cfcee9613368636f458800e62cb0000000000000000000000000000000000000000000000000000000000000001"));
-    intentAction.setTo(to)
+    intentAction.setTo(tokenContractAddress)
     intentAction.setValue(0);
 
     var credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
@@ -28,7 +28,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928");
+    assert.equal(web3.utils.bytesToHex(intent.getId()), "0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928");
 
   });
 
