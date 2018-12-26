@@ -8,7 +8,7 @@ export class Intent {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: Array<number>;
+    private data: string;
     private minGasLimit: number;
     private maxGasPrice: number;
 
@@ -68,11 +68,11 @@ export class Intent {
         this.value = value;
     }
 
-    public getData(): Array<number> {
+    public getData(): string {
         return this.data;
     }
 
-    public setData(data: Array<number>): void {
+    public setData(data: string): void {
         this.data = data;
     }
 
