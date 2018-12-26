@@ -1,5 +1,6 @@
-import { Intent } from "../model/Intent";
-import { IntentAction } from "../model/IntentAction";
+import { Intent } from '../model/Intent';
+import { IntentAction } from '../model/IntentAction';
+import * as Utils from '../utils/utils';
 
 const SIZE_32: number = 64; 
 const SIZE_64: number = 64; 
@@ -84,11 +85,11 @@ export class IntentBuilder {
         let wallet: string = this.wallet;
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string= this.sanitizePrefix(this.to);
-        let value: string = this.toHexStringNoPrefixZeroPadded(this.value, SIZE_64);
+        let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE_64);
         let data: string = this.sanitizePrefix(web3.utils.keccak256(this.data));
-        let minGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.minGasLimit, SIZE_64);
-        let maxGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.maxGasPrice, SIZE_64);
-        let salt: string = this.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
+        let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE_64);
+        let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE_64);
+        let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
         
         var encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
@@ -118,13 +119,4 @@ export class IntentBuilder {
         return str.slice(2);
     }
 
-    private toHexStringNoPrefixZeroPadded(value: number, lenght: number): string {
-        let source: string = web3.utils.toHex(value);
-        source = source.replace('0x', '');
-        if (source.length < lenght) {
-            const diff = lenght - source.length;
-            source = '0'.repeat(diff) + source;
-        }
-        return source;
-    }
 }
