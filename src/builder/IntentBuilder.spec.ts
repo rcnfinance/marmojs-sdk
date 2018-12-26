@@ -5,7 +5,7 @@ import assert = require('assert');
 import { ERC20 } from '../model/data/ERC20';
 
 const Web3 = require('web3');
-const web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/df26f7df62b843c0a2b4e1f10e5d5b83"));
+const web3 = new Web3();
 
 describe('IntentBuilder Test', () => {
   
