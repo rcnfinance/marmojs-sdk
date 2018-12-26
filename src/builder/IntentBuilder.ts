@@ -14,7 +14,7 @@ export class IntentBuilder {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: Array<number>;
+    private data: string;
     private minGasLimit: number = 0;
     private maxGasPrice: number = 9999999999;
 
@@ -89,7 +89,7 @@ export class IntentBuilder {
         let minGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.minGasLimit, SIZE_64);
         let maxGasLimit: string = this.toHexStringNoPrefixZeroPadded(this.maxGasPrice, SIZE_64);
         let salt: string = this.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
-
+        
         var encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
         encodePackedBuilder += dependencies;
