@@ -1,6 +1,6 @@
 export class Intent {
-    private id: Array<number>;
-    private dependencies: Array<number>;
+    private id: string;
+    private dependencies: Array<string>;
     private signer: string;
     private wallet: string;
     private salt: number;
@@ -12,19 +12,19 @@ export class Intent {
     private minGasLimit: number;
     private maxGasPrice: number;
 
-    public getId(): Array<number> {
+    public getId(): string {
         return this.id;
     }
 
-    public setId(id: Array<number>): void {
+    public setId(id: string): void {
         this.id = id;
     }
 
-    public getDependencies(): Array<number> {
+    public getDependencies(): Array<string> {
         return this.dependencies;
     }
 
-    public setDependencies(dependencies: Array<number>): void {
+    public setDependencies(dependencies: Array<string>): void {
         this.dependencies = dependencies;
     }
 

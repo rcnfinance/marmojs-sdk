@@ -6,7 +6,7 @@ const SIZE_64: number = 64;
 const web3 = require('web3');
 const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
 export class IntentBuilder {
-    private dependencies: Array<number>;
+    private dependencies: Array<string>;
     private signer: string;
     private wallet: string;
     private salt: number = 0;
@@ -18,7 +18,7 @@ export class IntentBuilder {
     private minGasLimit: number = 0;
     private maxGasPrice: number = 9999999999;
 
-    withDependencies(value: Array<number>): IntentBuilder {
+    withDependencies(value: Array<string>): IntentBuilder {
         this.dependencies = value;
         return this;
     }
@@ -80,7 +80,7 @@ export class IntentBuilder {
         return intent;
     }
 
-    private generateId(): Array<number> {
+    private generateId(): string {
         let wallet: string = this.wallet;
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string= this.sanitizePrefix(this.to);
@@ -100,19 +100,18 @@ export class IntentBuilder {
         encodePackedBuilder += maxGasLimit;
         encodePackedBuilder += salt;
 
-        let encodePacked: string = web3.utils.sha3(encodePackedBuilder);
-        return web3.utils.hexToBytes(encodePacked);
+        return web3.utils.sha3(encodePackedBuilder);
     }
 
-    private sanitizeDependencies(dependencies: Array<number>): string  {
+    private sanitizeDependencies(dependencies: Array<string>): string  {
         if (dependencies == undefined || dependencies.length == 0) {
             return SHA3_NULL;
         }
-        var out: string[] = [];
+        var out: string = '0x';
         dependencies.forEach(element => {
-            out.push(this.sanitizePrefix(element.toString()));
+            out += this.sanitizePrefix(element);
         });
-        return web3.utils.sha3(out.toString());
+        return this.sanitizePrefix(web3.utils.sha3(out));
     }
 
     private sanitizePrefix(str: string): string {
