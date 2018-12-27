@@ -1,6 +1,4 @@
-# Marmojs-sdk
-
-# Description
+![Marmo](./images/logo.png)
 Marmojs-sdk helps developers consume Marmo Relayer.
 
 # Simple Summary
