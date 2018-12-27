@@ -58,13 +58,13 @@ export class IntentBuilder {
 
     build(): Intent {
         if (this.signer == null) {
-            // Exception    
+            throw new Error('Invalid signer');
         }
         if (this.wallet == null) {
-            // Exception 
+            throw new Error('Invalid wallet');
         }
         if (this.to == null || this.value == null || this.data == null) {
-            // Exception 
+            throw new Error('Invalid action intent');
         }
 
         let intent = new Intent()

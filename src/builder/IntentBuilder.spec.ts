@@ -167,4 +167,63 @@ describe('IntentBuilder Test', () => {
 
   });
 
+  it('Should be fail because does not have signer', () => {
+
+    let tokenContractAddress: string = "0x2f45b6fb2f28a73f110400386da31044b2e953d4"; //RCN Token
+    let to: string = "0x7F5EB5bB5cF88cfcEe9613368636f458800e62CB";
+
+    let erc20: ERC20 = new ERC20(tokenContractAddress);
+    let intentAction: IntentAction = erc20.balanceOf(to);
+    
+    let contractAddress: string = "0xbbf289d846208c16edc8474705c748aff07732db";
+    let intentBuilder: IntentBuilder = new IntentBuilder();
+    intentBuilder.withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
+        .withWallet(contractAddress)
+        .withIntentAction(intentAction)
+        .withMinGasLimit(300000)
+        .withMaxGasLimit(999999)
+        .withSalt(2)
+
+    assert.throws(() => intentBuilder.build());
+
+  });
+
+  it('Should be fail because does not have wallet', () => {
+
+    let tokenContractAddress: string = "0x2f45b6fb2f28a73f110400386da31044b2e953d4"; //RCN Token
+    let to: string = "0x7F5EB5bB5cF88cfcEe9613368636f458800e62CB";
+
+    let erc20: ERC20 = new ERC20(tokenContractAddress);
+    let intentAction: IntentAction = erc20.balanceOf(to);
+    var credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
+    
+    let intentBuilder: IntentBuilder = new IntentBuilder();
+    intentBuilder.withSigner(credentials.address)
+        .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
+        .withIntentAction(intentAction)
+        .withMinGasLimit(300000)
+        .withMaxGasLimit(999999)
+        .withSalt(2);
+
+    assert.throws(() => intentBuilder.build());
+
+  });
+
+  it('Should be fail because does not have intentAction', () => {
+
+    var credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a'); 
+    let contractAddress: string = "0xbbf289d846208c16edc8474705c748aff07732db";
+
+    let intentBuilder: IntentBuilder = new IntentBuilder();
+    intentBuilder.withSigner(credentials.address)
+        .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
+        .withWallet(contractAddress)
+        .withMinGasLimit(300000)
+        .withMaxGasLimit(999999)
+        .withSalt(2);
+
+    assert.throws(() => intentBuilder.build());
+
+  });
+
 });
