@@ -137,7 +137,33 @@ let intent: Intent = intentBuilder.build();
 
 ###  Send a intent
 ```js
-//Work in progress
+
+let relayClient: RelayClient = new RelayClient("http://ec2-3-16-37-20.us-east-2.compute.amazonaws.com/relay");
+relayClient.sent(signedIntent);
+
+ # Post Example
+ {
+  "id": "0xacd5d801cecc1790b95c5395e4f48a40d964ae0c6b70051b3c907060e67da079",
+  "dependencies": [
+    "0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e",
+    "0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928"
+  ],
+  "wallet": "0xbbf289d846208c16edc8474705c748aff07732db",
+  "tx": {
+    "to": "0x2f45b6fb2f28a73f110400386da31044b2e953d4",
+    "value": 0,
+    "data": "0x70a082310000000000000000000000007f5eb5bb5cf88cfcee9613368636f458800e62cb",
+    "minGasLimit": 300000,
+    "maxGasPrice": 999999
+  },
+  "salt": "0x0000000000000000000000000000000000000000000000000000000000000002",
+  "signer": "0x9d7713f5048c270d7c1dbe65f44644f4ea47f774",
+  "signature": {
+    "r": "0xed4eee4e05337e598b1886ef3941f775833f2c7e55bc233fe2cd66d032029649",
+    "s": "0x502acc54e8c1ecb4d845a56afb1e43829743c77f3dd60c8b74b25cef33cd1b1e",
+    "v": "0x1b"
+  }
+}
 ```
 
 # Structure of builder
