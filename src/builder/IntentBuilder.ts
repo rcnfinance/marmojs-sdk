@@ -1,11 +1,14 @@
 import { Intent } from '../model/Intent';
 import { IntentAction } from '../model/IntentAction';
-import * as Utils from '../utils/utils';
+import * as Utils from '../utils/MamorUtils';
 
 const SIZE_32: number = 64;
 const SIZE_64: number = 64;
-const web3 = require('web3');
 const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
+
+const Web3 = require('web3');
+const web3 = new Web3();
+
 export class IntentBuilder {
     private dependencies: Array<string>;
     private signer: string;
