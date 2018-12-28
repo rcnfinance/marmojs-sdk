@@ -6,7 +6,7 @@ export interface IERC20 {
 
     balanceOf(who: string): IntentAction;
 
-    allowance(owner:string, spender: string): IntentAction;
+    allowance(owner: string, spender: string): IntentAction;
 
     transfer(to: string, value: number): IntentAction;
 

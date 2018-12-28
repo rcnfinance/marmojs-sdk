@@ -19,7 +19,7 @@ export class ERC20 implements IERC20 {
         return this.getIntentAction(inputs, []);
     }
 
-    public balanceOf(who: string): IntentAction { 
+    public balanceOf(who: string): IntentAction {
         let inputs = {
             name: 'balanceOf',
             type: 'function',
@@ -32,7 +32,7 @@ export class ERC20 implements IERC20 {
     }
 
     public allowance(owner: string, spender: string): IntentAction {
-        let inputs = { 
+        let inputs = {
             name: 'allowance',
             type: 'function',
             inputs: [{
@@ -75,7 +75,7 @@ export class ERC20 implements IERC20 {
                 type: 'uint256',
                 name: 'value'
             }]
-        };        
+        };
         return this.getIntentAction(inputs, [to, value]);
     }
 

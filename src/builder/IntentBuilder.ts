@@ -2,8 +2,8 @@ import { Intent } from '../model/Intent';
 import { IntentAction } from '../model/IntentAction';
 import * as Utils from '../utils/utils';
 
-const SIZE_32: number = 64; 
-const SIZE_64: number = 64; 
+const SIZE_32: number = 64;
+const SIZE_64: number = 64;
 const web3 = require('web3');
 const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
 export class IntentBuilder {
@@ -39,7 +39,7 @@ export class IntentBuilder {
         return this;
     }
 
-    withIntentAction(value: IntentAction){
+    withIntentAction(value: IntentAction) {
         this.to = value.getTo();
         this.data = value.getData();
         this.value = value.getValue();
@@ -84,14 +84,14 @@ export class IntentBuilder {
     private generateId(): string {
         let wallet: string = this.wallet;
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
-        let to: string= this.sanitizePrefix(this.to);
+        let to: string = this.sanitizePrefix(this.to);
         let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE_64);
         let data: string = this.sanitizePrefix(web3.utils.keccak256(this.data));
         let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE_64);
         let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE_64);
         let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
-        
-        var encodePackedBuilder: string = '';
+
+        let encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
         encodePackedBuilder += dependencies;
         encodePackedBuilder += to;
@@ -105,10 +105,10 @@ export class IntentBuilder {
     }
 
     private sanitizeDependencies(dependencies: Array<string>): string  {
-        if (dependencies == undefined || dependencies.length == 0) {
+        if (dependencies === undefined || dependencies.length === 0) {
             return SHA3_NULL;
         }
-        var out: string = '0x';
+        let out: string = '0x';
         dependencies.forEach(element => {
             out += this.sanitizePrefix(element);
         });

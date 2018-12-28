@@ -26,7 +26,4 @@ export class IntentAction {
     public setData(data: string): void {
         this.data = data;
     }
-
-
-    
 }

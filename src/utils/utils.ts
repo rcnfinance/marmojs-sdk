@@ -1,3 +1,5 @@
+import { Intent } from "../model/Intent";
+import { SignedIntent } from "../model/SignedIntent";
 
 export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): string {
     let source: string = value;
@@ -7,4 +9,8 @@ export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): st
         source = '0'.repeat(diff) + source;
     }
     return source;
+}
+
+export function sign(intent: Intent, credentials: Any): SignedIntent {
+    return null;
 }
