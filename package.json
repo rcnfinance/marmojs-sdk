@@ -2,7 +2,7 @@
   "author": "RCN",
   "bundleDependencies": false,
   "deprecated": false,
-  "description": "Marmojs-sdk helps to developers to consume Marmo Relayer.",
+  "description": "Marmojs-sdk helps developers to consume Marmo Relayer.",
   "devDependencies": {
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.5",
@@ -31,7 +31,7 @@
   "scripts": {
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "@types/ethereumjs-abi": "^0.6.1",
     "@types/request-promise-native": "^1.0.15",

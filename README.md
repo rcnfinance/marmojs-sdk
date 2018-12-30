@@ -70,8 +70,10 @@ npm test
 
 #### Add the relevant dependency to your project:
 ##### NPM
-- Work in progress.
-   
+```bash
+npm i marmojs-sdk
+```
+
 # how it works?
 
 ### Intent Flowchart
@@ -130,7 +132,7 @@ let intent: Intent = intentBuilder.build();
 
 ### Sign a intent
 ```js
-//Work in progress
+const signedIntent: SignedIntent = Utils.sign(intent, "Private key");
 ```
 
 ###  Send a intent
