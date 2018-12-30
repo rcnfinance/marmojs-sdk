@@ -4,6 +4,7 @@ export class Intent {
     private signer: string;
     private wallet: string;
     private salt: number;
+    private expiration: number;
 
     /* For transactions */
     private to: string;
@@ -50,6 +51,14 @@ export class Intent {
 
     public setSalt(salt: number): void {
         this.salt = salt;
+    }
+
+    public getExpiration(): number {
+        return this.expiration;
+    }
+
+    public setExpiration(expiration: number): void {
+        this.expiration = expiration;
     }
 
     public getTo(): string {

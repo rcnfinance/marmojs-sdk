@@ -14,6 +14,7 @@ export class IntentBuilder {
     private signer: string;
     private wallet: string;
     private salt: number = 0;
+    private expiration: number = 15;
 
     /* For transactions */
     private to: string;
@@ -39,6 +40,11 @@ export class IntentBuilder {
 
     withSalt(value: number): IntentBuilder {
         this.salt = value;
+        return this;
+    }
+
+    withExpiration(value: number): IntentBuilder {
+        this.expiration = value;
         return this;
     }
 
@@ -81,6 +87,7 @@ export class IntentBuilder {
         intent.setData(this.data);
         intent.setMinGasLimit(this.minGasLimit);
         intent.setMaxGasPrice(this.maxGasPrice);
+        intent.setExpiration(this.expiration);
         return intent;
     }
 
@@ -93,6 +100,7 @@ export class IntentBuilder {
         let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE_64);
         let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE_64);
         let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
+        let expiration: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.expiration), SIZE_64);
 
         let encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
@@ -103,6 +111,7 @@ export class IntentBuilder {
         encodePackedBuilder += minGasLimit;
         encodePackedBuilder += maxGasLimit;
         encodePackedBuilder += salt;
+        encodePackedBuilder += expiration;
 
         return web3.utils.sha3(encodePackedBuilder);
     }
