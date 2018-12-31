@@ -1,5 +1,5 @@
 import { Intent } from '../model/Intent';
-import * as Utils from '../utils/MamorUtils';
+import * as Utils from './MarmoUtils';
 import assert = require('assert');
 import { SignedIntent } from '../model/SignedIntent';
 

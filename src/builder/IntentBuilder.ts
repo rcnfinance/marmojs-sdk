@@ -1,6 +1,6 @@
 import { Intent } from '../model/Intent';
 import { IntentAction } from '../model/IntentAction';
-import * as Utils from '../utils/MamorUtils';
+import * as Utils from '../utils/MarmoUtils';
 
 const SIZE_32: number = 64;
 const SIZE_64: number = 64;
