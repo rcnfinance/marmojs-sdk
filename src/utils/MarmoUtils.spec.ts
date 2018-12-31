@@ -1,4 +1,3 @@
-import { SignatureData } from '../model/SignatureData';
 import { Intent } from '../model/Intent';
 import * as Utils from '../utils/MamorUtils';
 import assert = require('assert');
