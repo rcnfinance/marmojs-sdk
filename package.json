@@ -23,7 +23,7 @@
     "webpack": "webpack -d --watch",
     "test": "mocha -r ts-node/register src/**/*.spec.ts"
   },
-  "version": "0.1.1",
+  "version": "0.1.2",
   "dependencies": {
     "@types/ethereumjs-abi": "^0.6.1",
     "@types/request-promise-native": "^1.0.15",
