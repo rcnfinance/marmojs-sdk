@@ -3,6 +3,9 @@ export class IntentAction {
     private value: number;
     private data: string;
 
+    constructor() {
+    }
+
     public getTo(): string {
         return this.to;
     }
