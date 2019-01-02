@@ -16,26 +16,25 @@
   "directories": {
     "test": "tests"
   },
-  "main": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/main/index.ts",
   "name": "marmojs-sdk",
   "scripts": {
     "start": "npm run webpack",
     "webpack": "webpack -d --watch",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",
+    "prepublish": "npm run test && npm build"
   },
-  "version": "0.1.2",
+  "version": "0.1.12",
   "dependencies": {
     "@types/ethereumjs-abi": "^0.6.1",
     "@types/request-promise-native": "^1.0.15",
     "@types/web3": "^1.0.14",
-    "awesome-typescript-loader": "^5.2.0",
-    "clean-webpack-plugin": "^1.0.0",
-    "cross-env": "^5.0.1",
     "ethereumjs-abi": "^0.6.5",
-    "istanbul-instrumenter-loader": "^3.0.0",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
-    "source-map-loader": "^0.2.1",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.1",
     "web3": "^1.0.0-beta.37",
