@@ -1,7 +1,7 @@
 import { IntentBuilder } from './IntentBuilder';
 import { IntentAction } from '../model/IntentAction';
 import { Intent } from '../model/Intent';
-import assert = require('assert');
+import { equal, throws } from 'assert';
 import { ERC20 } from '../model/data/ERC20';
 
 const Web3 = require('web3');
@@ -25,7 +25,7 @@ describe('IntentBuilder Test', () => {
         .withIntentAction(intentAction)
 
     let intent: Intent = intentBuilder.build();
-    assert.equal(intent.getId(), "0x7935c8f49cb284e1c5c8dd95b3fc6c9cad6519a17555a5f2e43f9aaa31d25a37");
+    equal(intent.getId(), "0x7935c8f49cb284e1c5c8dd95b3fc6c9cad6519a17555a5f2e43f9aaa31d25a37");
 
   });
 
@@ -45,7 +45,7 @@ describe('IntentBuilder Test', () => {
         .withIntentAction(intentAction)
 
     let intent: Intent = intentBuilder.build();
-    assert.equal(intent.getId(), "0x0dd96a883c69dca2fef7de903ed543b2751919592a799902aa84ce7ed6a23479");
+    equal(intent.getId(), "0x0dd96a883c69dca2fef7de903ed543b2751919592a799902aa84ce7ed6a23479");
 
   });
 
@@ -67,7 +67,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x5de183da65683636ad564c80559c6cf68d5c738239f15da75e5a020d039cf7fb");
+    equal(intent.getId(), "0x5de183da65683636ad564c80559c6cf68d5c738239f15da75e5a020d039cf7fb");
 
   });
 
@@ -89,7 +89,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x0d42d9890e1c0cca4d56ec5b532e6f7f1597f5cda57a0c1726f0eb25d2bc4a26");
+    equal(intent.getId(), "0x0d42d9890e1c0cca4d56ec5b532e6f7f1597f5cda57a0c1726f0eb25d2bc4a26");
 
   });
 
@@ -113,7 +113,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x40b7b0871f7b3e25020766c21545be0ef33349a949b6f4b9548387d4d539a110");
+    equal(intent.getId(), "0x40b7b0871f7b3e25020766c21545be0ef33349a949b6f4b9548387d4d539a110");
 
   });
 
@@ -138,7 +138,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x63bfa4961085e360ff2507256aae202ef05fe1883475eb21456796b81f5a0e58");
+    equal(intent.getId(), "0x63bfa4961085e360ff2507256aae202ef05fe1883475eb21456796b81f5a0e58");
 
   });
 
@@ -163,7 +163,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0x6e78ee9f136303375275ad50c6f0823f5863a148d351552409685a8b491d3a98");
+    equal(intent.getId(), "0x6e78ee9f136303375275ad50c6f0823f5863a148d351552409685a8b491d3a98");
 
   });
 
@@ -189,7 +189,7 @@ describe('IntentBuilder Test', () => {
 
     let intent: Intent = intentBuilder.build();
 
-    assert.equal(intent.getId(), "0xd4f72692dc24aab3c71fe00dbfd47c40ae80b4c9324aa0b2fc231ea85c917ca5");
+    equal(intent.getId(), "0xd4f72692dc24aab3c71fe00dbfd47c40ae80b4c9324aa0b2fc231ea85c917ca5");
 
   });
 
@@ -210,7 +210,7 @@ describe('IntentBuilder Test', () => {
         .withMaxGasLimit(999999)
         .withSalt(2)
 
-    assert.throws(() => intentBuilder.build());
+    throws(() => intentBuilder.build());
 
   });
 
@@ -231,7 +231,7 @@ describe('IntentBuilder Test', () => {
         .withMaxGasLimit(999999)
         .withSalt(2);
 
-    assert.throws(() => intentBuilder.build());
+    throws(() => intentBuilder.build());
 
   });
 
@@ -248,7 +248,7 @@ describe('IntentBuilder Test', () => {
         .withMaxGasLimit(999999)
         .withSalt(2);
 
-    assert.throws(() => intentBuilder.build());
+    throws(() => intentBuilder.build());
 
   });
 
