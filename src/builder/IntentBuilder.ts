@@ -81,7 +81,7 @@ export class IntentBuilder {
         intent.setSigner(this.signer);
         intent.setDependencies(this.dependencies);
         intent.setWallet(this.wallet);
-        intent.setSalt(this.salt);
+        intent.setSalt(Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32));
         intent.setTo(this.to);
         intent.setValue(this.value);
         intent.setData(this.data);
