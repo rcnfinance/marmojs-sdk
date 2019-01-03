@@ -3,7 +3,7 @@ export class Intent {
     private dependencies: Array<string>;
     private signer: string;
     private wallet: string;
-    private salt: number;
+    private salt: string;
     private expiration: number;
 
     /* For transactions */
@@ -45,11 +45,11 @@ export class Intent {
         this.wallet = wallet;
     }
 
-    public getSalt(): number {
+    public getSalt(): string {
         return this.salt;
     }
 
-    public setSalt(salt: number): void {
+    public setSalt(salt: string): void {
         this.salt = salt;
     }
 
