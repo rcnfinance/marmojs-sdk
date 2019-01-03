@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/builder/IntentBuilder.ts',
   module: {
     rules: [
       {
@@ -16,8 +16,8 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: path.join('[name]', 'index.ts'),
+    filename: path.join('[name]', 'index.js'),
     library: "marmojs-sdk",
-    libraryTarget: "umd" // e
+    libraryTarget: "umd"
   }
 };
