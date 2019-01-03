@@ -3,16 +3,6 @@
   "bundleDependencies": false,
   "deprecated": false,
   "description": "Marmojs-sdk helps developers to consume Marmo Relayer.",
-  "devDependencies": {
-    "@types/chai": "^4.1.7",
-    "@types/mocha": "^5.2.5",
-    "chai": "^4.2.0",
-    "eslint": "^5.11.1",
-    "mocha": "^5.2.0",
-    "rimraf": "^2.6.1",
-    "tslint": "^5.5.0",
-    "tslint-loader": "^3.5.3"
-  },
   "directories": {
     "test": "tests"
   },
@@ -21,17 +11,21 @@
   ],
   "main": "dist/main/index.ts",
   "name": "marmojs-sdk",
+  "types": "dist/@types",
   "scripts": {
     "start": "npm run webpack",
     "webpack": "webpack -d --watch",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "prepublish": "npm run test && npm build"
   },
-  "version": "0.1.12",
+  "version": "0.1.13",
   "dependencies": {
     "@types/ethereumjs-abi": "^0.6.1",
+    "@types/jest": "^23.3.11",
     "@types/request-promise-native": "^1.0.15",
     "@types/web3": "^1.0.14",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "ethereumjs-abi": "^0.6.5",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.5",
@@ -42,6 +36,11 @@
     "web3-eth": "^1.0.0-beta.37",
     "web3-utils": "^1.0.0-beta.37",
     "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "chai": "^4.2.0",
+    "eslint": "^5.11.1",
+    "mocha": "^5.2.0",
+    "tslint": "^5.5.0",
+    "tslint-loader": "^3.5.3"
   }
 }
