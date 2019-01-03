@@ -1,15 +1,23 @@
+
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
-    "declaration": true,
-    "sourceMap": true,
+    "noImplicitAny": false,
+    "strictNullChecks": true,
     "experimentalDecorators": true,
-    "outDir": "dist",
-    "lib": ["es2017", "dom"],
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "removeComments": true
-  },
-  "exclude": ["node_modules", "dist"]
+    "declaration": true,
+    "declarationDir": "dist/@types",
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es5",
+      "es2015",
+      "es6",
+      "dom",
+      "es2017.object"
+    ],
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "baseUrl": "."
+  }
 }
