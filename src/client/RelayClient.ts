@@ -4,8 +4,8 @@ import { SignedIntent } from "../model/SignedIntent"
 import { IntentTxRequest } from "../model/request/IntentTxRequest"
 import { IntentResponse } from "../model/response/IntentResponse"
 import { IntentRequest } from "../model/request/IntentRequest"
-import { SignatureData } from 'src/model/SignatureData';
-import { SignatureDataRequest } from 'src/model/request/SignatureDataRequest';
+import { SignatureData } from '../model/SignatureData';
+import { SignatureDataRequest } from '../model/request/SignatureDataRequest';
 
 
 export class RelayClient {
@@ -46,7 +46,7 @@ export class RelayClient {
         intentTxRequest.setData(intent.getData());
         intentTxRequest.setMaxGasPrice(intent.getMaxGasPrice());
         intentTxRequest.setMinGasLimit(intent.getMinGasLimit());
-        intentTxRequest.setValue(intent.getValue().toString());
+        intentTxRequest.setValue(String(intent.getValue()));
 
         request.setTx(intentTxRequest);
         return request;
