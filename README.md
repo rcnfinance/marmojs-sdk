@@ -1,5 +1,5 @@
 ![Marmo](./images/logo.png)
-Marmojs-sdk helps developers consume Marmo Relayer.
+Marmo wallet JS SDK.
 
 # Simple Summary
 Allowing users to sign messages to show intent of execution, but allowing a third party relayer to execute them is an emerging pattern being used in many projects. 
