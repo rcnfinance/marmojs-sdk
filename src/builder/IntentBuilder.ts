@@ -12,7 +12,7 @@ export class IntentBuilder {
     private dependencies: Array<string>;
     private signer: string;
     private salt: number = 0;
-    private expiration: number = 15;
+    private expiration: number = Math.floor(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).getTime() / 1000.0); // now + 1 year
 
     /* For transactions */
     private to: string;
