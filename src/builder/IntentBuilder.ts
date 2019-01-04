@@ -2,8 +2,7 @@ import { Intent } from '../model/Intent';
 import { IntentAction } from '../model/IntentAction';
 import * as Utils from '../utils/MarmoUtils';
 
-const SIZE_32: number = 64;
-const SIZE_64: number = 64;
+const SIZE: number = 64;
 const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
 
 const Web3 = require('web3');
@@ -12,7 +11,6 @@ const web3 = new Web3();
 export class IntentBuilder {
     private dependencies: Array<string>;
     private signer: string;
-    private wallet: string;
     private salt: number = 0;
     private expiration: number = 15;
 
@@ -30,11 +28,6 @@ export class IntentBuilder {
 
     withSigner(value: string): IntentBuilder {
         this.signer = value;
-        return this;
-    }
-
-    withWallet(value: string): IntentBuilder {
-        this.wallet = value;
         return this;
     }
 
@@ -69,9 +62,6 @@ export class IntentBuilder {
         if (this.signer == null) {
             throw new Error('Invalid signer');
         }
-        if (this.wallet == null) {
-            throw new Error('Invalid wallet');
-        }
         if (this.to == null || this.value == null || this.data == null) {
             throw new Error('Invalid action intent');
         }
@@ -80,8 +70,8 @@ export class IntentBuilder {
         intent.setId(this.generateId());
         intent.setSigner(this.signer);
         intent.setDependencies(this.dependencies);
-        intent.setWallet(this.wallet);
-        intent.setSalt(Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32));
+        intent.setWallet(Utils.generateAddress(this.signer));
+        intent.setSalt(Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE));
         intent.setTo(this.to);
         intent.setValue(this.value);
         intent.setData(this.data);
@@ -92,15 +82,15 @@ export class IntentBuilder {
     }
 
     private generateId(): string {
-        let wallet: string = this.wallet;
+        let wallet: string = Utils.generateAddress(this.signer);
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string = this.sanitizePrefix(this.to);
-        let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE_64);
+        let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE);
         let data: string = this.sanitizePrefix(web3.utils.keccak256(this.data));
-        let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE_64);
-        let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE_64);
-        let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE_32);
-        let expiration: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.expiration), SIZE_64);
+        let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE);
+        let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE);
+        let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE);
+        let expiration: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.expiration), SIZE);
 
         let encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
