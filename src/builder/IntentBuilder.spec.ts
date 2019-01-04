@@ -21,6 +21,7 @@ describe('IntentBuilder Test', () => {
     let intentBuilder: IntentBuilder = new IntentBuilder();
     intentBuilder.withSigner(credentials.address)
         .withIntentAction(intentAction)
+        .withExpiration(15)
 
     let intent: Intent = intentBuilder.build();
     equal(intent.getId(), "0x4a9a0a77dae4745c3a6835d7cf03b8e798257bf36d7c2d65eee78e5e12d51c4b");
@@ -39,6 +40,7 @@ describe('IntentBuilder Test', () => {
     let intentBuilder: IntentBuilder = new IntentBuilder();
     intentBuilder.withSigner(credentials.address)
         .withIntentAction(intentAction)
+        .withExpiration(15)
 
     let intent: Intent = intentBuilder.build();
     equal(intent.getId(), "0x1dde889e52bece403ce9373d1d72ebb7b4498bc557e3e6094d20b5a94773f914");
@@ -58,6 +60,7 @@ describe('IntentBuilder Test', () => {
     intentBuilder.withSigner(credentials.address)
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e'])
         .withIntentAction(intentAction)
+        .withExpiration(15)
 
     let intent: Intent = intentBuilder.build();
 
@@ -78,6 +81,7 @@ describe('IntentBuilder Test', () => {
     intentBuilder.withSigner(credentials.address)
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
+        .withExpiration(15)
 
     let intent: Intent = intentBuilder.build();
 
@@ -100,6 +104,7 @@ describe('IntentBuilder Test', () => {
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
         .withMaxGasLimit(999999)
+        .withExpiration(15)
 
     let intent: Intent = intentBuilder.build();
 
@@ -122,6 +127,7 @@ describe('IntentBuilder Test', () => {
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
         .withMaxGasLimit(999999)
+        .withExpiration(15)
         .withSalt(1)
 
     let intent: Intent = intentBuilder.build();
@@ -145,6 +151,7 @@ describe('IntentBuilder Test', () => {
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
         .withMaxGasLimit(999999)
+        .withExpiration(15)
         .withSalt(2)
 
     let intent: Intent = intentBuilder.build();
