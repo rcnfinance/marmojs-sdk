@@ -2,13 +2,40 @@ import { Intent } from "../model/Intent";
 import { SignedIntent } from "../model/SignedIntent";
 import { SignatureData } from "../model/SignatureData";
 import { simpleEncode } from "ethereumjs-abi";
+import { generateAddress2, bufferToHex } from 'ethereumjs-util';
+
+const BYTECODE_1 = "6080604052348015600f57600080fd5b50606780601d6000396000f3fe6080604052366000803760008036600073";
+const BYTECODE_2 = "5af43d6000803e8015156036573d6000fd5b3d6000f3fea165627a7a7230582033b260661546dd9894b994173484da72335f9efc37248d27e6da483f15afc1350029";
+const MARMO_CREATOR_ADDRESS = "0x1053deb5e0f1697289b8a1b11aa870f07a7fb221";
+const MARMO_ADDRESS = "3618a379f2624f42c0a8c79aad8db9d24d6e0312";
+const SIZE: number = 64;
+const PREFIX = "0x";
 
 const Web3 = require('web3');
 const web3 = new Web3();
 
+/**
+ * Generates an address for a contract created using CREATE2
+ * @param {strin} signer a signer
+ * @return {string}
+ */
+export function generateAddress(signer: string): string {
+    let salt = toHexStringZeroPadded(signer, SIZE)
+    return bufferToHex(generateAddress2(MARMO_CREATOR_ADDRESS, salt, getInitCode()));
+}
+
+function getInitCode() {
+    return PREFIX + BYTECODE_1 + MARMO_ADDRESS + BYTECODE_2;
+}
+
+export function toHexStringZeroPadded(value: string, lenght: number): string {
+    return PREFIX + toHexStringNoPrefixZeroPadded(value, lenght);
+}
+
+
 export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): string {
     let source: string = value;
-    source = source.replace('0x', '');
+    source = source.replace(PREFIX, '');
     if (source.length < lenght) {
         const diff = lenght - source.length;
         source = '0'.repeat(diff) + source;
@@ -35,5 +62,5 @@ export function sign(intent: Intent, privateKey: String): SignedIntent {
 export function encodeDataPayload(functionSignature: string , functionParameters: string) {
     const params = functionParameters.split(",").filter((x) => x.trim());
     const signatureArgs = [functionSignature].concat(params);
-    return "0x" + simpleEncode.apply(this, signatureArgs).toString("hex");
+    return PREFIX + simpleEncode.apply(this, signatureArgs).toString("hex");
 }
