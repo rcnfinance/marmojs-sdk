@@ -7,7 +7,6 @@
     "strictNullChecks": true,
     "experimentalDecorators": true,
     "declaration": true,
-    "declarationDir": "dist/@types",
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "es5",
