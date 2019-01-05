@@ -9,16 +9,15 @@
   "files": [
     "dist"
   ],
-  "main": "dist/main/index.ts",
+  "main": "dist/index.ts",
   "name": "marmojs-sdk",
-  "types": "dist/@types",
   "scripts": {
     "start": "npm run webpack",
     "webpack": "webpack -d --watch",
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "prepare": "npm run test && npm build"
   },
-  "version": "0.1.13",
+  "version": "0.1.16",
   "dependencies": {
     "@types/chai": "^4.1.7",
     "@types/ethereumjs-abi": "^0.6.1",
@@ -27,6 +26,7 @@
     "@types/request-promise-native": "^1.0.15",
     "@types/web3": "^1.0.14",
     "chai": "^4.2.0",
+    "clean-webpack-plugin": "^1.0.0",
     "eslint": "^5.11.1",
     "ethereumjs-abi": "^0.6.5",
     "ethereumjs-util": "^6.0.0",
