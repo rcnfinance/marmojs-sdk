@@ -17,7 +17,7 @@ export class IntentBuilder {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: string;
+    private data: string = '0x';
     private minGasLimit: number = 0;
     private maxGasPrice: number = 9999999999;
 
@@ -62,7 +62,8 @@ export class IntentBuilder {
         if (this.signer == null) {
             throw new Error('Invalid signer');
         }
-        if (this.to == null || this.value == null || this.data == null) {
+
+        if (this.to == null || this.value == null) {
             throw new Error('Invalid action intent');
         }
 
