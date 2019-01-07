@@ -78,6 +78,7 @@ export function transformSignedIntent(signedIntent: SignedIntent): IntentRequest
     request.setSignature(transformSignatureData(signedIntent.getSignatureData()));
     request.setSigner(intent.getSigner());
     request.setWallet(intent.getWallet());
+    request.setExpiration(intent.getExpiration());
     request.setSalt(intent.getSalt());
 
     let intentTxRequest: IntentTxRequest = new IntentTxRequest();

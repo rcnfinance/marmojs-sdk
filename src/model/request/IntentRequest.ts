@@ -8,6 +8,7 @@ export class IntentRequest {
     private tx: IntentTxRequest;
     private salt: string;
     private signer: string;
+    private expiration: number;
     private signature: SignatureDataRequest;
 
     public getId(): string {
@@ -48,6 +49,14 @@ export class IntentRequest {
 
     public setSalt(salt: string): void {
         this.salt = salt;
+    }
+
+    public getExpiration(): number {
+        return this.expiration;
+    }
+
+    public setExpiration(expiration: number): void {
+        this.expiration = expiration;
     }
 
     public getSigner(): string {
