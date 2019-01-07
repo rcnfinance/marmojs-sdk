@@ -82,6 +82,7 @@ export function transformSignedIntent(signedIntent: SignedIntent): IntentRequest
     request.setSalt(intent.getSalt());
 
     let intentTxRequest: IntentTxRequest = new IntentTxRequest();
+    intentTxRequest.setTo(intent.getTo())
     intentTxRequest.setData(intent.getData());
     intentTxRequest.setMaxGasPrice(intent.getMaxGasPrice());
     intentTxRequest.setMinGasLimit(intent.getMinGasLimit());
