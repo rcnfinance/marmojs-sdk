@@ -3,6 +3,7 @@ import { IntentAction } from '../model/IntentAction';
 import * as Utils from '../utils/MarmoUtils';
 
 const SIZE: number = 64;
+const PREFIX = '0x'
 const SHA3_NULL = 'c5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470'
 
 const Web3 = require('web3');
@@ -17,7 +18,7 @@ export class IntentBuilder {
     /* For transactions */
     private to: string;
     private value: number;
-    private data: string = '0x';
+    private data: string = PREFIX;
     private minGasLimit: number = 0;
     private maxGasPrice: number = 9999999999;
 
@@ -42,9 +43,15 @@ export class IntentBuilder {
     }
 
     withIntentAction(value: IntentAction) {
-        this.to = value.getTo();
-        this.data = value.getData();
-        this.value = value.getValue();
+        if (value.getTo() !== undefined) {
+            this.to = value.getTo();
+        }
+        if (value.getData() !== undefined) {
+            this.data = value.getData();
+        }
+        if (value.getValue() !== undefined) {
+            this.value = value.getValue();
+        }
         return this;
     }
 
@@ -87,7 +94,7 @@ export class IntentBuilder {
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string = this.sanitizePrefix(this.to);
         let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE);
-        let data: string = this.sanitizePrefix(web3.utils.keccak256(this.data));
+        let data: string = this.sanitizePrefix(web3.utils.sha3(this.data));
         let minGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.minGasLimit), SIZE);
         let maxGasLimit: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.maxGasPrice), SIZE);
         let salt: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE);
@@ -111,7 +118,7 @@ export class IntentBuilder {
         if (dependencies === undefined || dependencies.length === 0) {
             return SHA3_NULL;
         }
-        let out: string = '0x';
+        let out: string = PREFIX;
         dependencies.forEach(element => {
             out += this.sanitizePrefix(element);
         });
@@ -119,6 +126,9 @@ export class IntentBuilder {
     }
 
     private sanitizePrefix(str: string): string {
+        if (str == null) {
+            return SHA3_NULL;
+        }
         return str.slice(2);
     }
 
