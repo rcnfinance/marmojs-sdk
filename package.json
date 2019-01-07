@@ -17,7 +17,7 @@
     "test": "mocha -r ts-node/register src/**/*.spec.ts",
     "prepare": "npm run test && npm build"
   },
-  "version": "0.1.18",
+  "version": "0.1.20",
   "dependencies": {
     "@types/chai": "^4.1.7",
     "@types/ethereumjs-abi": "^0.6.1",
