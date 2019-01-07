@@ -16,6 +16,11 @@ module.exports = {
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ]
   },
+  node: {
+    fs:  'empty',
+    net: 'empty',
+    tls: 'empty'
+  },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'index.ts',
