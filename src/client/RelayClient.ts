@@ -11,7 +11,7 @@ export class RelayClient {
         this.path = path;
     }
 
-    public post(signedIntent: SignedIntent): IntentResponse {
+    async post(signedIntent: SignedIntent): Promise<IntentResponse> {
         let options: RequestPromiseOptions = {};
         let requestBody = JSON.stringify(transformSignedIntent(signedIntent));
         console.log("RequestBody: ", requestBody);
@@ -19,10 +19,11 @@ export class RelayClient {
         options.resolveWithFullResponse = true;
 
         let intentResponse: IntentResponse = new IntentResponse(200)
-        async () => {
-            let response: FullResponse = await RequestClient.post(`${this.path}/relay`, options)
-            intentResponse.setStatusCode(response.statusCode);
-        }
+
+        let response: FullResponse = await RequestClient.post(this.path, options)
+        intentResponse.setStatusCode(response.statusCode);
+        console.info("Respone: ", response);
+
         return intentResponse;
     }
 
