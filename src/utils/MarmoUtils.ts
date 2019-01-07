@@ -3,6 +3,9 @@ import { SignedIntent } from "../model/SignedIntent";
 import { SignatureData } from "../model/SignatureData";
 import { simpleEncode } from "ethereumjs-abi";
 import { generateAddress2, bufferToHex } from 'ethereumjs-util';
+import { IntentRequest } from "../model/request/IntentRequest"
+import { SignatureDataRequest } from '../model/request/SignatureDataRequest';
+import { IntentTxRequest } from "../model/request/IntentTxRequest"
 
 const BYTECODE_1 = "6080604052348015600f57600080fd5b50606780601d6000396000f3fe6080604052366000803760008036600073";
 const BYTECODE_2 = "5af43d6000803e8015156036573d6000fd5b3d6000f3fea165627a7a7230582033b260661546dd9894b994173484da72335f9efc37248d27e6da483f15afc1350029";
@@ -63,4 +66,35 @@ export function encodeDataPayload(functionSignature: string , functionParameters
     const params = functionParameters.split(",").filter((x) => x.trim());
     const signatureArgs = [functionSignature].concat(params);
     return PREFIX + simpleEncode.apply(this, signatureArgs).toString("hex");
+}
+
+// Move method to class.
+export function transformSignedIntent(signedIntent: SignedIntent): IntentRequest {
+    let request: IntentRequest = new IntentRequest();
+
+    let intent = signedIntent.getIntent();
+    request.setId(intent.getId());
+    request.setDependencies(intent.getDependencies());
+    request.setSignature(transformSignatureData(signedIntent.getSignatureData()));
+    request.setSigner(intent.getSigner());
+    request.setWallet(intent.getWallet());
+    request.setSalt(intent.getSalt());
+
+    let intentTxRequest: IntentTxRequest = new IntentTxRequest();
+    intentTxRequest.setData(intent.getData());
+    intentTxRequest.setMaxGasPrice(intent.getMaxGasPrice());
+    intentTxRequest.setMinGasLimit(intent.getMinGasLimit());
+    intentTxRequest.setValue(String(intent.getValue()));
+
+    request.setTx(intentTxRequest);
+    return request;
+}
+
+// Move method to class.
+function transformSignatureData(signatureData: SignatureData): SignatureDataRequest {
+    let signatureRequest: SignatureDataRequest = new SignatureDataRequest();
+    signatureRequest.setR(signatureData.getR());
+    signatureRequest.setS(signatureData.getS());
+    signatureRequest.setV(signatureData.getV());
+    return signatureRequest;
 }
