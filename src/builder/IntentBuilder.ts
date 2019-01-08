@@ -102,15 +102,25 @@ export class IntentBuilder {
 
         let encodePackedBuilder: string = '';
         encodePackedBuilder += wallet;
+        console.info("Wallet -> ", wallet);
         encodePackedBuilder += dependencies;
+        console.info("Dependencies -> ", wallet);
         encodePackedBuilder += to;
+        console.info("To -> ", wallet);
         encodePackedBuilder += value;
+        console.info("Value -> ", wallet);
         encodePackedBuilder += data;
+        console.info("Data -> ", wallet);
         encodePackedBuilder += minGasLimit;
+        console.info("MinGasLimit -> ", wallet);
         encodePackedBuilder += maxGasLimit;
+        console.info("MaxGasLimit -> ", wallet);
         encodePackedBuilder += salt;
+        console.info("Salt -> ", wallet);
         encodePackedBuilder += expiration;
+        console.info("Expiration -> ", wallet);
 
+        console.info("Transaction Data (EncodePacked) -> ", encodePackedBuilder);
         return web3.utils.sha3(encodePackedBuilder);
     }
 
