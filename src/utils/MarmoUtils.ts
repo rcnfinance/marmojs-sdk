@@ -6,6 +6,8 @@ import { generateAddress2, bufferToHex } from 'ethereumjs-util';
 import { IntentRequest } from "../model/request/IntentRequest"
 import { SignatureDataRequest } from '../model/request/SignatureDataRequest';
 import { IntentTxRequest } from "../model/request/IntentTxRequest"
+const elliptic = require("elliptic");
+const secp256k1 = new elliptic.ec("secp256k1"); // eslint-disable-line
 
 const BYTECODE_1 = "6080604052348015600f57600080fd5b50606780601d6000396000f3fe6080604052366000803760008036600073";
 const BYTECODE_2 = "5af43d6000803e8015156036573d6000fd5b3d6000f3fea165627a7a7230582033b260661546dd9894b994173484da72335f9efc37248d27e6da483f15afc1350029";
@@ -15,7 +17,7 @@ const SIZE: number = 64;
 const PREFIX = "0x";
 
 const Web3 = require('web3');
-const web3 = new Web3();
+const web3 = new Web3("https://ropsten.infura.io/v3/df26f7df62b843c0a2b4e1f10e5d5b83");
 
 /**
  * Generates an address for a contract created using CREATE2
@@ -46,8 +48,10 @@ export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): st
     return source;
 }
 
-export function sign(intent: Intent, privateKey: String): SignedIntent {
-    const signature = web3.eth.accounts.sign(intent.getId(), privateKey);
+export async function sign(intent: Intent, privateKey: String): Promise<SignedIntent> {
+    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    const signature = account.sign(intent.getId());
+    console.log(signature.v);
     const signatureData: SignatureData = new SignatureData(signature.v, signature.r, signature.s);
     let signedIntent: SignedIntent = new SignedIntent();
     signedIntent.setIntent(intent);
