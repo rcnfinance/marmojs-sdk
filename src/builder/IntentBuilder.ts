@@ -76,6 +76,7 @@ export class IntentBuilder {
 
         let intent = new Intent()
         intent.setId(this.generateId());
+        intent.setEncodePacked(this.getEncodedPacked());
         intent.setSigner(this.signer);
         intent.setDependencies(this.dependencies);
         intent.setWallet(Utils.generateAddress(this.signer));
@@ -90,6 +91,10 @@ export class IntentBuilder {
     }
 
     private generateId(): string {
+        return web3.utils.sha3(this.getEncodedPacked());
+    }
+
+    private getEncodedPacked(): string {
         let wallet: string = Utils.generateAddress(this.signer);
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string = this.sanitizePrefix(this.to);
@@ -121,7 +126,7 @@ export class IntentBuilder {
         console.info("Expiration -> ", expiration);
 
         console.info("Transaction Data (EncodePacked) -> ", encodePackedBuilder);
-        return web3.utils.sha3(encodePackedBuilder);
+        return encodePackedBuilder;
     }
 
     private sanitizeDependencies(dependencies: Array<string>): string  {
