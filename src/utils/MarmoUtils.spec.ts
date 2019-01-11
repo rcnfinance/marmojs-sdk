@@ -20,6 +20,7 @@ describe('IntentBuilder Test', () => {
     let intentAction: IntentAction = erc20.transfer(to, 1);
     const credentials = web3.eth.accounts.privateKeyToAccount('0x512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
+    console.log(credentials)
     let intentBuilder: IntentBuilder = new IntentBuilder();
     intentBuilder.withSigner(credentials.address)
         .withIntentAction(intentAction)

@@ -65,15 +65,15 @@ export function sign(intent: Intent, privateKey: string): SignedIntent {
         throw new Error("The signature is invalid")
     }
 
-    let splitSignature = this.splitSignature(signature)
-    const signatureData: SignatureData = new SignatureData(splitSignature.v, splitSignature.r, splitSignature.s);
+    let fromRpcSig = splitSignature(signature)
+    const signatureData: SignatureData = new SignatureData(fromRpcSig.v, fromRpcSig.r, fromRpcSig.s);
     let signedIntent: SignedIntent = new SignedIntent();
     signedIntent.setIntent(intent);
     signedIntent.setSignatureData(signatureData);
     return signedIntent;
 }
 
-export function splitSignature(signature) {
+function splitSignature(signature) {
     const signatureData = ethUtil.fromRpcSig(signature);
     const v = ethUtil.bufferToInt(signatureData.v);
     const r = ethUtil.bufferToHex(signatureData.r);
