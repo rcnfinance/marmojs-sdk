@@ -1,8 +1,9 @@
-import { IntentBuilder } from './IntentBuilder';
-import { IntentAction } from '../model/IntentAction';
-import { Intent } from '../model/Intent';
-import { equal, throws } from 'assert';
-import { ERC20 } from '../model/data/ERC20';
+import { IntentBuilder } from './IntentBuilder'
+import { IntentAction } from '../model/IntentAction'
+import { Wallet } from '../model/Wallet'
+import { Intent } from '../model/Intent'
+import { equal, throws } from 'assert'
+import { ERC20 } from '../model/data/ERC20'
 
 const Web3 = require('web3');
 const web3 = new Web3();
@@ -19,7 +20,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withIntentAction(intentAction)
         .withExpiration(15)
 
@@ -38,7 +39,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withIntentAction(intentAction)
         .withExpiration(15)
 
@@ -57,7 +58,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e'])
         .withIntentAction(intentAction)
         .withExpiration(15)
@@ -78,7 +79,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
         .withExpiration(15)
@@ -99,7 +100,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
@@ -122,7 +123,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
@@ -146,7 +147,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
@@ -170,7 +171,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withIntentAction(intentAction)
         .withMinGasLimit(300000)
@@ -208,7 +209,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
         .withMinGasLimit(300000)
         .withMaxGasLimit(999999)

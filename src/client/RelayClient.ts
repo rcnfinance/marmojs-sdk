@@ -3,6 +3,7 @@ import { RequestPromiseOptions, FullResponse } from 'request-promise-native';
 import { SignedIntent } from "../model/SignedIntent"
 import { IntentResponse } from "../model/response/IntentResponse"
 import { transformSignedIntent } from "../utils/MarmoUtils";
+import { FilterOptions, Log } from 'ethereumjs-blockstream'
 
 export class RelayClient {
     private path: string;
@@ -25,6 +26,15 @@ export class RelayClient {
         console.info("Respone: ", response);
 
         return intentResponse;
+    }
+
+    async getLogs(filterOptions: FilterOptions): Promise<Log[]> {
+        const response = await fetch("http://localhost:8545", {
+            method: "POST",
+            headers: new Headers({"Content-Type": "application/json"}),
+            body: { jsonrpc: "2.0", id: 1, method: "eth_getLogs", params: [filterOptions] }
+        });
+        return await response.json();
     }
 
 }

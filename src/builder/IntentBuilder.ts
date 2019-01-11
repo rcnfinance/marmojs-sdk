@@ -1,4 +1,5 @@
 import { Intent } from '../model/Intent';
+import { Wallet } from '../model/Wallet';
 import { IntentAction } from '../model/IntentAction';
 import * as Utils from '../utils/MarmoUtils';
 
@@ -12,6 +13,7 @@ const web3 = new Web3();
 export class IntentBuilder {
     private dependencies: Array<string>;
     private signer: string;
+    private wallet: string;
     private salt: number = 0;
     private expiration: number = Math.floor(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).getTime() / 1000.0); // now + 1 year
 
@@ -22,13 +24,18 @@ export class IntentBuilder {
     private minGasLimit: number = 0;
     private maxGasPrice: number = 9999999999;
 
-    withDependencies(value: Array<string>): IntentBuilder {
-        this.dependencies = value;
+    withWallet(value: Wallet) {
+        if (value.getSigner() !== undefined) {
+            this.signer = value.getSigner();
+        }
+        if (value.getWallet() !== undefined) {
+            this.wallet = value.getWallet();
+        }
         return this;
     }
 
-    withSigner(value: string): IntentBuilder {
-        this.signer = value;
+    withDependencies(value: Array<string>): IntentBuilder {
+        this.dependencies = value;
         return this;
     }
 
@@ -79,7 +86,7 @@ export class IntentBuilder {
         intent.setEncodePacked(this.getEncodedPacked());
         intent.setSigner(this.signer);
         intent.setDependencies(this.dependencies);
-        intent.setWallet(Utils.generateAddress(this.signer));
+        intent.setWallet(this.wallet);
         intent.setSalt(Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.salt), SIZE));
         intent.setTo(this.to);
         intent.setValue(this.value);
@@ -95,7 +102,7 @@ export class IntentBuilder {
     }
 
     private getEncodedPacked(): string {
-        let wallet: string = Utils.generateAddress(this.signer);
+        let wallet: string = this.wallet;
         let dependencies: string = this.sanitizeDependencies(this.dependencies);
         let to: string = this.sanitizePrefix(this.to);
         let value: string = Utils.toHexStringNoPrefixZeroPadded(web3.utils.toHex(this.value), SIZE);
