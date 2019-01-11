@@ -1,5 +1,6 @@
 export class Intent {
     private id: string;
+    private encodePacked: string;
     private dependencies: Array<string>;
     private signer: string;
     private wallet: string;
@@ -19,6 +20,14 @@ export class Intent {
 
     public setId(id: string): void {
         this.id = id;
+    }
+
+    public getEncodePacked(): string {
+        return this.encodePacked;
+    }
+
+    public setEncodePacked(encodePacked: string): void {
+        this.encodePacked = encodePacked;
     }
 
     public getDependencies(): Array<string> {

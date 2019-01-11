@@ -2,19 +2,36 @@ import { Intent } from '../model/Intent';
 import * as Utils from './MarmoUtils';
 import { equal } from 'assert';
 import { SignedIntent } from '../model/SignedIntent';
+import { ERC20 } from '../model/data/ERC20';
+import { IntentAction } from '../model/IntentAction';
+import { IntentBuilder } from '../builder/IntentBuilder';
+
+const Web3 = require('web3');
+const web3 = new Web3();
 
 describe('IntentBuilder Test', () => {
 
-  it('Should be sign intent with message "A test message"', () => {
+  it('Should be sign intent with message', () => {
 
-    let intent: Intent = new Intent();
-    intent.setId("A test message");
+    let tokenContractAddress: string = "0x2f45b6fb2f28a73f110400386da31044b2e953d4"; // RCN Token
+    let to: string = "0x7F5EB5bB5cF88cfcEe9613368636f458800e62CB";
+
+    let erc20: ERC20 = new ERC20(tokenContractAddress);
+    let intentAction: IntentAction = erc20.transfer(to, 1);
+    const credentials = web3.eth.accounts.privateKeyToAccount('0x512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
+
+    let intentBuilder: IntentBuilder = new IntentBuilder();
+    intentBuilder.withSigner(credentials.address)
+        .withIntentAction(intentAction)
+        .withExpiration(15)
+
+    let intent: Intent = intentBuilder.build();
 
     const signedIntent: SignedIntent = Utils.sign(intent, "512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a");
 
-    equal(signedIntent.getSignatureData().getR(), '0xfa00ea6660b4f8bdf687624f77985275f7ff291ffc13d8f8b8f15431c8db0586')
-    equal(signedIntent.getSignatureData().getS(), '0x28a7ad4e685dca52e02a22c8fed647c3e6c75fe83d2bb736ad756a15ad5ea7db')
-    equal(signedIntent.getSignatureData().getV(), '0x1b')
+    equal(signedIntent.getSignatureData().getR(), '0xd60732999a72618e22cc3a282dc214a6fa9ad661fa032d4d7b9cb1f2aa5db9b0')
+    equal(signedIntent.getSignatureData().getS(), '0x1d6550804e66ae1cfd947ff9f72e413ea274e4a87b7240d36bf9ba1dbea7e873')
+    equal(signedIntent.getSignatureData().getV(), '27')
 
   });
 

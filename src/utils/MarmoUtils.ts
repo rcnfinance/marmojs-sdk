@@ -1,11 +1,14 @@
-import { Intent } from "../model/Intent";
-import { SignedIntent } from "../model/SignedIntent";
-import { SignatureData } from "../model/SignatureData";
-import { simpleEncode } from "ethereumjs-abi";
-import { generateAddress2, bufferToHex } from 'ethereumjs-util';
+import { Intent } from "../model/Intent"
+import { SignedIntent } from "../model/SignedIntent"
+import { SignatureData } from "../model/SignatureData"
+import { simpleEncode } from "ethereumjs-abi"
+import { generateAddress2, bufferToHex } from 'ethereumjs-util'
 import { IntentRequest } from "../model/request/IntentRequest"
-import { SignatureDataRequest } from '../model/request/SignatureDataRequest';
+import { SignatureDataRequest } from '../model/request/SignatureDataRequest'
 import { IntentTxRequest } from "../model/request/IntentTxRequest"
+import * as signUtil from "eth-sig-util"
+import * as ethUtil from 'ethereumjs-util'
+
 
 const BYTECODE_1 = "6080604052348015600f57600080fd5b50606780601d6000396000f3fe6080604052366000803760008036600073";
 const BYTECODE_2 = "5af43d6000803e8015156036573d6000fd5b3d6000f3fea165627a7a7230582033b260661546dd9894b994173484da72335f9efc37248d27e6da483f15afc1350029";
@@ -46,14 +49,43 @@ export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): st
     return source;
 }
 
-export function sign(intent: Intent, privateKey: String): SignedIntent {
-    const signature = web3.eth.accounts.sign(intent.getId(), privateKey);
-    const signatureData: SignatureData = new SignatureData(signature.v, signature.r, signature.s);
+export function sign(intent: Intent, privateKey: string): SignedIntent {
+    const privKey = new Buffer(privateKey, 'hex')
+    const message = intent.getEncodePacked()
+    const msgParams = {
+        data: message,
+        sig: undefined
+    }
+
+    const signature = signUtil.personalSign(privKey, msgParams)
+    msgParams.sig = signature
+
+    const recovered = signUtil.recoverPersonalSignature(msgParams)
+    if (recovered.toString() !== intent.getSigner().toLocaleLowerCase()) {
+        throw new Error("The signature is invalid")
+    }
+
+    let splitSignature = this.splitSignature(signature)
+    const signatureData: SignatureData = new SignatureData(splitSignature.v, splitSignature.r, splitSignature.s);
     let signedIntent: SignedIntent = new SignedIntent();
     signedIntent.setIntent(intent);
     signedIntent.setSignatureData(signatureData);
     return signedIntent;
 }
+
+export function splitSignature(signature) {
+    const signatureData = ethUtil.fromRpcSig(signature);
+    const v = ethUtil.bufferToInt(signatureData.v);
+    const r = ethUtil.bufferToHex(signatureData.r);
+    const s = ethUtil.bufferToHex(signatureData.s);
+    const splitSignature = {
+      signatureData,
+      v,
+      r,
+      s
+    };
+    return splitSignature;
+  }
 
 /**
  * Create data field based on smart contract function signature and arguments.
