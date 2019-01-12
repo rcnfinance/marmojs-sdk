@@ -17,9 +17,6 @@ const MARMO_ADDRESS = "3618a379f2624f42c0a8c79aad8db9d24d6e0312";
 const SIZE: number = 64;
 const PREFIX = "0x";
 
-const Web3 = require('web3');
-const web3 = new Web3();
-
 /**
  * Generates an address for a contract created using CREATE2
  * @param {strin} signer a signer
@@ -51,7 +48,7 @@ export function toHexStringNoPrefixZeroPadded(value: string, lenght: number): st
 
 export function sign(intent: Intent, privateKey: string): SignedIntent {
     const privKey = new Buffer(privateKey, 'hex')
-    const message = intent.getEncodePacked()
+    const message = intent.getId()
     const msgParams = {
         data: message,
         sig: undefined
@@ -65,27 +62,27 @@ export function sign(intent: Intent, privateKey: string): SignedIntent {
         throw new Error("The signature is invalid")
     }
 
-    let splitSignature = this.splitSignature(signature)
-    const signatureData: SignatureData = new SignatureData(splitSignature.v, splitSignature.r, splitSignature.s);
+    let fromRpcSig = splitSignature(signature)
+    const signatureData: SignatureData = new SignatureData(fromRpcSig.v, fromRpcSig.r, fromRpcSig.s.toString());
     let signedIntent: SignedIntent = new SignedIntent();
     signedIntent.setIntent(intent);
     signedIntent.setSignatureData(signatureData);
     return signedIntent;
 }
 
-export function splitSignature(signature) {
+function splitSignature(signature) {
     const signatureData = ethUtil.fromRpcSig(signature);
     const v = ethUtil.bufferToInt(signatureData.v);
     const r = ethUtil.bufferToHex(signatureData.r);
     const s = ethUtil.bufferToHex(signatureData.s);
     const splitSignature = {
-      signatureData,
-      v,
-      r,
-      s
+        signatureData,
+        v,
+        r,
+        s
     };
     return splitSignature;
-  }
+}
 
 /**
  * Create data field based on smart contract function signature and arguments.

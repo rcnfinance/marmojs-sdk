@@ -1,4 +1,5 @@
 import { Intent } from '../model/Intent';
+import { Wallet } from '../model/Wallet';
 import * as Utils from './MarmoUtils';
 import { equal } from 'assert';
 import { SignedIntent } from '../model/SignedIntent';
@@ -21,7 +22,7 @@ describe('IntentBuilder Test', () => {
     const credentials = web3.eth.accounts.privateKeyToAccount('0x512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a');
 
     let intentBuilder: IntentBuilder = new IntentBuilder();
-    intentBuilder.withSigner(credentials.address)
+    intentBuilder.withWallet(new Wallet(credentials.address))
         .withIntentAction(intentAction)
         .withExpiration(15)
 
@@ -29,8 +30,8 @@ describe('IntentBuilder Test', () => {
 
     const signedIntent: SignedIntent = Utils.sign(intent, "512850c7ebe3e1ade1d0f28ef6eebdd3ba4e78748e0682f8fda6fc2c2c5b334a");
 
-    equal(signedIntent.getSignatureData().getR(), '0xd60732999a72618e22cc3a282dc214a6fa9ad661fa032d4d7b9cb1f2aa5db9b0')
-    equal(signedIntent.getSignatureData().getS(), '0x1d6550804e66ae1cfd947ff9f72e413ea274e4a87b7240d36bf9ba1dbea7e873')
+    equal(signedIntent.getSignatureData().getR(), '0x53781d7d98ad0a4d0f961314fd1d9875ff2c249697eeb6839b98fd7473e13eaf')
+    equal(signedIntent.getSignatureData().getS(), '0x3ef0d176f4d624f1181a0817251b9685c32080883bb1de8133d2d60534fe4a99')
     equal(signedIntent.getSignatureData().getV(), '27')
 
   });
