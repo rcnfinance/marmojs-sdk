@@ -3,7 +3,6 @@ import { RequestPromiseOptions, FullResponse } from 'request-promise-native';
 import { SignedIntent } from "../model/SignedIntent"
 import { IntentResponse } from "../model/response/IntentResponse"
 import { transformSignedIntent } from "../utils/MarmoUtils";
-import { FilterOptions, Log } from 'ethereumjs-blockstream'
 
 export class RelayClient {
     private path: string;
