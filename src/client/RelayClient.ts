@@ -28,13 +28,4 @@ export class RelayClient {
         return intentResponse;
     }
 
-    async getLogs(filterOptions: FilterOptions): Promise<Log[]> {
-        const response = await fetch("http://localhost:8545", {
-            method: "POST",
-            headers: new Headers({"Content-Type": "application/json"}),
-            body: { jsonrpc: "2.0", id: 1, method: "eth_getLogs", params: [filterOptions] }
-        });
-        return await response.json();
-    }
-
 }
