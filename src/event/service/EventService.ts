@@ -6,13 +6,11 @@ import { Event } from '../model/Event';
 export default class EventService {
 
   private eventStorage: EventStorage;
-  private configuration: ConfigurationService;
   private dispatchService: DispatchService;
 
   constructor(dispatchService: DispatchService, eventStorage: EventStorage, configurationService: ConfigurationService) {
     this.dispatchService = dispatchService
     this.eventStorage = eventStorage
-    this.configuration = configurationService
   }
 
   /**
@@ -25,10 +23,6 @@ export default class EventService {
 
   getEvent(id) {
     return this.eventStorage.getEventModel().findById(id);
-  }
-
-  confirmEvent(confirmationCode) {
-    return this.eventStorage.getEventModel().findByConfirmationCode(confirmationCode);
   }
 
   /**
@@ -82,7 +76,7 @@ export default class EventService {
     return this.eventStorage.getEventReceiptModel().find(eventId);
   }
 
-  dispatchNotification(event, event) {
-    return this.dispatchService.dispatch(event, event)
+  dispatchNotification(event, events) {
+    return this.dispatchService.dispatch(event, events)
   }
 }
