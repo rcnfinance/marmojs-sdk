@@ -1,6 +1,6 @@
 const Web3 = require('web3')
 
-export default class EthereumService {
+export class EthereumService {
 
   private web3;
 

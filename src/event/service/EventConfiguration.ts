@@ -1,14 +1,13 @@
-import EthereumService from './EthereumService'
-import ScannerService from './ScannerService'
-
-import DispatchService from './DispatchService'
-import eventService from './eventService';
+import { EthereumService } from './EthereumService'
+import { ScannerService } from './ScannerService'
+import { DispatchService } from './DispatchService'
+import { EventService } from './eventService';
 import { EventStorage } from '../storage/EventStorage';
 
-export default class ConfigurationService {
+export class ConfigurationService {
 
   private _ethereum: EthereumService;
-  private _eventService: eventService;
+  private _eventService: EventService;
   private _scanner: ScannerService;
   private _dispatch: DispatchService;
   private _eventStorage: EventStorage;
@@ -20,7 +19,7 @@ export default class ConfigurationService {
 
   get ethereumService() {
     if (!this._ethereum) {
-      this._ethereum = new EthereumService('ws://localhost:8546')
+      this._ethereum = new EthereumService('https://ropsten.node.rcn.loans:8545')
     }
     return this._ethereum
   }
@@ -32,9 +31,9 @@ export default class ConfigurationService {
     return this._scanner
   }
 
-  get eventService() {
+  get eventService(): EventService {
     if (!this._eventService) {
-      this._eventService = new eventService(
+      this._eventService = new EventService(
         this.dispatchService,
         this.eventStorage,
         this

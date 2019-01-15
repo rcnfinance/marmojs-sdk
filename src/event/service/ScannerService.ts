@@ -1,5 +1,5 @@
-import eventService from "./eventService";
-import EthereumService from "./EthereumService";
+import { EventService }from "./eventService";
+import { EthereumService } from "./EthereumService";
 
 const min = (array, prop) => array.reduce((prev, elem) => Math.min(prev, elem[prop]), Infinity)
 const max = (array, prop) => array.reduce((prev, elem) => Math.max(prev, elem[prop]), -Infinity)
@@ -8,10 +8,10 @@ const nameMatches = (events, eventNames) => {
   return events.reduce((prev, event) => prev || eventNames.includes(event.event), false)
 }
 
-export default class ScannerService {
+export class ScannerService {
   private ethService: EthereumService;
-  private eventService: eventService;
-  constructor(eventService: eventService, ethService: EthereumService) {
+  private eventService: EventService;
+  constructor(eventService: EventService, ethService: EthereumService) {
     this.ethService = ethService
     this.eventService = eventService
   }

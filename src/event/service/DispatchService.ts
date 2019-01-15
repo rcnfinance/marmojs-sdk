@@ -1,7 +1,7 @@
 import { EventReceipt } from "../model/EventReceipt";
 import { EventStorage } from "../storage/EventStorage";
 
-export default class DispatchService {
+export class DispatchService {
 
   private eventStorage;
 

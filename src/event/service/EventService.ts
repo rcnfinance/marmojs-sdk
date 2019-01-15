@@ -1,9 +1,9 @@
-import ConfigurationService from './EventConfiguration';
-import DispatchService from './DispatchService'
+import { ConfigurationService } from './EventConfiguration';
+import { DispatchService } from './DispatchService'
 import { EventStorage } from '../storage/EventStorage';
 import { Event } from '../model/Event';
 
-export default class EventService {
+export class EventService {
 
   private eventStorage: EventStorage;
   private dispatchService: DispatchService;
@@ -51,7 +51,7 @@ export default class EventService {
     return this.getEvents(addresses);
   }
 
-  mapByTransactionId(events) {
+  mapByTransactionId(events): any[] {
     const result = {}
     for (let event of events) {
       result[event.transactionHash] = result[event.transactionHash] || []
