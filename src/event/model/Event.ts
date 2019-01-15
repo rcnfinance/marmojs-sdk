@@ -1,19 +1,10 @@
 export class Event {
 
-    private id: number
     private address: string
     private abi: string
     private eventNames: string
     private blockConfirmations: number
     private confirmationCode: number
-
-    public getId(): number {
-        return this.id;
-    }
-
-    public setId(id: number): void {
-        this.id = id;
-    }
 
     public getAddress(): string {
         return this.address;

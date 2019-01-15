@@ -21,8 +21,8 @@ export class EventService {
     return this.eventStorage.getEventModel().getAll(addresses);
   }
 
-  getEvent(id) {
-    return this.eventStorage.getEventModel().findById(id);
+  getEvent(address: string) {
+    return this.eventStorage.getEventModel().findByAddress(address);
   }
 
   /**

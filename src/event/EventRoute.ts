@@ -15,7 +15,7 @@ export class EventRoute {
     await this.configurationService.startWatching()
   }
 
-  public init() {
+  public work() {
     this.run().catch(console.log)
     console.log('---------')
   }

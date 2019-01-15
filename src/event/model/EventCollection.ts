@@ -2,38 +2,24 @@ import { Event } from "./Event";
 
 export class EventCollection {
 
-    private events: Map<number, Event> = new Map();
-
-    public findOne(id: number): Event {
-        // TODO (jpgopnzalezra) implementation
-        return new Event();
-    }
+    private events: Map<string, Event[]> = new Map();
 
     public create(event: Event): void {
-        console.info('new event:', event);
-        this.events[event.getId()] = event;
+        if (this.events[event.getAddress()] === undefined) {
+            this.events[event.getAddress()] = [];
+        }
+        this.events[event.getAddress()].push(event);
+        console.log(this.events);
     }
 
     public getAll(addresses: string[]): Map<string, Event[]> {
         // TODO (jpgopnzalezra) implementation
-        /*
-            .map(function(event) {
-            event.dataValues.abi = JSON.parse(event.dataValues.abi)
-            event.dataValues.eventNames = event.dataValues.eventNames.split(';')
-            return event.dataValues
-        })
-        */
-        return new Map();
+        return this.events;
     }
 
-    public findById(id: number): Event {
+    public findByAddress(address: string): Event {
         // TODO (jpgopnzalezra) implementation
         return new Event();
-    }
-
-    public findByConfirmationCode(code: string): Event {
-       // TODO (jpgopnzalezra) implementation
-       return new Event();
     }
 
 }
