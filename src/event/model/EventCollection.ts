@@ -10,6 +10,7 @@ export class EventCollection {
     }
 
     public create(event: Event): void {
+        console.info('new event:', event);
         this.events[event.getId()] = event;
     }
 
