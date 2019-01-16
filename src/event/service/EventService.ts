@@ -75,13 +75,6 @@ export class EventService {
     return out;
   }
 
-  /**
-   * Configure the maximum amount of reorgs we might expect to happen
-   */
-  getReorgSafety(): number {
-    return 1000; // FIXME: DESHARCODEAR
-  }
-
   getContractData(addressToEvents) {
     return Object.keys(addressToEvents).map(address => {
       return {

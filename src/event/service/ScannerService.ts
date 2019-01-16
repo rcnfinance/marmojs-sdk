@@ -31,7 +31,6 @@ export class ScannerService {
       const addressToevents = await eventService.mapAddressesToEvent()
       const allAddresses = Object.keys(addressToevents)
       const contracts = ethService.getContracts(await eventService.getContractData(addressToevents))
-      const reorgSafety = await eventService.getReorgSafety()
       const currentTip = await ethService.getCurrentTip()
       const lastBlockSync = await eventService.mapAddressesToLastSync(allAddresses, currentTip)
 
@@ -40,7 +39,7 @@ export class ScannerService {
 
       await Promise.all(contracts.map(async (contract) => {
         const addressToEvent = addressToevents[contract.address];
-        const fromBlock = lastBlockSync[contract.address] - max(addressToEvent, 'blockConfirmations') - reorgSafety;
+        const fromBlock = lastBlockSync[contract.address] - max(addressToEvent, 'blockConfirmations');
         const toBlock = height - min(addressToEvent, 'blockConfirmations')
         const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
         console.debug(`Data received for contract in ${contract.address}`, fromBlock, toBlock, events.length)
