@@ -1,6 +1,7 @@
 export class Event {
 
     private address: string
+    private block: number
     private abi: string
     private eventNames: string
     private blockConfirmations: number
@@ -12,6 +13,14 @@ export class Event {
 
     public setAddress(address: string): void {
         this.address = address;
+    }
+
+    public getBlock(): number {
+        return this.block;
+    }
+
+    public setBlock(block: number): void {
+        this.block = block;
     }
 
     public getAbi(): string {

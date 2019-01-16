@@ -35,6 +35,7 @@ export class EventService {
       let event = new Event();
       event.setAbi(eventDescription.abi)
       event.setAddress(eventDescription.address.toLowerCase())
+      event.setBlock(eventDescription.block)
       event.setBlockConfirmations(eventDescription.blockConfirmations)
       event.setEventNames(eventDescription.eventNames)
       const result = await this.eventStorage.getEventModel().create(event)
@@ -61,10 +62,15 @@ export class EventService {
   }
 
   mapAddressesToLastSync(addresses: string[], defaultLastSync: number): Map<string, number> {
-    // FIXME: (jpgonzalezra) Devolver de memoria el ultimo bloque sincronizado para cada address.
     let out = new Map()
-    addresses.forEach(elem => {
-      out[elem] = defaultLastSync;
+    addresses.forEach(address => {
+      let defaultLastSyncTemp = defaultLastSync;
+      this.getEvent(address).forEach(event => {
+        if (event.getBlock() < defaultLastSyncTemp) {
+          defaultLastSyncTemp = event.getBlock()
+        }
+      })
+      out[address] = defaultLastSyncTemp;
     })
     return out;
   }
