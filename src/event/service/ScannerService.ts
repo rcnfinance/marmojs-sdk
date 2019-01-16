@@ -29,29 +29,29 @@ export class ScannerService {
     const ethService = this.ethService
     try {
       const addressToevents = await eventService.mapAddressesToEvent()
+      const allAddresses = Object.keys(addressToevents)
       const contracts = ethService.getContracts(await eventService.getContractData(addressToevents))
+      const reorgSafety = await eventService.getReorgSafety()
       const currentTip = await ethService.getCurrentTip()
-      const lastBlockSync = currentTip
+      const lastBlockSync = await eventService.mapAddressesToLastSync(allAddresses, currentTip)
 
       const height = await this.ethService.getCurrentTip()
       console.info(`Received new block height: ${height}`)
 
       await Promise.all(contracts.map(async (contract) => {
-        const addressToEvent = addressToevents[contract.address]
-        const fromBlock = lastBlockSync[contract.address] - max(addressToEvent, 'blockConfirmations')
+        const addressToEvent = addressToevents[contract.address];
+        const fromBlock = lastBlockSync[contract.address] - max(addressToEvent, 'blockConfirmations') - reorgSafety;
         const toBlock = height - min(addressToEvent, 'blockConfirmations')
         const events = await contract.getPastEvents('allEvents', { fromBlock, toBlock })
         console.debug(`Data received for contract in ${contract.address}`, fromBlock, toBlock, events.length)
         const byTransaction = eventService.mapByTransactionId(events)
         for (let events of byTransaction) {
           const confirmations = height - events[0].blockNumber
-          await Promise.all(events.map(async (event) => {
-            if (confirmations >= event.blockConfirmations
-              && nameMatches(events, event.eventNames)
-            ) {
-              const existingReceipts = await eventService.getReceipt(event.id)
-              if (existingReceipts !== undefined) {
-                await eventService.dispatchNotification(event, events)
+          await Promise.all(addressToEvent.map(async (currentEvent) => {
+            if (confirmations >= currentEvent.blockConfirmations/* && nameMatches(events, currentEvent.eventNames)*/) {
+              const existingReceipts = await eventService.getReceipt(events[0].transactionHash)
+              if (existingReceipts === undefined) {
+                await eventService.dispatchNotification(events[0].transactionHash, events)
               }
             }
           }))

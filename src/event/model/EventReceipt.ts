@@ -1,32 +1,22 @@
+import { Event } from "./Event";
 
 export class EventReceipt {
+    private id: string;
+    private event: Event;
 
-    private id: number;
-    private eventId: number;
-    private txHash: string;
-
-    public getId(): number {
+    public getId(): string {
         return this.id;
     }
 
-    public setId(id: number): void {
+    public setId(id: string): void {
         this.id = id;
     }
 
-    public getEventId(): number {
-        return this.eventId;
+    public getEvent(): Event {
+        return this.event;
     }
 
-    public setEventId(eventId: number): void {
-        this.eventId = eventId;
+    public setEvent(event: Event): void {
+        this.event = event;
     }
-
-    public getTxHash(): string {
-        return this.txHash;
-    }
-
-    public setTxHash(txHash: string): void {
-        this.txHash = txHash;
-    }
-
 }

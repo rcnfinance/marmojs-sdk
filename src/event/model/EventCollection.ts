@@ -9,17 +9,14 @@ export class EventCollection {
             this.events[event.getAddress()] = [];
         }
         this.events[event.getAddress()].push(event);
-        console.log(this.events);
     }
 
     public getAll(addresses: string[]): Map<string, Event[]> {
-        // TODO (jpgopnzalezra) implementation
         return this.events;
     }
 
-    public findByAddress(address: string): Event {
-        // TODO (jpgopnzalezra) implementation
-        return new Event();
+    public findByAddress(address: string): Event[] {
+        return this.events[address];
     }
 
 }

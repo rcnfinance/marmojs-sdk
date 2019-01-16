@@ -21,7 +21,7 @@ export class EventService {
     return this.eventStorage.getEventModel().getAll(addresses);
   }
 
-  getEvent(address: string) {
+  getEvent(address: string): Event[] {
     return this.eventStorage.getEventModel().findByAddress(address);
   }
 
@@ -40,7 +40,7 @@ export class EventService {
       const result = await this.eventStorage.getEventModel().create(event)
       return result
     } catch (error) {
-      console.log(error.stack)
+      console.error(error.stack)
     }
   }
 
@@ -60,6 +60,22 @@ export class EventService {
     return Object.values(result)
   }
 
+  mapAddressesToLastSync(addresses: string[], defaultLastSync: number): Map<string, number> {
+    // FIXME: (jpgonzalezra) Devolver de memoria el ultimo bloque sincronizado para cada address.
+    let out = new Map()
+    addresses.forEach(elem => {
+      out[elem] = defaultLastSync;
+    })
+    return out;
+  }
+
+  /**
+   * Configure the maximum amount of reorgs we might expect to happen
+   */
+  getReorgSafety(): number {
+    return 1000; // FIXME: DESHARCODEAR
+  }
+
   getContractData(addressToEvents) {
     return Object.keys(addressToEvents).map(address => {
       return {
@@ -72,11 +88,11 @@ export class EventService {
   /**
    * Retrieve a receipt from the memory
    */
-  getReceipt(eventId) {
+  getReceipt(eventId: number) {
     return this.eventStorage.getEventReceiptModel().find(eventId);
   }
 
-  dispatchNotification(event, events) {
-    return this.dispatchService.dispatch(event, events)
+  dispatchNotification(eventId: string, event: Event) {
+    return this.dispatchService.dispatch(eventId, event)
   }
 }

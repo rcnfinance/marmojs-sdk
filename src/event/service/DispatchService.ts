@@ -1,5 +1,6 @@
 import { EventReceipt } from "../model/EventReceipt";
 import { EventStorage } from "../storage/EventStorage";
+import { Event } from "../model/Event";
 
 export class DispatchService {
 
@@ -9,15 +10,15 @@ export class DispatchService {
     this.eventStorage = eventStorage
   }
 
-  dispatch(event, events) {
-    return this.storeReceipt(event.id, events[0].transactionHash)
+  dispatch(id: string, event: Event) {
+    return this.storeReceipt(id, event)
   }
 
-  storeReceipt(eventId, txHash) {
-    console.log('Storing', arguments)
+  storeReceipt(id: string, event: Event) {
+    console.info('Storing', arguments)
     let receipt: EventReceipt  = new EventReceipt();
-    receipt.setEventId(eventId);
-    receipt.setTxHash(txHash);
-    return this.eventStorage.getEventReceiptCollection().create(receipt)
+    receipt.setId(id);
+    receipt.setEvent(event)
+    return this.eventStorage.getEventReceiptModel().create(receipt)
   }
 }

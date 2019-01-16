@@ -27,8 +27,7 @@ export class EthereumService {
 
   getContracts(contractData) {
     return contractData.map(data => {
-      console.log(data)
-      const contract = new this.web3.eth.Contract(data.abi, data.address)
+      const contract = new this.web3.eth.Contract(JSON.parse(data.abi), data.address)
       contract.address = data.address.toLowerCase()
       return contract
     })

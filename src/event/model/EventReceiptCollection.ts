@@ -5,7 +5,7 @@ export class EventReceiptCollection {
     private events: Map<number, EventReceipt> = new Map();
 
     public create(receipt: EventReceipt): void {
-        this.events[receipt.getEventId()] = receipt;
+        this.events[receipt.getId()] = receipt;
     }
 
     public find(eventId: number): EventReceipt {

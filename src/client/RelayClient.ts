@@ -14,7 +14,7 @@ export class RelayClient {
     async post(signedIntent: SignedIntent): Promise<IntentResponse> {
         let options: RequestPromiseOptions = {};
         let requestBody = JSON.stringify(transformSignedIntent(signedIntent));
-        console.log("RequestBody: ", requestBody);
+        console.info("RequestBody: ", requestBody);
         options.form = requestBody;
         options.resolveWithFullResponse = true;
 
