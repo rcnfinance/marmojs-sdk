@@ -116,9 +116,6 @@ export class Intent {
     }
 
     public async getStatus(): Promise<string> {
-        this.setId('0x34bf00467d90b4a3a27af7c0dc0368fa7bd4aaf6af77e03f76022877da2fefd2')
-        this.setWallet('0x4fee6c1ca9b3939ccf442a7d25af45734ce97ecb')
-
         const data = web3.eth.abi.encodeFunctionCall({
             name: 'relayedAt',
             type: 'function',
@@ -141,12 +138,6 @@ export class Intent {
                 ]
             })
         ).then((logs) => logs[0].type);
-
     }
 
 }
-
-
-// 0x000000000000000000000000c2d9018441eda5953f548746b5327c809df058c2
-
-//                          4fee6c1ca9b3939ccf442a7d25af45734ce97ecb
