@@ -1,3 +1,8 @@
+const Web3 = require('web3')
+const web3 = new Web3("https://ropsten.node.rcn.loans:8545")
+
+const signatureRelayedEvent = web3.eth.abi.encodeEventSignature('Relayed(bytes32,bytes32[],address,uint256,bytes,bytes32,uint256,bool)');
+
 export class Intent {
     private id: string;
     private encodePacked: string;
@@ -109,4 +114,39 @@ export class Intent {
     public setMaxGasPrice(maxGasPrice: number): void {
         this.maxGasPrice = maxGasPrice;
     }
+
+    public async getStatus(): Promise<string> {
+        this.setId('0x34bf00467d90b4a3a27af7c0dc0368fa7bd4aaf6af77e03f76022877da2fefd2')
+        this.setWallet('0x4fee6c1ca9b3939ccf442a7d25af45734ce97ecb')
+
+        const data = web3.eth.abi.encodeFunctionCall({
+            name: 'relayedAt',
+            type: 'function',
+            inputs: [{
+                type: 'bytes32',
+                name: '_id'
+            }]
+        }, [this.getId()])
+
+        return await web3.eth.call({
+            to: this.getWallet(),
+            data: data
+        }).then((block) =>
+            web3.eth.getPastLogs({
+                fromBlock: web3.utils.hexToNumber(block),
+                address: this.getWallet(),
+                topics: [
+                    signatureRelayedEvent,
+                    this.getId()
+                ]
+            })
+        ).then((logs) => logs[0].type);
+
+    }
+
 }
+
+
+// 0x000000000000000000000000c2d9018441eda5953f548746b5327c809df058c2
+
+//                          4fee6c1ca9b3939ccf442a7d25af45734ce97ecb
