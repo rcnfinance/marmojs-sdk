@@ -1,112 +1,45 @@
+import { Wallet } from "src/model/Wallet";
+import { IntentAction } from "src/model/IntentAction";
+
+var Web3 = require('web3');
+
 export class Intent {
-    private id: string;
-    private encodePacked: string;
-    private dependencies: Array<string>;
-    private signer: string;
-    private wallet: string;
-    private salt: string;
-    private expiration: number;
+    public dependencies: string[];
+    public action: IntentAction;
+    public salt: string;
+    public maxGasPrice: number;
+    public minGasLimit: number;
+    public expiration: number;
 
-    /* For transactions */
-    private to: string;
-    private value: number;
-    private data: string;
-    private minGasLimit: number;
-    private maxGasPrice: number;
-
-    public getId(): string {
-        return this.id;
-    }
-
-    public setId(id: string): void {
-        this.id = id;
-    }
-
-    public getEncodePacked(): string {
-        return this.encodePacked;
-    }
-
-    public setEncodePacked(encodePacked: string): void {
-        this.encodePacked = encodePacked;
-    }
-
-    public getDependencies(): Array<string> {
-        return this.dependencies;
-    }
-
-    public setDependencies(dependencies: Array<string>): void {
+    constructor(
+        dependencies: string[],
+        action: IntentAction,
+        salt: string,
+        maxGasPrice: number,
+        minGasLimit: number,
+        expiration: number
+    ) {
         this.dependencies = dependencies;
-    }
-
-    public getSigner(): string {
-        return this.signer;
-    }
-
-    public setSigner(signer: string): void {
-        this.signer = signer;
-    }
-
-    public getWallet(): string {
-        return this.wallet;
-    }
-
-    public setWallet(wallet: string): void {
-        this.wallet = wallet;
-    }
-
-    public getSalt(): string {
-        return this.salt;
-    }
-
-    public setSalt(salt: string): void {
+        this.action = action;
         this.salt = salt;
-    }
-
-    public getExpiration(): number {
-        return this.expiration;
-    }
-
-    public setExpiration(expiration: number): void {
+        this.maxGasPrice = maxGasPrice;
+        this.minGasLimit = minGasLimit;
         this.expiration = expiration;
     }
 
-    public getTo(): string {
-        return this.to;
-    }
-
-    public setTo(to: string): void {
-        this.to = to;
-    }
-
-    public getValue(): number {
-        return this.value;
-    }
-
-    public setValue(value: number): void {
-        this.value = value;
-    }
-
-    public getData(): string {
-        return this.data;
-    }
-
-    public setData(data: string): void {
-        this.data = data;
-    }
-
-    public getMinGasLimit(): number {
-        return this.minGasLimit;
-    }
-
-    public setMinGasLimit(minGasLimit: number): void {
-        this.minGasLimit = minGasLimit;
-    }
-
-    public getMaxGasPrice(): number {
-        return this.maxGasPrice;
-    }
-
-    public setMaxGasPrice(maxGasPrice: number): void {
-        this.maxGasPrice = maxGasPrice;
+    public id(wallet: Wallet): string {
+        const depsHash = Web3.utils.soliditySha3({ t: 'bytes32[]', v: this.dependencies });
+        const dataHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.action.data });
+        return Web3.utils.soliditySha3(
+            { t: 'address', v: wallet.address },
+            { t: 'bytes32', v: depsHash },
+            { t: 'address', v: this.action.to },
+            { t: 'uint256', v: this.action.value },
+            { t: 'bytes32', v: dataHash },
+            { t: 'uint256', v: this.minGasLimit },
+            { t: 'uint256', v: this.maxGasPrice },
+            { t: 'bytes32', v: this.salt },
+            { t: 'uint256', v: this.expiration }
+        );
     }
 }

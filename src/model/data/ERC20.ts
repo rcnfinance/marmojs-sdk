@@ -1,10 +1,9 @@
-import { IERC20 } from './IERC20';
 import { IntentAction } from '../IntentAction';
 
 const Web3 = require('web3');
 const web3 = new Web3();
 
-export class ERC20 implements IERC20 {
+export class ERC20 {
     contractAddress: string;
 
     constructor(contractAddress: string) {
@@ -100,11 +99,10 @@ export class ERC20 implements IERC20 {
     }
 
     private getIntentAction(json: any, params: any[]): IntentAction {
-        let intentAction: IntentAction = new IntentAction()
-        intentAction.setData(web3.eth.abi.encodeFunctionCall(json, params));
-        intentAction.setTo(this.contractAddress);
-        intentAction.setValue(0);
-        return intentAction;
+        return new IntentAction(
+            this.contractAddress,
+            0,
+            web3.eth.abi.encodeFunctionCall(json, params)
+        );
     }
-
 }
