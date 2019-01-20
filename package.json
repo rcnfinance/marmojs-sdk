@@ -27,7 +27,6 @@
     "@types/web3": "^1.0.14",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^1.0.0",
-    "eslint": "^5.11.1",
     "eth-sig-util": "^2.1.0",
     "ethereumjs-abi": "^0.6.5",
     "ethereumjs-blockstream": "^7.0.0",
@@ -48,6 +47,12 @@
     "webpack-cli": "^3.1.0"
   },
   "devDependencies": {
-    "@types/ethereumjs-util": "^5.2.0"
+    "@types/ethereumjs-util": "^5.2.0",
+    "eslint": "^5.12.1",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
   }
 }

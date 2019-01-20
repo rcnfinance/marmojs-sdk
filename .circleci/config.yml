@@ -1,0 +1,86 @@
+version: 2
+
+# List of jobs
+jobs:
+    # The install job
+    install:
+        working_directory: ~/project
+        docker:
+            - image: circleci/node:8.12
+        steps:
+            # Checkout the code from the branch into the working_directory
+            - checkout
+            # Log the current branch
+            - run:
+                name: Show current branch
+                command: echo ${CIRCLE_BRANCH}
+            # Restore local dependencies from cache
+            - restore_cache:
+                keys:
+                - v2-dependencies-{{ checksum "package.json" }}
+                - v2-dependencies-
+            # Install project dependencies
+            - run:
+                name: Install local dependencies
+                command: npm install
+            # Cache local dependencies if they don't exist
+            - save_cache:
+                key: v2-dependencies-{{ checksum "package.json" }}
+                paths:
+                    - node_modules
+
+    # The lint job
+    lint:
+        working_directory: ~/project
+        docker:
+            - image: circleci/node:8.12
+        steps:
+            # Checkout the code from the branch into the working_directory
+            - checkout
+            # Log the current branch
+            - run:
+                name: Show current branch
+                command: echo ${CIRCLE_BRANCH}
+            # Restore local dependencies from cache
+            - restore_cache:
+                keys:
+                - v2-dependencies-{{ checksum "package.json" }}
+                - v2-dependencies-
+            # Run lint
+            - run:
+                name: Lint
+                command: ./node_modules/.bin/eslint .
+
+    unit-tests:
+        working_directory: ~/project
+        docker:
+            - image: circleci/node:8.12-browsers
+        steps:
+            # Checkout the code from the branch into the working_directory
+            - checkout
+            # Log the current branch
+            - run:
+                name: Show current branch
+                command: echo ${CIRCLE_BRANCH}
+            # Restore local dependencies from cache
+            - restore_cache:
+                keys:
+                - v2-dependencies-{{ checksum "package.json" }}
+                - v2-dependencies-
+            # Run unit tests
+            - run:
+                name: Unit tests
+                command: npm test
+
+workflows:
+    version: 2
+    # The build and deploy workflow
+    build_and_deploy:
+        jobs:
+            - install
+            - lint:
+                requires:
+                    - install
+            - unit-tests:
+                requires:
+                    - install
