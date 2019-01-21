@@ -82,5 +82,38 @@ describe('IntentBuilder Test', () => {
 
         equal(intent.id(wallet), "0xe34f44ab2514803ba5f1a4766f5fe1d6d012a9599c8e13843962366f04427198");
     });
+    it("Should generate intent id with dependencies", () => {
+        const wallet = new Wallet(privs[1]);
+        const intent = new IntentBuilder()
+            .withDependencies(["0xa6daa52099d4083291c39a4beb2579dbfda6d24393c5e49f2549f08e37739b74"])
+            .withIntentAction(new EthWallet().sendEth(
+                "0x008d03067bcb29c5b35de2ee4a2fb88b965edf61",
+                2
+            ))
+            .withMaxGasLimit(bn(10).pow(bn(32)))
+            .withExpiration("1548069482")
+            .build();
+
+        equal(intent.id(wallet), "0x2cd48b6d072d54707850d17ca199e5c3ed8ecc3d626c78c872ac2a9e9b5f31ec");
+    });
+    it("Should sign intent", () => {
+        const wallet = new Wallet(privs[1]);
+        const intent = new IntentBuilder()
+            .withDependencies(["0xa6daa52099d4083291c39a4beb2579dbfda6d24393c5e49f2549f08e37739b74"])
+            .withIntentAction(new EthWallet().sendEth(
+                "0x008d03067bcb29c5b35de2ee4a2fb88b965edf61",
+                2
+            ))
+            .withMaxGasLimit(bn(10).pow(bn(32)))
+            .withExpiration("1548069482")
+            .build();
+
+        const signedIntent = wallet.sign(intent);
+
+        equal(
+            signedIntent.signature.join(),
+            "0x29d321ce0d6d2f8a4070f4c54bf19917987d10aa7aff967eb70f995f45522ef501ae6eedc4f5cf12518bcb7894ec0345fef8860c288e319bf6a71c38fa617c091c"
+        );
+    });
   });
 });
