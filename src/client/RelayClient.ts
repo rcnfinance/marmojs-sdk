@@ -2,7 +2,6 @@ import * as RequestClient from 'request-promise-native';
 import { RequestPromiseOptions, FullResponse } from 'request-promise-native';
 import { SignedIntent } from "../model/SignedIntent"
 import { IntentResponse } from "../model/response/IntentResponse"
-import { transformSignedIntent } from "../utils/MarmoUtils";
 
 export class RelayClient {
     private path: string;
@@ -13,18 +12,14 @@ export class RelayClient {
 
     async post(signedIntent: SignedIntent): Promise<IntentResponse> {
         let options: RequestPromiseOptions = {};
-        let requestBody = JSON.stringify(transformSignedIntent(signedIntent));
-        console.log("RequestBody: ", requestBody);
-        options.form = requestBody;
+        options.form = signedIntent.toJson();
         options.resolveWithFullResponse = true;
 
         let intentResponse: IntentResponse = new IntentResponse(200)
 
         let response: FullResponse = await RequestClient.post(this.path, options)
-        intentResponse.setStatusCode(response.statusCode);
-        console.info("Respone: ", response);
+        intentResponse.statusCode = response.statusCode;
 
         return intentResponse;
     }
-
 }

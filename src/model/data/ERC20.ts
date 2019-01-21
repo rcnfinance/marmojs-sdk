@@ -1,10 +1,10 @@
-import { IERC20 } from './IERC20';
 import { IntentAction } from '../IntentAction';
+import BigNumber = require("bn.js");
 
 const Web3 = require('web3');
 const web3 = new Web3();
 
-export class ERC20 implements IERC20 {
+export class ERC20 {
     contractAddress: string;
 
     constructor(contractAddress: string) {
@@ -47,7 +47,7 @@ export class ERC20 implements IERC20 {
         return this.getIntentAction(inputs, [owner, spender]);
     }
 
-    public transfer(to: string, value: number): IntentAction {
+    public transfer(to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'transfer',
             type: 'function',
@@ -60,10 +60,10 @@ export class ERC20 implements IERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [to, value]);
+        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public approve(to: string, value: number): IntentAction {
+    public approve(to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'approve',
             type: 'function',
@@ -76,10 +76,10 @@ export class ERC20 implements IERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [to, value]);
+        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public transferFrom(from: string, to: string, value: number): IntentAction {
+    public transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'transferFrom',
             type: 'function',
@@ -96,15 +96,14 @@ export class ERC20 implements IERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [from, to, value]);
+        return this.getIntentAction(inputs, [from, to, new BigNumber(value).toString()]);
     }
 
     private getIntentAction(json: any, params: any[]): IntentAction {
-        let intentAction: IntentAction = new IntentAction()
-        intentAction.setData(web3.eth.abi.encodeFunctionCall(json, params));
-        intentAction.setTo(this.contractAddress);
-        intentAction.setValue(0);
-        return intentAction;
+        return new IntentAction(
+            this.contractAddress,
+            new BigNumber(0),
+            web3.eth.abi.encodeFunctionCall(json, params)
+        );
     }
-
 }

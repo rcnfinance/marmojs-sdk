@@ -1,112 +1,60 @@
+import { Wallet } from "src/model/Wallet";
+import { IntentAction } from "src/model/IntentAction";
+import BigNumber = require("bn.js");
+
+var Web3 = require('web3');
+
 export class Intent {
-    private id: string;
-    private encodePacked: string;
-    private dependencies: Array<string>;
-    private signer: string;
-    private wallet: string;
-    private salt: string;
-    private expiration: number;
+    public dependencies: string[];
+    public action: IntentAction;
+    public salt: string;
+    public maxGasPrice: BigNumber;
+    public minGasLimit: BigNumber;
+    public expiration: BigNumber;
 
-    /* For transactions */
-    private to: string;
-    private value: number;
-    private data: string;
-    private minGasLimit: number;
-    private maxGasPrice: number;
-
-    public getId(): string {
-        return this.id;
-    }
-
-    public setId(id: string): void {
-        this.id = id;
-    }
-
-    public getEncodePacked(): string {
-        return this.encodePacked;
-    }
-
-    public setEncodePacked(encodePacked: string): void {
-        this.encodePacked = encodePacked;
-    }
-
-    public getDependencies(): Array<string> {
-        return this.dependencies;
-    }
-
-    public setDependencies(dependencies: Array<string>): void {
+    constructor(
+        dependencies: string[],
+        action: IntentAction,
+        salt: string,
+        maxGasPrice: BigNumber,
+        minGasLimit: BigNumber,
+        expiration: BigNumber
+    ) {
         this.dependencies = dependencies;
-    }
-
-    public getSigner(): string {
-        return this.signer;
-    }
-
-    public setSigner(signer: string): void {
-        this.signer = signer;
-    }
-
-    public getWallet(): string {
-        return this.wallet;
-    }
-
-    public setWallet(wallet: string): void {
-        this.wallet = wallet;
-    }
-
-    public getSalt(): string {
-        return this.salt;
-    }
-
-    public setSalt(salt: string): void {
+        this.action = action;
         this.salt = salt;
-    }
-
-    public getExpiration(): number {
-        return this.expiration;
-    }
-
-    public setExpiration(expiration: number): void {
+        this.maxGasPrice = maxGasPrice;
+        this.minGasLimit = minGasLimit;
         this.expiration = expiration;
     }
 
-    public getTo(): string {
-        return this.to;
-    }
+    public id(wallet: Wallet): string {
+        const emptyHash = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
+        let dataHash;
+        let depsHash;
 
-    public setTo(to: string): void {
-        this.to = to;
-    }
+        if (this.action.data.replace("0x","") == "") {
+            dataHash = emptyHash;
+        } else {
+            dataHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.action.data });
+        }
 
-    public getValue(): number {
-        return this.value;
-    }
+        if (this.dependencies.length == 0) {
+            depsHash = emptyHash;
+        } else {
+            depsHash = Web3.utils.soliditySha3({ t: 'bytes32[]', v: this.dependencies });
+        }
 
-    public setValue(value: number): void {
-        this.value = value;
-    }
-
-    public getData(): string {
-        return this.data;
-    }
-
-    public setData(data: string): void {
-        this.data = data;
-    }
-
-    public getMinGasLimit(): number {
-        return this.minGasLimit;
-    }
-
-    public setMinGasLimit(minGasLimit: number): void {
-        this.minGasLimit = minGasLimit;
-    }
-
-    public getMaxGasPrice(): number {
-        return this.maxGasPrice;
-    }
-
-    public setMaxGasPrice(maxGasPrice: number): void {
-        this.maxGasPrice = maxGasPrice;
+        return Web3.utils.soliditySha3(
+            { t: 'address', v: wallet.address },
+            { t: 'bytes32', v: depsHash },
+            { t: 'address', v: this.action.to },
+            { t: 'uint256', v: this.action.value },
+            { t: 'bytes32', v: dataHash },
+            { t: 'uint256', v: this.minGasLimit },
+            { t: 'uint256', v: this.maxGasPrice },
+            { t: 'bytes32', v: this.salt },
+            { t: 'uint256', v: this.expiration }
+        );
     }
 }
