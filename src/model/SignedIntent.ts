@@ -4,10 +4,10 @@ import { Wallet } from "src/model/Wallet";
 import { IntentResponse } from "./response/IntentResponse";
 
 export class SignedIntent {
-    public intent: Intent;
-    public signature: Signature;
-    public wallet: Wallet;
-    public id: string;
+    intent: Intent;
+    signature: Signature;
+    wallet: Wallet;
+    id: string;
 
     constructor(
         intent: Intent,
@@ -20,7 +20,7 @@ export class SignedIntent {
         this.id = intent.id(wallet);
     }
 
-    public toJson(): string {
+    toJson(): string {
         return JSON.stringify({
             id: this.id,
             dependencies: this.intent.dependencies,
@@ -39,7 +39,7 @@ export class SignedIntent {
         });
     }
 
-    public relay(relayer: string) {
-        
+    relay(relayer: string) {
+
     }
 }

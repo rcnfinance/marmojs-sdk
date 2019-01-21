@@ -11,16 +11,16 @@ export class ERC20 {
         this.contractAddress = contractAddress;
     }
 
-    public totalSupply(): IntentAction {
-        let inputs = {
+    totalSupply(): IntentAction {
+        const inputs = {
             name: 'totalSupply',
             type: 'function'
         }
         return this.getIntentAction(inputs, []);
     }
 
-    public balanceOf(who: string): IntentAction {
-        let inputs = {
+    balanceOf(who: string): IntentAction {
+        const inputs = {
             name: 'balanceOf',
             type: 'function',
             inputs: [{
@@ -31,8 +31,8 @@ export class ERC20 {
         return this.getIntentAction(inputs, [who]);
     }
 
-    public allowance(owner: string, spender: string): IntentAction {
-        let inputs = {
+    allowance(owner: string, spender: string): IntentAction {
+        const inputs = {
             name: 'allowance',
             type: 'function',
             inputs: [{
@@ -47,8 +47,8 @@ export class ERC20 {
         return this.getIntentAction(inputs, [owner, spender]);
     }
 
-    public transfer(to: string, value: number | string | BigNumber): IntentAction {
-        let inputs = {
+    transfer(to: string, value: number | string | BigNumber): IntentAction {
+        const inputs = {
             name: 'transfer',
             type: 'function',
             inputs: [{
@@ -63,8 +63,8 @@ export class ERC20 {
         return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public approve(to: string, value: number | string | BigNumber): IntentAction {
-        let inputs = {
+    approve(to: string, value: number | string | BigNumber): IntentAction {
+        const inputs = {
             name: 'approve',
             type: 'function',
             inputs: [{
@@ -79,8 +79,8 @@ export class ERC20 {
         return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
-        let inputs = {
+    transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
+        const inputs = {
             name: 'transferFrom',
             type: 'function',
             inputs: [{

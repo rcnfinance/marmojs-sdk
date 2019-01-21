@@ -8,13 +8,13 @@ import { toHexStringZeroPadded, generateAddress2 } from "../utils/EthUtils";
 export class Wallet {
     private key: string;
 
-    public config: Config;
-    public address: string;
-    public signer: string;
+    config: Config;
+    address: string;
+    signer: string;
 
     constructor(key: string, config?: Config) {
         this.key = key;
-        
+
         if (config == null) {
             this.config = Config.getGlobal();
             if (this.config == null) throw Error("A valid configuration must be provided or set as global");
@@ -32,7 +32,7 @@ export class Wallet {
         )
     }
 
-    public sign(intent: Intent): SignedIntent {
+    sign(intent: Intent): SignedIntent {
         const id = intent.id(this);
         const sig = ecsign(toBuffer(id), toBuffer(this.key));
         return new SignedIntent(

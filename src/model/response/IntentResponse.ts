@@ -1,7 +1,7 @@
 
 
 export class IntentResponse {
-    public statusCode: number;
+    statusCode: number;
 
     constructor(statusCode: number) {
         this.statusCode = statusCode;

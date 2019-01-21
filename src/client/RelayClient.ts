@@ -11,13 +11,12 @@ export class RelayClient {
     }
 
     async post(signedIntent: SignedIntent): Promise<IntentResponse> {
-        let options: RequestPromiseOptions = {};
+        const options: RequestPromiseOptions = {};
         options.form = signedIntent.toJson();
         options.resolveWithFullResponse = true;
 
-        let intentResponse: IntentResponse = new IntentResponse(200)
-
-        let response: FullResponse = await RequestClient.post(this.path, options)
+        const intentResponse: IntentResponse = new IntentResponse(200)
+        const response: FullResponse = await RequestClient.post(this.path, options)
         intentResponse.statusCode = response.statusCode;
 
         return intentResponse;
