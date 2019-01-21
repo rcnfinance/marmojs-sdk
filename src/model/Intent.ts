@@ -1,5 +1,6 @@
 import { Wallet } from "src/model/Wallet";
 import { IntentAction } from "src/model/IntentAction";
+import BigNumber = require("bn.js");
 
 var Web3 = require('web3');
 
@@ -7,17 +8,17 @@ export class Intent {
     public dependencies: string[];
     public action: IntentAction;
     public salt: string;
-    public maxGasPrice: number;
-    public minGasLimit: number;
-    public expiration: number;
+    public maxGasPrice: BigNumber;
+    public minGasLimit: BigNumber;
+    public expiration: BigNumber;
 
     constructor(
         dependencies: string[],
         action: IntentAction,
         salt: string,
-        maxGasPrice: number,
-        minGasLimit: number,
-        expiration: number
+        maxGasPrice: BigNumber,
+        minGasLimit: BigNumber,
+        expiration: BigNumber
     ) {
         this.dependencies = dependencies;
         this.action = action;
@@ -28,8 +29,22 @@ export class Intent {
     }
 
     public id(wallet: Wallet): string {
-        const depsHash = Web3.utils.soliditySha3({ t: 'bytes32[]', v: this.dependencies });
-        const dataHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.action.data });
+        const emptyHash = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
+        let dataHash;
+        let depsHash;
+
+        if (this.action.data.replace("0x","") == "") {
+            dataHash = emptyHash;
+        } else {
+            dataHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.action.data });
+        }
+
+        if (this.dependencies.length == 0) {
+            depsHash = emptyHash;
+        } else {
+            depsHash = Web3.utils.soliditySha3({ t: 'bytes32[]', v: this.dependencies });
+        }
+
         return Web3.utils.soliditySha3(
             { t: 'address', v: wallet.address },
             { t: 'bytes32', v: depsHash },
