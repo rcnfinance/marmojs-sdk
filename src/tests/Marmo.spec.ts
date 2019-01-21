@@ -5,6 +5,7 @@ import { IntentBuilder } from "../";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
 import BigNumber = require("bn.js");
+import { Provider } from "../Provider";
 
 const privs = [
   '0x62d29230c55255d404f85cf45d2db438911a8e8c76b9e917656fdbd8c4adccf4',
@@ -25,19 +26,22 @@ function bn (value: number) {
 
 describe('IntentBuilder Test', () => {
   let testConfig;
+  let testProvider;
 
   before(() => {
-    testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA", 999);
-  });
+    testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA");
+    testProvider = new Provider("0x98ef25e9f596000233ed019f909cc8a5f35984f1cc0b0b9e05407ce7a6820bc1", 3);
+});
   describe("Should require to define a configuration", () => {
     it("Should fail if global is not defined and config not provided", () => {
         throws(() => new Wallet(privs[0]));
     });
     it("Should not fail if configuration is provided", () => {
-        ok(new Wallet(privs[0], testConfig));
+        ok(new Wallet(privs[0], testConfig, testProvider));
     });
     it("Should use the configuration defined as global", () => {
         testConfig.asDefault();
+        testProvider.asDefault();
         ok(new Wallet(privs[0]));
     });
   });
