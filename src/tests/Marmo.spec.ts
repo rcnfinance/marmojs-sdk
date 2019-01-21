@@ -19,8 +19,8 @@ const privs = [
   '0x3a423f1c02a85be8641f67e36d91ae4089766ceb18bd7308c2e845d8e90fa705',
 ];
 
-function bn (number) {
-    return new BigNumber(number);
+function bn (value: number) {
+    return new BigNumber(value);
 }
 
 describe('IntentBuilder Test', () => {

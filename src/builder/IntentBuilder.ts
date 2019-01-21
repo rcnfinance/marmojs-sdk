@@ -3,12 +3,12 @@ import { IntentAction } from 'src';
 import BigNumber = require("bn.js");
 
 export class IntentBuilder {
-    public dependencies: string[] = [];
-    public salt: string = "0x";
-    public expiration: BigNumber;
-    public action: IntentAction;
-    public minGasLimit: BigNumber = new BigNumber(0);
-    public maxGasPrice: BigNumber = new BigNumber(9999999999);
+    dependencies: string[] = [];
+    salt: string = "0x";
+    expiration: BigNumber;
+    action: IntentAction;
+    minGasLimit: BigNumber = new BigNumber(0);
+    maxGasPrice: BigNumber = new BigNumber(9999999999);
 
     withDependencies(value: string[]): IntentBuilder {
         this.dependencies = value;

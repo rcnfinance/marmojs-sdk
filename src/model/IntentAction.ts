@@ -1,9 +1,9 @@
 import BigNumber = require("bn.js");
 
 export class IntentAction {
-    public to: string;
-    public value: BigNumber;
-    public data: string;
+    to: string;
+    value: BigNumber;
+    data: string;
 
     constructor(
         to: string,
