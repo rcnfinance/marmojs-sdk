@@ -1,15 +1,19 @@
+import Web3 = require('web3')
+
 let globalProvider: Provider;
 
 export class Provider {
-    node: string;
-    networkId: number;
+
+    relayer: string;
+    web3: Web3;
 
     constructor(
-        node: string,
-        networkId: number,
+        relayer?: string,
+        node?: string,
+        web3?: Web3,
     ) {
-        this.node = node;
-        this.networkId = networkId;
+        this.web3 = new Web3((web3 !== undefined) ? web3.givenProvider : undefined || node);
+        this.relayer = relayer || ""
     }
 
     asDefault() {
@@ -19,8 +23,5 @@ export class Provider {
     static getGlobal(): Provider {
         return globalProvider;
     }
-}
 
-export class DefaultProvider {
-    static PROVIDER = new Provider("0x98ef25e9f596000233ed019f909cc8a5f35984f1cc0b0b9e05407ce7a6820bc1", 3);
 }

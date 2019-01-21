@@ -6,6 +6,7 @@ import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
 import BigNumber = require("bn.js");
 import { Provider } from "../Provider";
+import Web3 = require('web3')
 
 const privs = [
   '0x62d29230c55255d404f85cf45d2db438911a8e8c76b9e917656fdbd8c4adccf4',
@@ -30,7 +31,7 @@ describe('IntentBuilder Test', () => {
 
   before(() => {
     testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA");
-    testProvider = new Provider("0x98ef25e9f596000233ed019f909cc8a5f35984f1cc0b0b9e05407ce7a6820bc1", 3);
+    testProvider = new Provider(undefined, undefined, new Web3("https://ropsten.node.rcn.loans:8545"));
 });
   describe("Should require to define a configuration", () => {
     it("Should fail if global is not defined and config not provided", () => {
