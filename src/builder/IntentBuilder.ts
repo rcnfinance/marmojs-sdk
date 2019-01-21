@@ -1,13 +1,14 @@
 import { Intent } from '../model/Intent';
 import { IntentAction } from 'src';
+import BigNumber = require("bn.js");
 
 export class IntentBuilder {
-    public dependencies: string[];
+    public dependencies: string[] = [];
     public salt: string = "0x";
-    public expiration: number = Math.floor(new Date().getTime() + 86400 * 365);
+    public expiration: BigNumber;
     public action: IntentAction;
-    public minGasLimit: number = 0;
-    public maxGasPrice: number = 9999999999;
+    public minGasLimit: BigNumber = new BigNumber(0);
+    public maxGasPrice: BigNumber = new BigNumber(9999999999);
 
     withDependencies(value: string[]): IntentBuilder {
         this.dependencies = value;
@@ -19,8 +20,8 @@ export class IntentBuilder {
         return this;
     }
 
-    withExpiration(value: number): IntentBuilder {
-        this.expiration = value;
+    withExpiration(value: string | number | BigNumber): IntentBuilder {
+        this.expiration = new BigNumber(value);
         return this;
     }
 
@@ -29,17 +30,21 @@ export class IntentBuilder {
         return this;
     }
 
-    withMinGasLimit(value: number): IntentBuilder {
-        this.minGasLimit = value;
+    withMinGasLimit(value: string | number | BigNumber): IntentBuilder {
+        this.minGasLimit = new BigNumber(value);
         return this;
     }
 
-    withMaxGasLimit(value: number): IntentBuilder {
-        this.maxGasPrice = value;
+    withMaxGasLimit(value: string | number | BigNumber): IntentBuilder {
+        this.maxGasPrice = new BigNumber(value);
         return this;
     }
 
     build(): Intent {
+        if (this.expiration === undefined) {
+            this.expiration = new BigNumber(Math.floor(new Date().getTime() + 86400 * 365));
+        }
+
         return new Intent(
             this.dependencies,
             this.action,

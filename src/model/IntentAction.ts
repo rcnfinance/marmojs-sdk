@@ -1,11 +1,13 @@
+import BigNumber = require("bn.js");
+
 export class IntentAction {
     public to: string;
-    public value: number;
+    public value: BigNumber;
     public data: string;
 
     constructor(
         to: string,
-        value: number,
+        value: BigNumber,
         data: string
     ) {
         this.to = to;

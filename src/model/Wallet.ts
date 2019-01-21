@@ -3,9 +3,7 @@ import { SignedIntent } from "./SignedIntent";
 import { Config } from "../Config";
 import { Signature } from "./Signature";
 import { bufferToHex, privateToAddress, toBuffer, ecsign, bufferToInt } from 'ethereumjs-util'
-import { toHexStringZeroPadded } from "../utils/EthUtils";
-
-declare var generateAddress2: (from: Buffer, salt: Buffer, initCode: Buffer) => Buffer;
+import { toHexStringZeroPadded, generateAddress2 } from "../utils/EthUtils";
 
 export class Wallet {
     private key: string;

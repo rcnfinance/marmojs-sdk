@@ -1,4 +1,5 @@
 import { IntentAction } from '../IntentAction';
+import BigNumber = require("bn.js");
 
 const Web3 = require('web3');
 const web3 = new Web3();
@@ -46,7 +47,7 @@ export class ERC20 {
         return this.getIntentAction(inputs, [owner, spender]);
     }
 
-    public transfer(to: string, value: number): IntentAction {
+    public transfer(to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'transfer',
             type: 'function',
@@ -59,10 +60,10 @@ export class ERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [to, value]);
+        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public approve(to: string, value: number): IntentAction {
+    public approve(to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'approve',
             type: 'function',
@@ -75,10 +76,10 @@ export class ERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [to, value]);
+        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()]);
     }
 
-    public transferFrom(from: string, to: string, value: number): IntentAction {
+    public transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
         let inputs = {
             name: 'transferFrom',
             type: 'function',
@@ -95,13 +96,13 @@ export class ERC20 {
                 name: 'value'
             }]
         };
-        return this.getIntentAction(inputs, [from, to, value]);
+        return this.getIntentAction(inputs, [from, to, new BigNumber(value).toString()]);
     }
 
     private getIntentAction(json: any, params: any[]): IntentAction {
         return new IntentAction(
             this.contractAddress,
-            0,
+            new BigNumber(0),
             web3.eth.abi.encodeFunctionCall(json, params)
         );
     }

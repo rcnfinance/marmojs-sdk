@@ -1,4 +1,4 @@
-declare var globalConf: Config;
+var globalConf: Config;
 
 export class Config {
     public initCode: string;
