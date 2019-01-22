@@ -5,6 +5,8 @@ import { IntentBuilder } from "../";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
 import BigNumber = require("bn.js");
+import { Provider } from "../Provider";
+import Web3 = require('web3')
 
 const privs = [
   '0x62d29230c55255d404f85cf45d2db438911a8e8c76b9e917656fdbd8c4adccf4',
@@ -27,8 +29,8 @@ describe('IntentBuilder Test', () => {
   let testConfig;
 
   before(() => {
-    testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA", 999);
-  });
+    testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA");
+});
   describe("Should require to define a configuration", () => {
     it("Should fail if global is not defined and config not provided", () => {
         throws(() => new Wallet(privs[0]));
