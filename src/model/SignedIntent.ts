@@ -1,7 +1,8 @@
 import { Intent } from "./Intent";
 import { Signature } from "./Signature";
-import { Wallet } from "src/model/Wallet";
-import { IntentResponse } from "./response/IntentResponse";
+import { Wallet } from "../model/Wallet";
+import { RelayClient } from "../client/RelayClient";
+import { Provider } from "../Provider";
 
 export class SignedIntent {
     intent: Intent;
@@ -39,7 +40,25 @@ export class SignedIntent {
         });
     }
 
-    relay(relayer: string) {
+    relay(provider: Provider) {
+        if (provider === null || provider === undefined) {
+            throw Error("The provider can not be null or undefined");
+            provider = Provider.getGlobal();
+            if (provider === null) throw Error("A valid configuration must be provided or set as global");
+        }
+        if (provider.relayer === null || provider.relayer === undefined) {
+            throw Error("The provider is invalid, have not relayer");
+        }
 
+        const relayClient = new RelayClient(provider.relayer);
+        relayClient.post(this);
     }
+
+    status(provider: Provider) {
+        if (provider === null || provider === undefined) {
+            throw Error("The provider can not be null or undefined");
+        }
+        // TODO: CODE
+    }
+
 }

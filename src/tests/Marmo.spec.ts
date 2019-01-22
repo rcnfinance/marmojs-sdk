@@ -27,22 +27,19 @@ function bn (value: number) {
 
 describe('IntentBuilder Test', () => {
   let testConfig;
-  let testProvider;
 
   before(() => {
     testConfig = new Config("0xe814f48c2eaf753ae51c7c807e2b1736700126c58af556d78c7c6158d201a125", "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA");
-    testProvider = new Provider(undefined, undefined, new Web3("https://ropsten.node.rcn.loans:8545"));
 });
   describe("Should require to define a configuration", () => {
     it("Should fail if global is not defined and config not provided", () => {
         throws(() => new Wallet(privs[0]));
     });
     it("Should not fail if configuration is provided", () => {
-        ok(new Wallet(privs[0], testConfig, testProvider));
+        ok(new Wallet(privs[0], testConfig));
     });
     it("Should use the configuration defined as global", () => {
         testConfig.asDefault();
-        testProvider.asDefault();
         ok(new Wallet(privs[0]));
     });
   });
