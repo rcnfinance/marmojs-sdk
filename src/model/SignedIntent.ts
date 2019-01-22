@@ -4,7 +4,7 @@ import { Wallet } from "../model/Wallet";
 import { RelayClient } from "../client/RelayClient";
 import { Provider } from "../Provider";
 import { Status, StatusCode, IntentReceipt } from "../model/response/Status";
-
+import Web3 = require('web3')
 export class SignedIntent {
     intent: Intent;
     signature: Signature;
@@ -61,9 +61,10 @@ export class SignedIntent {
             throw Error("The provider can not be null or undefined")
         }
 
-        const signatureRelayedEvent = provider.web3.eth.abi.encodeEventSignature('Relayed(bytes32,bytes32[],address,uint256,bytes,bytes32,uint256,bool)')
+        const web3 = provider.web3
+        const signatureRelayedEvent = web3.eth.abi.encodeEventSignature('Relayed(bytes32,bytes32[],address,uint256,bytes,bytes32,uint256,bool)')
 
-        const data = provider.web3.eth.abi.encodeFunctionCall({
+        const data = web3.eth.abi.encodeFunctionCall({
             name: 'relayedAt',
             type: 'function',
             inputs: [{
@@ -72,14 +73,23 @@ export class SignedIntent {
             }]
         }, [this.id])
 
-        const lastBlockNumber = await provider.web3.eth.getBlockNumber()
+        const relayer = web3.eth.abi.encodeFunctionCall({
+            name: 'relayedBy',
+            type: 'function',
+            inputs: [{
+                type: 'bytes32',
+                name: '_id'
+            }]
+        }, [this.id])
 
-        return await provider.web3.eth.call({
+        const currentBlockNumber = await web3.eth.getBlockNumber()
+
+        return await web3.eth.call({
             to: this.wallet.address,
             data: data
         }).then((block) =>
-            provider.web3.eth.getPastLogs({
-                fromBlock: provider.web3.utils.hexToNumber(block),
+            web3.eth.getPastLogs({
+                fromBlock: web3.utils.hexToNumber(block),
                 address: this.wallet.address,
                 topics: [
                     signatureRelayedEvent,
@@ -88,11 +98,15 @@ export class SignedIntent {
             })
         ).then((logs) => {
             const event = logs[0]
-            if (event === undefined) return new Status(StatusCode.Pending, new IntentReceipt())
-            const confirmations: number = provider.web3.utils.hexToNumber(event.blockNumber) - provider.web3.utils.hexToNumber(lastBlockNumber)
-            if (confirmations < 32) return new Status(StatusCode.Completed, new IntentReceipt())
-            if (confirmations >= 32) return new Status(StatusCode.Settling, new IntentReceipt())
-            return new Status(StatusCode.Error, new IntentReceipt())
+            if (event === undefined || event['type'] !== 'mined')
+                return new Status(StatusCode.Pending, new IntentReceipt('0x', relayer, 0, false, 0))
+
+            const confirmations: number = web3.utils.hexToNumber(currentBlockNumber) - web3.utils.hexToNumber(event.blockNumber)
+            if (event['type'] === 'mined' && confirmations < 32)
+                return new Status(StatusCode.Settling, new IntentReceipt(event['transactionHash'], relayer, event['blockNumber'], true, confirmations))
+            if (event['type'] === 'mined' && confirmations >= 32)
+                return new Status(StatusCode.Completed, new IntentReceipt(event['transactionHash'], relayer, event['blockNumber'], false, confirmations))
+            return new Status(StatusCode.Error, new IntentReceipt("0x", relayer, 0, false, 0))
         })
     }
 
