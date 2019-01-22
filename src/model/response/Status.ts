@@ -12,11 +12,10 @@ export class IntentReceipt {
     success: boolean
     confirmation: number
 
-    constructor (txHash: string, relayer: string, blockNumber: number, success: boolean, confirmation: number) {
+    constructor (txHash: string, relayer: string, blockNumber: number, confirmation: number) {
         this.txHash = txHash
         this.relayer = relayer
         this.blockNumber = blockNumber
-        this.success = success
         this.confirmation = confirmation
     }
 }
