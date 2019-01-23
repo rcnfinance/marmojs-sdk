@@ -82,7 +82,7 @@ export class SignedIntent {
         }).then((block) => {
             const blockNumber = web3.utils.hexToNumber(block)
             if (blockNumber === 0) {
-                return {}
+                return []
             }
             return web3.eth.getPastLogs({
                 fromBlock: blockNumber,
@@ -94,7 +94,7 @@ export class SignedIntent {
                 ]
             })
         }).then((logs) => {
-            if (logs === undefined || Object.entries(logs).length === 0) {
+            if (logs === undefined || logs.length === 0) {
                 return buildStatusWithCode(StatusCode.Error)
             }
             if (logs[0] === undefined || !isMined(logs[0])) {
