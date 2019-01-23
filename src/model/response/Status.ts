@@ -24,8 +24,7 @@ export class Status {
     code: string
     receipt: IntentReceipt
 
-    constructor(code: StatusCode, receipt: IntentReceipt) {
+    constructor(code: StatusCode) {
         this.code = StatusCode[code]
-        this.receipt = receipt
     }
 }
