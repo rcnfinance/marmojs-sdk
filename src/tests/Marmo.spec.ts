@@ -5,8 +5,6 @@ import { IntentBuilder } from "../";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
 import BigNumber = require("bn.js");
-import { Provider } from "../Provider";
-import Web3 = require('web3')
 
 const privs = [
   '0x62d29230c55255d404f85cf45d2db438911a8e8c76b9e917656fdbd8c4adccf4',

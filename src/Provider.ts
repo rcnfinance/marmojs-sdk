@@ -12,7 +12,7 @@ export class Provider {
         node?: string,
         web3?: Web3,
     ) {
-        this.web3 = new Web3((web3 !== undefined) ? web3.givenProvider : undefined || node);
+        this.web3 = new Web3((web3 !== undefined) ? web3.currentProvider : undefined || node);
         this.relayer = relayer || ""
     }
 
