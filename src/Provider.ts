@@ -7,13 +7,9 @@ export class Provider {
     relayer: string;
     web3: Web3;
 
-    constructor(
-        relayer?: string,
-        node?: string,
-        web3?: Web3,
-    ) {
-        this.web3 = new Web3((web3 !== undefined) ? web3.currentProvider : undefined || node);
-        this.relayer = relayer || ""
+    constructor(node: string | Web3, relayer: string) {
+        this.web3 = node instanceof Web3 ? node : new Web3(relayer);
+        this.relayer = relayer;
     }
 
     asDefault() {
@@ -23,5 +19,4 @@ export class Provider {
     static getGlobal(): Provider {
         return globalProvider;
     }
-
 }
