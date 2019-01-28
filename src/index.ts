@@ -3,7 +3,7 @@ import { Intent } from './model/Intent';
 import { RelayClient } from './client/RelayClient'
 import { IntentAction } from './model/IntentAction';
 import { Config, DefaultConf } from './Config';
-
+import { Provider } from './Provider';
 
 export {
     IntentBuilder,
@@ -11,5 +11,6 @@ export {
     Intent,
     RelayClient,
     DefaultConf,
-    Config
+    Config,
+    Provider
 };
