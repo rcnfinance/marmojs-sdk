@@ -10,7 +10,7 @@
     "dist"
   ],
   "main": "dist/index.ts",
-  "name": "marmojs-sdk",
+  "name": "marmojs",
   "scripts": {
     "start": "npm run webpack",
     "webpack": "webpack -d --watch",

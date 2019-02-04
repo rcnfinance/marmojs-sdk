@@ -24,7 +24,7 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'index.ts',
-        library: 'marmojs-sdk',
+        library: 'marmojs',
         libraryTarget: 'umd',
     },
     plugins: [

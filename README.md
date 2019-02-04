@@ -71,7 +71,7 @@ npm test
 #### Add the relevant dependency to your project:
 ##### NPM
 ```bash
-npm i marmojs-sdk
+npm i marmojs
 ```
 
 # how it works?
