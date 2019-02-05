@@ -6,25 +6,29 @@ export enum StatusCode {
 }
 
 export class IntentReceipt {
-    txHash: string
-    relayer: string
-    blockNumber: number
-    success: boolean
-    confirmation: number
+    txHash: string;
+    relayer: string;
+    blockNumber: number;
+    confirmation: number;
+    success: boolean;
+    result: string;
 
-    constructor (txHash: string, relayer: string, blockNumber: number, confirmation: number) {
-        this.txHash = txHash
-        this.relayer = relayer
-        this.blockNumber = blockNumber
-        this.confirmation = confirmation
+    constructor (txHash: string, relayer: string, blockNumber: number, confirmation: number, success: boolean, result: string) {
+        this.txHash = txHash;
+        this.relayer = relayer;
+        this.blockNumber = blockNumber;
+        this.confirmation = confirmation;
+        this.success = success;
+        this.result = result;
     }
 }
 
 export class Status {
-    code: string
-    receipt: IntentReceipt
+    code: StatusCode;
+    receipt?: IntentReceipt;
 
-    constructor(code: StatusCode) {
-        this.code = StatusCode[code]
+    constructor(code: StatusCode, receipt: IntentReceipt | undefined = undefined) {
+        this.code = code;
+        this.receipt = receipt;
     }
 }
