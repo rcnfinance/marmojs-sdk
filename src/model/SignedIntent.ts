@@ -4,7 +4,7 @@ import { Wallet } from "../model/Wallet";
 import { RelayClient } from "../client/RelayClient";
 import { Provider } from "../Provider";
 import { Status, StatusCode, IntentReceipt } from "../model/response/Status";
-import { Log } from "web3/types";
+import Web3 = require('web3')
 
 export class SignedIntent {
     intent: Intent;
@@ -26,35 +26,38 @@ export class SignedIntent {
     toJson(): string {
         return JSON.stringify({
             id: this.id,
-            dependencies: this.intent.dependencies,
             wallet: this.wallet.address,
             signer: this.wallet.signer,
-            tx: {
-                to: this.intent.action.to,
-                value: this.intent.action.value,
-                data: this.intent.action.data,
-                maxGasPrice: this.intent.maxGasPrice,
-                minGasLimit: this.intent.minGasLimit
-            },
-            salt: this.intent.salt,
-            expiration: this.intent.expiration,
-            signature: this.signature.join()
+            signature: this.signature.join(),
+            intent: {
+                implementation: this.wallet.config.implementation,
+                data: this.intent.build_implementation_call(this.wallet.config),
+                detail: {
+                    dependency: this.intent.build_dependency_call(this.wallet.config),
+                    to: this.intent.action.to,
+                    value: this.intent.action.value.toString(),
+                    data: this.intent.action.data,
+                    maxGasPrice: this.intent.maxGasPrice.toString(),
+                    minGasLimit: this.intent.minGasLimit.toString(),
+                    salt: this.intent.salt,
+                    expiration: this.intent.expiration.toString()
+                }
+            }
         });
     }
 
-    relay(provider: Provider) {
+    async relay(provider: Provider): Promise<boolean> {
         if (provider === null || provider === undefined) {
             provider = Provider.getGlobal();
             if (provider === null || provider === undefined) throw Error("A valid configuration must be provided or set as global");
         }
         if (provider.relayer === null || provider.relayer === undefined) {
-            throw Error("The provider is invalid, have not relayer");
+            return false;
         }
 
         const relayClient = new RelayClient(provider.relayer);
-        relayClient.post(this).then(response => {
-            if (response.statusCode !== 200) throw Error("The provider is invalid, have not relayer");
-        })
+        const response = await relayClient.post(this);
+        return response.statusCode === 201;
     }
 
     async status(provider: Provider): Promise<Status> {
@@ -62,88 +65,82 @@ export class SignedIntent {
             throw Error("The provider can not be null or undefined")
         }
 
-        const minConfirmation = 32;
         const web3 = provider.web3
-        const signatureRelayedEvent = web3.eth.abi.encodeEventSignature('Relayed(bytes32,bytes32[],address,uint256,bytes,bytes32,uint256,bool)')
+
+        // TODO: Move to configuration
+        const minConfirmation = 32;
+        const signatureRelayedEvent = web3.eth.abi.encodeEventSignature('Receipt(bytes32,bool,bytes)')
+
         const currentBlockNumber = await web3.eth.getBlockNumber()
-        const relayedBy = await getRelayerData(this.wallet.address, this.id);
-        const relayedAtData = web3.eth.abi.encodeFunctionCall({
+
+        const relayedBy = await SignedIntent.relayedBy(web3, this.wallet.address, this.id);        
+        const block = await SignedIntent.relayedAt(web3, this.wallet.address, this.id);
+
+        if (block === 0) {
+            return new Status(StatusCode.Pending);
+        }
+
+        const logs = await web3.eth.getPastLogs({
+            fromBlock: block,
+            toBlock: block,
+            address: this.wallet.address,
+            topics: [
+                signatureRelayedEvent,
+                this.id
+            ]
+        });
+
+        const event = logs[0];
+
+        const logsDetail = web3.eth.abi.decodeLog(
+            [{ type: 'bool', name: 'success' }, { type: 'bytes', name: 'result' }],
+            event.data, []
+        );
+
+        const confirmation = web3.utils.hexToNumber(event.blockNumber) - web3.utils.hexToNumber(currentBlockNumber);
+
+        const intentReceipt = new IntentReceipt(
+            event['transactionHash'],
+            relayedBy,
+            block,
+            confirmation,
+            logsDetail["success"],
+            logsDetail["result"]
+        );
+
+        return new Status(
+            confirmation < minConfirmation ? StatusCode.Settling : StatusCode.Completed,
+            intentReceipt
+        );
+    }
+
+    static async relayedAt(web3: Web3, wallet: string, id: string): Promise<number> {
+        const relayedByData = web3.eth.abi.encodeFunctionCall({
             name: 'relayedAt',
             type: 'function',
             inputs: [{
                 type: 'bytes32',
                 name: '_id'
             }]
-        }, [this.id])
-
-        return await web3.eth.call({
-            to: this.wallet.address,
-            data: relayedAtData
-        }).then((block) => {
-            const blockNumber = web3.utils.hexToNumber(block)
-            if (blockNumber === 0) {
-                return []
-            }
-            return web3.eth.getPastLogs({
-                fromBlock: blockNumber,
-                toBlock: blockNumber,
-                address: this.wallet.address,
-                topics: [
-                    signatureRelayedEvent,
-                    this.id
-                ]
-            })
-        }).then((logs) => {
-            if (logs === undefined || logs.length === 0) {
-                return buildStatusWithCode(StatusCode.Error)
-            }
-            if (logs[0] === undefined || !isMined(logs[0])) {
-                return buildStatusWithCode(StatusCode.Pending)
-            }
-            const event = logs[0]
-            const confirmation: number = web3.utils.hexToNumber(currentBlockNumber) - web3.utils.hexToNumber(event.blockNumber)
-            let intentReceipt = new IntentReceipt(event['transactionHash'], relayedBy, event['blockNumber'], confirmation)
-
-            if (isMined(event) && confirmation < minConfirmation) {
-                intentReceipt.success = false
-                return buildResponse(StatusCode.Settling, intentReceipt)
-            }
-            if (isMined(event) && confirmation >= minConfirmation) {
-                intentReceipt.success = true
-                return buildResponse(StatusCode.Completed, intentReceipt)
-            }
-            return buildStatusWithCode(StatusCode.Error)
-        })
-
-        function buildStatusWithCode(code: StatusCode): Status {
-            return new Status(code)
-        }
-
-        function buildResponse(code: StatusCode, receipt: IntentReceipt): Status {
-            let status = buildStatusWithCode(code)
-            status.receipt = receipt
-            return status
-        }
-
-        function isMined(event): boolean {
-            return event['type'] === 'mined';
-        }
-
-        async function getRelayerData(wallet: string, id: string): Promise<string> {
-            const relayedByData = web3.eth.abi.encodeFunctionCall({
-                name: 'relayedBy',
-                type: 'function',
-                inputs: [{
-                    type: 'bytes32',
-                    name: '_id'
-                }]
-            }, [id])
-            return await web3.eth.call({
-                to: wallet,
-                data: relayedByData
-            })
-        }
-
+        }, [id])
+        return web3.utils.hexToNumber(await web3.eth.call({
+            to: wallet,
+            data: relayedByData
+        }));
     }
 
+    static async relayedBy(web3: Web3, wallet: string, id: string): Promise<string> {
+        const relayedByData = web3.eth.abi.encodeFunctionCall({
+            name: 'relayedBy',
+            type: 'function',
+            inputs: [{
+                type: 'bytes32',
+                name: '_id'
+            }]
+        }, [id])
+        return await web3.eth.call({
+            to: wallet,
+            data: relayedByData
+        })
+    }
 }

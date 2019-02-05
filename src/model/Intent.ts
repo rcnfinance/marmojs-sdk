@@ -57,33 +57,42 @@ export class Intent {
     }
 
     id(wallet: Wallet): string {
-        const emptyHash = '0xc5d2460186f7233c927e7db2dcc703c0e500b653ca82273b7bfad8045d85a470';
-        let dataHash;
-        let depsHash;
-
-        if (this.action.data.replace("0x", "") === "") {
-            dataHash = emptyHash;
-        } else {
-            dataHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.action.data });
-        }
-
-        if (this.dependencies.length === 0) {
-            depsHash = emptyHash;
-        } else {
-            depsHash = Web3.utils.soliditySha3({ t: 'bytes', v: this.build_dependency_call(wallet.config) });
-        }
-
         return Web3.utils.soliditySha3(
             { t: 'address', v: wallet.address },
-            { t: 'bytes32', v: depsHash },
-            { t: 'address', v: this.action.to },
-            { t: 'uint256', v: this.action.value },
-            { t: 'bytes32', v: dataHash },
-            { t: 'uint256', v: this.minGasLimit },
-            { t: 'uint256', v: this.maxGasPrice },
-            { t: 'bytes32', v: this.salt },
-            { t: 'uint256', v: this.expiration }
+            { t: 'address', v: wallet.config.implementation },
+            {
+                t: 'bytes32',
+                v: Web3.utils.soliditySha3({
+                    t: 'bytes',
+                    v: this.build_implementation_call(wallet.config)
+                })
+            }
         );
+    }
+
+    build_implementation_call(config: Config): string {
+        return new Web3().eth.abi.encodeParameters(
+            [
+                "bytes",
+                "address",
+                "uint256",
+                "bytes",
+                "uint256",
+                "uint256",
+                "uint256",
+                "bytes32"
+            ],
+            [
+                this.build_dependency_call(config),
+                this.action.to,
+                this.action.value.toString(),
+                this.action.data,
+                this.minGasLimit.toString(),
+                this.maxGasPrice.toString(),
+                this.expiration.toString(),
+                this.salt
+            ]
+        )
     }
 
     build_dependency_call(config: Config): string {
@@ -94,7 +103,7 @@ export class Intent {
             return "0x";
         } else if (depsCount == 1) {
             // Single dependency, call wallet directly
-            const call = Web3.eth.abi.encodeFunctionCall({
+            const call = new Web3().eth.abi.encodeFunctionCall({
                 name: 'relayedAt',
                 type: 'function',
                 inputs: [{
@@ -106,7 +115,7 @@ export class Intent {
             return "0x" + this.dependencies[0].address.replace('0x', '') + call.replace('0x', '');
         } else {
             // Multiple dependencies, using DepsUtils contract
-            const call = Web3.eth.abi.encodeFunctionCall({
+            const call = new Web3().eth.abi.encodeFunctionCall({
                 name: 'multipleDeps',
                 type: 'function',
                 inputs: [{

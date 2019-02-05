@@ -16,7 +16,7 @@ export class RelayClient {
         options.resolveWithFullResponse = true;
 
         const intentResponse: IntentResponse = new IntentResponse(200)
-        const response: FullResponse = await RequestClient.post(this.path, options)
+        const response: FullResponse = await RequestClient.post(this.path + '/v2/relay', options)
         intentResponse.statusCode = response.statusCode;
 
         return intentResponse;
