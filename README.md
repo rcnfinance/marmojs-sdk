@@ -153,7 +153,7 @@ relayClient.sent(signedIntent);
     "to": "0x2f45b6fb2f28a73f110400386da31044b2e953d4",
     "value": 0,
     "data": "0x70a082310000000000000000000000007f5eb5bb5cf88cfcee9613368636f458800e62cb",
-    "minGasLimit": 300000,
+    "maxGasLimit": 300000,
     "maxGasPrice": 999999
   },
   "salt": "0x0000000000000000000000000000000000000000000000000000000000000002",
@@ -175,7 +175,7 @@ relayClient.sent(signedIntent);
 | signer                | string        | yes       | -             | The address of the signer that sign the intent.          |
 | wallet                | string        | yes       | -             | Contract address or Marmo instance.                      |
 | salt                  | number        | no        | 0x0           | Use to send the same intent many times if needed.       |
-| minGasLimit           | number        | no        | 0             | Minimum gas price.                                       |
+| maxGasLimit           | number        | no        | 0             | Minimum gas price.                                       |
 | maxGasPrice           | number        | no        | 99999999      | Maximum gas price.                                       |
 | intentAction          | IntentAction  | yes       | 0x0           | IntentAction Example ->  |
 
@@ -315,7 +315,7 @@ intentBuilder.withSigner(credentials.address)
     .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
     .withWallet(contractAddress)
     .withIntentAction(intentAction)
-    .withMinGasLimit(300000)
+    .withMaxGasLimit(300000)
     .withMaxGasLimit(999999)
 
 let intent: Intent = intentBuilder.build();
@@ -349,7 +349,7 @@ intentBuilder.withSigner(credentials.address)
     .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
     .withWallet(contractAddress)
     .withIntentAction(intentAction)
-    .withMinGasLimit(300000)
+    .withMaxGasLimit(300000)
     .withMaxGasLimit(999999)
     .withSalt(1)
 
@@ -381,7 +381,7 @@ intentBuilder.withSigner(credentials.address)
     .withDependencies(['0xee2e1b62b008e27a5a3d66352f87e760ed85e723b6834e622f38b626090f536e', '0x6b67aac6eda8798297b1591da36a215bfbe1fed666c4676faf5a214d54e9e928'])
     .withWallet(contractAddress)
     .withIntentAction(intentAction)
-    .withMinGasLimit(300000)
+    .withMaxGasLimit(300000)
     .withMaxGasLimit(999999)
     .withSalt(2)
 
