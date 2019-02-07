@@ -38,7 +38,7 @@ export class SignedIntent {
                     value: this.intent.action.value.toString(),
                     data: this.intent.action.data,
                     maxGasPrice: this.intent.maxGasPrice.toString(),
-                    minGasLimit: this.intent.minGasLimit.toString(),
+                    maxGasLimit: this.intent.maxGasLimit.toString(),
                     salt: this.intent.salt,
                     expiration: this.intent.expiration.toString()
                 }

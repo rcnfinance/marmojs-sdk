@@ -24,7 +24,7 @@ export class Intent {
     action: IntentAction;
     salt: string;
     maxGasPrice: BigNumber;
-    minGasLimit: BigNumber;
+    maxGasLimit: BigNumber;
     expiration: BigNumber;
 
     constructor(
@@ -32,14 +32,14 @@ export class Intent {
         action: IntentAction,
         salt: string,
         maxGasPrice: BigNumber,
-        minGasLimit: BigNumber,
+        maxGasLimit: BigNumber,
         expiration: BigNumber
     ) {
         this.dependencies = [];
         this.action = action;
         this.salt = salt;
         this.maxGasPrice = maxGasPrice;
-        this.minGasLimit = minGasLimit;
+        this.maxGasLimit = maxGasLimit;
         this.expiration = expiration;
 
         dependencies.forEach(d => this.add_dependency(d));
@@ -87,7 +87,7 @@ export class Intent {
                 this.action.to,
                 this.action.value.toString(),
                 this.action.data,
-                this.minGasLimit.toString(),
+                this.maxGasLimit.toString(),
                 this.maxGasPrice.toString(),
                 this.expiration.toString(),
                 this.salt

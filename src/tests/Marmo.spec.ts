@@ -65,8 +65,8 @@ describe('IntentBuilder Test', () => {
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
                 1
             ))
-            .withMinGasLimit(0)
-            .withMaxGasLimit(bn(10).pow(bn(32)))
+            .withMaxGasLimit(0)
+            .withMaxGasPrice(bn(10).pow(bn(32)))
             .withExpiration(bn(10).pow(bn(24)))
             .build();
 
@@ -80,8 +80,8 @@ describe('IntentBuilder Test', () => {
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
                 4
             ))
-            .withMinGasLimit(0)
-            .withMaxGasLimit(bn(10).pow(bn(32)))
+            .withMaxGasLimit(0)
+            .withMaxGasPrice(bn(10).pow(bn(32)))
             .withExpiration(1549218987)
             .build();
 
@@ -93,7 +93,7 @@ describe('IntentBuilder Test', () => {
         const dependency_signed_intent = wallet.sign(
             new IntentBuilder().withIntentAction(
                 new ERC20("0x6Eb29e4Dffcbe467b755DCBa6fDdfA91F6f747e1").transfer("0x009ab4de1234c7066197d6ed75743add3576591f", 0)
-            ).withExpiration(bn(10).pow(bn(32))).build()
+            ).withExpiration(bn(10).pow(bn(32))).withMaxGasLimit("0").withMaxGasPrice("9999999999").build()
         );
 
         equal(dependency_signed_intent.id, "0x42dece26ce6cf93b4befdfc80cffa49e8b200e571590ff2af4a27a438e8377ed");
@@ -104,7 +104,8 @@ describe('IntentBuilder Test', () => {
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
                 bn(100).mul(bn(10).pow(bn(18)))
             ))
-            .withMaxGasLimit("9999999999")
+            .withMaxGasLimit("0")
+            .withMaxGasPrice("9999999999")
             .withExpiration(bn(10).pow(bn(36)))
             .build();
 
@@ -125,7 +126,8 @@ describe('IntentBuilder Test', () => {
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
                 bn(100).mul(bn(10).pow(bn(18)))
             ))
-            .withMaxGasLimit("9999999999")
+            .withMaxGasLimit("0")
+            .withMaxGasPrice("9999999999")
             .withExpiration(bn(10).pow(bn(36)))
             .build();
 

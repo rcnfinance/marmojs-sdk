@@ -8,8 +8,8 @@ export class IntentBuilder {
     salt: string = "0x";
     expiration: BigNumber;
     action: IntentAction;
-    minGasLimit: BigNumber = new BigNumber(0);
-    maxGasPrice: BigNumber = new BigNumber(9999999999);
+    maxGasLimit: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
+    maxGasPrice: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
 
     withDependencies(value: Array<SignedIntent | IntentDependency>): IntentBuilder {
         this.dependencies = value;
@@ -31,12 +31,12 @@ export class IntentBuilder {
         return this;
     }
 
-    withMinGasLimit(value: string | number | BigNumber): IntentBuilder {
-        this.minGasLimit = new BigNumber(value);
+    withMaxGasLimit(value: string | number | BigNumber): IntentBuilder {
+        this.maxGasLimit = new BigNumber(value);
         return this;
     }
 
-    withMaxGasLimit(value: string | number | BigNumber): IntentBuilder {
+    withMaxGasPrice(value: string | number | BigNumber): IntentBuilder {
         this.maxGasPrice = new BigNumber(value);
         return this;
     }
@@ -51,7 +51,7 @@ export class IntentBuilder {
             this.action,
             this.salt,
             this.maxGasPrice,
-            this.minGasLimit,
+            this.maxGasLimit,
             this.expiration
         );
     }
