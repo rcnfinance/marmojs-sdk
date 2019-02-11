@@ -98,10 +98,10 @@ export class Intent {
     build_dependency_call(config: Config): string {
         const depsCount = this.dependencies.length
 
-        if (depsCount == 0) {
+        if (depsCount === 0) {
             // No dependencies
             return "0x";
-        } else if (depsCount == 1) {
+        } else if (depsCount === 1) {
             // Single dependency, call wallet directly
             const call = new Web3().eth.abi.encodeFunctionCall({
                 name: 'relayedAt',
@@ -121,7 +121,7 @@ export class Intent {
                 inputs: [{
                     type: 'address[]',
                     name: '_wallets'
-                },{
+                }, {
                     type: 'bytes32[]',
                     name: '_ids'
                 }]
