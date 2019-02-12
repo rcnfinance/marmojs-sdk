@@ -1,4 +1,4 @@
-import { Intent } from "src";
+import { Intent } from "./Intent";
 import { SignedIntent } from "./SignedIntent";
 import { Config } from "../Config";
 import { Signature } from "./Signature";

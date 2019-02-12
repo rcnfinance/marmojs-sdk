@@ -1,26 +1,13 @@
-import { Wallet } from "src/model/Wallet";
-import { IntentAction } from "src/model/IntentAction";
+import { Wallet } from "../model/Wallet";
+import { IntentAction } from "../model/IntentAction";
 import BigNumber = require("bn.js");
-import { SignedIntent } from "./SignedIntent";
-import { Config } from "src/Config";
-
+import { IntentDependency } from "./IntentDependency";
+import { Config } from "../Config";
+import { Dependency } from "./Dependency";
 const Web3 = require('web3');
 
-export class IntentDependency {
-    address: string;
-    id: string;
-
-    constructor(
-        address: string,
-        id: string
-    ) {
-        this.address = address;
-        this.id = id;
-    }
-}
-
 export class Intent {
-    dependencies: IntentDependency[];
+    dependencies: Dependency[];
     action: IntentAction;
     salt: string;
     maxGasPrice: BigNumber;
@@ -28,7 +15,7 @@ export class Intent {
     expiration: BigNumber;
 
     constructor(
-        dependencies: Array<IntentDependency | SignedIntent>,
+        dependencies: Array<Dependency>,
         action: IntentAction,
         salt: string,
         maxGasPrice: BigNumber,
@@ -45,15 +32,11 @@ export class Intent {
         dependencies.forEach(d => this.add_dependency(d));
     }
 
-    add_dependency(dependency: IntentDependency | SignedIntent) {
-        if (dependency instanceof IntentDependency) {
-            this.dependencies.push(dependency);
-        } else {
-            this.dependencies.push(new IntentDependency(
-                dependency.wallet.address,
-                dependency.id
-            ));
-        }
+    add_dependency(dependency: Dependency) {
+        this.dependencies.push(new IntentDependency(
+            dependency.address,
+            dependency.id
+        ));
     }
 
     id(wallet: Wallet): string {

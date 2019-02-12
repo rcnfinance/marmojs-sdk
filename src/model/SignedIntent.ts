@@ -5,8 +5,9 @@ import { RelayClient } from "../client/RelayClient";
 import { Provider } from "../Provider";
 import { Status, StatusCode, IntentReceipt } from "../model/response/Status";
 import Web3 = require('web3')
+import { Dependency } from "./Dependency";
 
-export class SignedIntent {
+export class SignedIntent implements Dependency {
     intent: Intent;
     signature: Signature;
     wallet: Wallet;
@@ -21,6 +22,10 @@ export class SignedIntent {
         this.signature = signature;
         this.wallet = wallet;
         this.id = intent.id(wallet);
+    }
+
+    get address(): string {
+        return this.wallet.address;
     }
 
     toJson(): string {
@@ -73,7 +78,7 @@ export class SignedIntent {
 
         const currentBlockNumber = await web3.eth.getBlockNumber()
 
-        const relayedBy = await SignedIntent.relayedBy(web3, this.wallet.address, this.id);        
+        const relayedBy = await SignedIntent.relayedBy(web3, this.wallet.address, this.id);
         const block = await SignedIntent.relayedAt(web3, this.wallet.address, this.id);
 
         if (block === 0) {

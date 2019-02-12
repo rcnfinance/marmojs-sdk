@@ -7,7 +7,7 @@ import { StatusCode } from "../model/response/Status";
 
 import { equal, throws, ok } from 'assert'
 import BigNumber = require("bn.js");
-import { SignedIntent } from "src/model/SignedIntent";
+import { SignedIntent } from "../model/SignedIntent";
 
 const crypto = require('crypto');
 
