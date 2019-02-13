@@ -1,17 +1,17 @@
-import { Intent, IntentDependency } from '../model/Intent';
-import { IntentAction } from 'src';
+import { Intent } from '../model/Intent';
+import { IntentAction } from '../model/IntentAction';
+import { Dependency } from '../model/Dependency';
 import BigNumber = require("bn.js");
-import { SignedIntent } from 'src/model/SignedIntent';
 
 export class IntentBuilder {
-    dependencies: Array<SignedIntent | IntentDependency> = [];
+    dependencies: Array<Dependency> = [];
     salt: string = "0x";
     expiration: BigNumber;
     action: IntentAction;
     maxGasLimit: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
     maxGasPrice: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
 
-    withDependencies(value: Array<SignedIntent | IntentDependency>): IntentBuilder {
+    withDependencies(value: Array<Dependency>): IntentBuilder {
         this.dependencies = value;
         return this;
     }

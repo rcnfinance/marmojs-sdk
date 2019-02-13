@@ -33,7 +33,7 @@ describe('IntentBuilder Test', () => {
         "0x4E0B13eDeE810702884b72DBE018579Cb2e4C6fA",
         "0x6B0F919A5d450Fa5e6283Ff6178dC1FCd195FD2A"
     );
-});
+  });
   describe("Should require to define a configuration", () => {
     it("Should fail if global is not defined and config not provided", () => {
         throws(() => new Wallet(privs[0]));
@@ -109,7 +109,7 @@ describe('IntentBuilder Test', () => {
             .withExpiration(bn(10).pow(bn(36)))
             .build();
 
-        equal(intent.build_dependency_call(wallet.config), 
+        equal(intent.build_dependency_call(wallet.config),
             "0x213cf6b20b5cf65ea259393af64935aeecb0ae5eb2b2b7dc42dece26ce6cf93b4befdfc80cffa49e8b200e571590ff2af4a27a438e8377ed"
         )
 
