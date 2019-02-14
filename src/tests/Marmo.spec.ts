@@ -5,6 +5,7 @@ import { IntentBuilder } from "../";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
 import BigNumber = require("bn.js");
+import { WETH } from "../model/data/WETH";
 
 const privs = [
   '0x62d29230c55255d404f85cf45d2db438911a8e8c76b9e917656fdbd8c4adccf4',
@@ -86,6 +87,18 @@ describe('IntentBuilder Test', () => {
             .build();
 
         equal(intent.id(wallet), "0x4c8965758ff35849a98a26d322198d65467cbf1205311377ec8d3639217e654b");
+    });
+    it("Should generate intent id (send WETH)", () => {
+        const wallet = new Wallet(privs[1]);
+        const intent = new IntentBuilder()
+            .withSalt("0x0000000000000000000000000000000000000000000000000000000000000000")
+            .withIntentAction(new WETH("0x6Eb29e4Dffcbe467b755DCBa6fDdfA91F6f747e1").deposit(1))
+            .withMaxGasLimit(0)
+            .withMaxGasPrice(bn(10).pow(bn(32)))
+            .withExpiration(1549218987)
+            .build();
+
+        equal(intent.id(wallet), "0x45fe6e30cb8acae1ca41a81420623348d6ee1394da8998c470761c37eea5b528");
     });
     it("Should generate intent id with dependencies", () => {
         const wallet = new Wallet(privs[1]);
