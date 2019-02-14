@@ -1,6 +1,6 @@
 import { Config } from "../Config";
 import { Wallet } from "../model/Wallet";
-import { equal } from 'assert'
+import { equal, throws, ok } from 'assert'
 import { IntentBuilder } from "../";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
@@ -34,9 +34,30 @@ describe('IntentBuilder Test', () => {
         "0x6B0F919A5d450Fa5e6283Ff6178dC1FCd195FD2A"
     );
   });
+  describe("Should require to define a configuration", () => {
+    it("Should fail if global is not defined and config not provided", () => {
+        throws(() => new Wallet(privs[0]));
+    });
+    it("Should not fail if configuration is provided", () => {
+        ok(new Wallet(privs[0], testConfig));
+    });
+    it("Should use the configuration defined as global", () => {
+        testConfig.asDefault();
+        ok(new Wallet(privs[0]));
+    });
+  });
+  describe("Should manage wallets", () => {
+    it("Should retrieve signer address", () => {
+        const wallet = new Wallet(privs[1], testConfig);
+        equal(wallet.signer, "0x001a825b7cdfcc40e981addb5b5952a1b3165643");
+    });
+    it("Should retrieve marmo address", () => {
+        const wallet = new Wallet(privs[1], testConfig);
+        equal(wallet.address, "0x213cf6b20b5cf65ea259393af64935aeecb0ae5e");
+    });
+  });
   describe("Should manage intents", () => {
     it("Should generate intent id (send ETH)", () => {
-        testConfig.asDefault();
         const wallet = new Wallet(privs[1]);
         const intent = new IntentBuilder()
             .withSalt("0x111151")
