@@ -1,8 +1,6 @@
 import { IntentAction } from '../IntentAction';
+import { Function } from './Function';
 import BigNumber = require("bn.js");
-
-const Web3 = require('web3');
-const web3 = new Web3();
 
 export class ERC20 {
     contractAddress: string;
@@ -12,99 +10,27 @@ export class ERC20 {
     }
 
     totalSupply(): IntentAction {
-        const inputs = {
-            name: 'totalSupply',
-            type: 'function',
-            inputs: []
-        }
-        return this.getIntentAction(inputs, [], new BigNumber(0))
+        return new Function("totalSupply", this.contractAddress).encode()
     }
 
     balanceOf(who: string): IntentAction {
-        const inputs = {
-            name: 'balanceOf',
-            type: 'function',
-            inputs: [{
-                type: 'address',
-                name: 'who'
-            }]
-        };
-        return this.getIntentAction(inputs, [who], new BigNumber(0))
+        return new Function("balanceOf", this.contractAddress, ['address']).encode([who])
     }
 
     allowance(owner: string, spender: string): IntentAction {
-        const inputs = {
-            name: 'allowance',
-            type: 'function',
-            inputs: [{
-                type: 'address',
-                name: 'owner'
-            },
-            {
-                type: 'address',
-                name: 'spender'
-            }]
-        }
-        return this.getIntentAction(inputs, [owner, spender], new BigNumber(0))
+        return new Function("allowance", this.contractAddress, ['address', 'address']).encode([owner, spender])
     }
 
     transfer(to: string, value: number | string | BigNumber): IntentAction {
-        const inputs = {
-            name: 'transfer',
-            type: 'function',
-            inputs: [{
-                type: 'address',
-                name: 'to'
-            },
-            {
-                type: 'uint256',
-                name: 'value'
-            }]
-        };
-        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()], new BigNumber(0))
+        return new Function("transfer", this.contractAddress, ['address', 'uint256']).encode([to, value.toString()])
     }
 
     approve(to: string, value: number | string | BigNumber): IntentAction {
-        const inputs = {
-            name: 'approve',
-            type: 'function',
-            inputs: [{
-                type: 'address',
-                name: 'to'
-            },
-            {
-                type: 'uint256',
-                name: 'value'
-            }]
-        };
-        return this.getIntentAction(inputs, [to, new BigNumber(value).toString()], new BigNumber(0))
+        return new Function("approve", this.contractAddress, ['address', 'uint256']).encode([to, value.toString()])
     }
 
     transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
-        const inputs = {
-            name: 'transferFrom',
-            type: 'function',
-            inputs: [{
-                type: 'address',
-                name: 'from'
-            },
-            {
-                type: 'address',
-                name: 'to'
-            },
-            {
-                type: 'uint256',
-                name: 'value'
-            }]
-        };
-        return this.getIntentAction(inputs, [from, to, new BigNumber(value).toString()], new BigNumber(0))
+        return new Function("transferFrom", this.contractAddress, ['address', 'address', 'uint256']).encode([from, to, value.toString()])
     }
 
-    protected getIntentAction(json: any, params: any[], value: BigNumber): IntentAction {
-        return new IntentAction(
-            this.contractAddress,
-            value,
-            web3.eth.abi.encodeFunctionCall(json, params)
-        );
-    }
 }
