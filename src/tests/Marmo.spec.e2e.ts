@@ -5,7 +5,7 @@ import { IntentBuilder } from "../builder/IntentBuilder";
 import { Provider } from "../Provider";
 import { StatusCode } from "../model/response/Status";
 
-import { equal, throws, ok } from 'assert'
+import { equal, ok } from 'assert'
 import BigNumber = require("bn.js");
 import { SignedIntent } from "../model/SignedIntent";
 
@@ -22,7 +22,7 @@ function bn (value: number) {
     return new BigNumber(value);
 }
 
-const wait = ms => new Promise((r, j)=>setTimeout(r, ms))
+const wait = ms => new Promise((r, j) => setTimeout(r, ms))
 
 async function waitUntil(predicate: () => Promise<boolean>, timeout: number = 30, period = 1000) {
     const mustEnd = Date.now() + timeout * 1000;
@@ -55,13 +55,13 @@ describe('IntentBuilder e2e test', () => {
 
         const signedIntent = wallet.sign(intent);
         const result = await signedIntent.relay(provider);
-        
+
         equal(
             (await signedIntent.status(provider)).code,
             StatusCode.Pending
         );
 
-        ok(await waitUntil(async () => (await signedIntent.status(provider)).code == StatusCode.Settling, 640));
+        ok(await waitUntil(async () => (await signedIntent.status(provider)).code === StatusCode.Settling, 640));
         ok((await signedIntent.status(provider)).receipt!.success);
 
         prevIntents.push(signedIntent);
@@ -74,13 +74,13 @@ describe('IntentBuilder e2e test', () => {
 
         const signedIntent = wallet.sign(intent);
         const result = await signedIntent.relay(provider);
-        
+
         equal(
             (await signedIntent.status(provider)).code,
             StatusCode.Pending
         );
 
-        ok(await waitUntil(async () => (await signedIntent.status(provider)).code == StatusCode.Settling, 640));
+        ok(await waitUntil(async () => (await signedIntent.status(provider)).code === StatusCode.Settling, 640));
         equal((await signedIntent.status(provider)).receipt!.success, false);
 
         prevIntents.push(signedIntent);
@@ -93,13 +93,13 @@ describe('IntentBuilder e2e test', () => {
 
         const signedIntent = wallet.sign(intent);
         const result = await signedIntent.relay(provider);
-        
+
         equal(
             (await signedIntent.status(provider)).code,
             StatusCode.Pending
         );
 
-        ok(await waitUntil(async () => (await signedIntent.status(provider)).code == StatusCode.Settling, 640));
+        ok(await waitUntil(async () => (await signedIntent.status(provider)).code === StatusCode.Settling, 640));
         ok((await signedIntent.status(provider)).receipt!.success);
 
         prevIntents.push(signedIntent);
@@ -112,7 +112,7 @@ describe('IntentBuilder e2e test', () => {
 
         const signedIntent = wallet.sign(intent);
         const result = await signedIntent.relay(provider);
-        
+
         equal(
             (await signedIntent.status(provider)).code,
             StatusCode.Pending
@@ -120,7 +120,7 @@ describe('IntentBuilder e2e test', () => {
 
         ok(await waitUntil(async function () {
             const status = await signedIntent.status(provider);
-            return status.code == StatusCode.Settling || status.code == StatusCode.Completed;
+            return status.code === StatusCode.Settling || status.code === StatusCode.Completed;
         }, 640));
 
         ok((await signedIntent.status(provider)).receipt!.success);
