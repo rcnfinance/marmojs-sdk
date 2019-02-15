@@ -10,7 +10,7 @@ export class Function {
     inputParameters: string[]
     outputParameters: string[]
 
-    constructor(name: string, contract: string, inputParameters: string[] = [], outputParameters: string[] = []) {
+    constructor(name: string = '', contract: string = '', inputParameters: string[] = [], outputParameters: string[] = []) {
         this.name = name
         this.contract = contract
         this.inputParameters = inputParameters

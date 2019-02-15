@@ -5,18 +5,18 @@ export class IntentAction {
     to: string
     value: BigNumber
     data: string
-    self?: Function;
+    parent: Function;
 
     constructor(
         to: string,
         value: BigNumber,
-        data: string = "0x",
-        self?: Function
+        data: string,
+        parent: Function
     ) {
         this.to = to
         this.value = value
         this.data = data
-        this.self = self
+        this.parent = parent
     }
 
 }
