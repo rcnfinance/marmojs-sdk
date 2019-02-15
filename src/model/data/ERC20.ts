@@ -1,36 +1,31 @@
 import { IntentAction } from '../IntentAction';
-import { Function } from './Function';
 import BigNumber = require("bn.js");
+import { Contract } from './Contract';
 
-export class ERC20 {
-    contractAddress: string;
-
-    constructor(contractAddress: string) {
-        this.contractAddress = contractAddress
-    }
+export class ERC20 extends Contract {
 
     totalSupply(): IntentAction {
-        return new Function("totalSupply", this.contractAddress).encode()
+        return this.functionEncoder("totalSupply").encode()
     }
 
     balanceOf(who: string): IntentAction {
-        return new Function("balanceOf", this.contractAddress, ['address']).encode([who])
+        return this.functionEncoder("balanceOf", ['address']).encode([who])
     }
 
     allowance(owner: string, spender: string): IntentAction {
-        return new Function("allowance", this.contractAddress, ['address', 'address']).encode([owner, spender])
+        return this.functionEncoder("allowance", ['address', 'address']).encode([owner, spender])
     }
 
     transfer(to: string, value: number | string | BigNumber): IntentAction {
-        return new Function("transfer", this.contractAddress, ['address', 'uint256']).encode([to, value.toString()])
+        return this.functionEncoder("transfer", ['address', 'uint256']).encode([to, value.toString()])
     }
 
     approve(to: string, value: number | string | BigNumber): IntentAction {
-        return new Function("approve", this.contractAddress, ['address', 'uint256']).encode([to, value.toString()])
+        return this.functionEncoder("approve", ['address', 'uint256']).encode([to, value.toString()])
     }
 
     transferFrom(from: string, to: string, value: number | string | BigNumber): IntentAction {
-        return new Function("transferFrom", this.contractAddress, ['address', 'address', 'uint256']).encode([from, to, value.toString()])
+        return this.functionEncoder("transferFrom", ['address', 'address', 'uint256']).encode([from, to, value.toString()])
     }
 
 }

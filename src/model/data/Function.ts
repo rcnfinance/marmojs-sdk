@@ -33,7 +33,7 @@ export class Function {
         const signature = web3.eth.abi.encodeFunctionSignature(signatureBuilder)
         const parameters = web3.eth.abi.encodeParameters(keys, values).slice(2)
         const encode = signature + parameters
-        return new IntentAction(this.contract, value, encode, this.outputParameters)
+        return new IntentAction(this.contract, value, encode, this)
     }
 
 }

@@ -1,21 +1,22 @@
 import BigNumber = require("bn.js");
+import { Function } from "./data/Function";
 
 export class IntentAction {
     to: string
     value: BigNumber
     data: string
-    receive: string[]
+    self?: Function;
 
     constructor(
         to: string,
         value: BigNumber,
         data: string = "0x",
-        receive: string[] = []
+        self?: Function
     ) {
         this.to = to
         this.value = value
         this.data = data
-        this.receive = receive
+        this.self = self
     }
 
 }
