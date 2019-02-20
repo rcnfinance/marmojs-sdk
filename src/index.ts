@@ -1,5 +1,6 @@
 import { IntentBuilder } from './builder/IntentBuilder';
 import { Intent } from './model/Intent';
+import { Wallet } from './model/Wallet';
 import { RelayClient } from './client/RelayClient'
 import { IntentAction } from './model/IntentAction';
 import { Config, DefaultConf } from './Config';
@@ -9,6 +10,7 @@ export {
     IntentBuilder,
     IntentAction,
     Intent,
+    Wallet,
     RelayClient,
     DefaultConf,
     Config,
