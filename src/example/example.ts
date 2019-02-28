@@ -13,7 +13,6 @@ const RELAYER = "http://ec2-18-188-99-203.us-east-2.compute.amazonaws.com/"
 const TEST_ERC20 = "0x2f45b6fb2f28a73f110400386da31044b2e953d4"
 
 const wait = ms => new Promise((r, j) => setTimeout(r, ms))
-
 async function waitUntil(predicate: () => Promise<boolean>, timeout: number = 30, period = 1000) {
     const mustEnd = Date.now() + timeout * 1000
     while (Date.now() < mustEnd) {
@@ -39,7 +38,7 @@ async function example() {
     console.log("----------------------------------------------------")
 
     const walletReceiver = new Wallet('0x' + crypto.randomBytes(32).toString('hex'));
-    console.log("To: ", wallet.address)
+    console.log("To: ", walletReceiver.address)
     console.log("----------------------------------------------------")
 
     const intentAction = new ERC20(TEST_ERC20).transfer(walletReceiver.address, 0);
