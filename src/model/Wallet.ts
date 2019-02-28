@@ -38,7 +38,7 @@ export class Wallet {
         return new SignedIntent(
             intent,
             new Signature(
-                bufferToInt(sig.v),
+                sig.v,
                 bufferToHex(sig.r),
                 bufferToHex(sig.s)
             ),
