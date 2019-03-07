@@ -4,7 +4,10 @@ import BigNumber = require("bn.js");
 import { IntentDependency } from "./IntentDependency";
 import { Config } from "../Config";
 import { Dependency } from "./Dependency";
-const Web3 = require('web3');
+import { AbiCoder } from 'web3-eth-abi';
+import { soliditySha3 } from 'web3-utils';
+
+const abiCoder = new AbiCoder();
 
 export class Intent {
     dependencies: Dependency[];
@@ -40,12 +43,12 @@ export class Intent {
     }
 
     id(wallet: Wallet): string {
-        return Web3.utils.soliditySha3(
+        return soliditySha3(
             { t: 'address', v: wallet.address },
             { t: 'address', v: wallet.config.implementation },
             {
                 t: 'bytes32',
-                v: Web3.utils.soliditySha3({
+                v: soliditySha3({
                     t: 'bytes',
                     v: this.build_implementation_call(wallet.config)
                 })
@@ -54,7 +57,7 @@ export class Intent {
     }
 
     build_implementation_call(config: Config): string {
-        return new Web3().eth.abi.encodeParameters(
+        return abiCoder.encodeParameters(
             [
                 "bytes",
                 "address",
@@ -86,7 +89,7 @@ export class Intent {
             return "0x";
         } else if (depsCount === 1) {
             // Single dependency, call wallet directly
-            const call = new Web3().eth.abi.encodeFunctionCall({
+            const call = abiCoder.encodeFunctionCall({
                 name: 'relayedAt',
                 type: 'function',
                 inputs: [{
@@ -98,7 +101,7 @@ export class Intent {
             return "0x" + this.dependencies[0].address.replace('0x', '') + call.replace('0x', '');
         } else {
             // Multiple dependencies, using DepsUtils contract
-            const call = new Web3().eth.abi.encodeFunctionCall({
+            const call = abiCoder.encodeFunctionCall({
                 name: 'multipleDeps',
                 type: 'function',
                 inputs: [{

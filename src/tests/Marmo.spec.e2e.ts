@@ -22,7 +22,7 @@ function bn (value: number) {
     return new BigNumber(value);
 }
 
-const wait = ms => new Promise((r, j) => setTimeout(r, ms))
+const wait = (ms: number) => new Promise((r, j) => setTimeout(r, ms))
 
 async function waitUntil(predicate: () => Promise<boolean>, timeout: number = 30, period = 1000) {
     const mustEnd = Date.now() + timeout * 1000;
