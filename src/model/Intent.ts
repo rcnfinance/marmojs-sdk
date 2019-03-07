@@ -112,8 +112,8 @@ export class Intent {
                     name: '_ids'
                 }]
             }, [
-                this.dependencies.map(d => d.address),
-                this.dependencies.map(d => d.id)
+                this.dependencies.map(d => d.address).join(),
+                this.dependencies.map(d => d.id).join()
             ]);
 
             return "0x" + config.depsUtils.replace('0x', '') + call.replace('0x', '');
