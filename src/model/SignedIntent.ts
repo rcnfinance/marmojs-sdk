@@ -7,6 +7,11 @@ import { Status, StatusCode, IntentReceipt } from "../model/response/Status";
 import Web3 = require('web3')
 import { Dependency } from "./Dependency";
 
+interface LogDetail {
+    [key: string]: any;
+}
+
+
 export class SignedIntent implements Dependency {
     intent: Intent;
     signature: Signature;
@@ -97,7 +102,7 @@ export class SignedIntent implements Dependency {
 
         const event = logs[0];
 
-        const logsDetail = web3.eth.abi.decodeLog(
+        const logsDetail: LogDetail = web3.eth.abi.decodeLog(
             [{ type: 'bool', name: 'success' }, { type: 'bytes', name: 'result' }],
             event.data, []
         );

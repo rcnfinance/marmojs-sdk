@@ -25,7 +25,7 @@ function bn (value: number) {
 }
 
 describe('IntentBuilder Test', () => {
-  let testConfig;
+  let testConfig: Config;
 
   before(() => {
     testConfig = new Config(

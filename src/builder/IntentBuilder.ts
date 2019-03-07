@@ -6,8 +6,8 @@ import BigNumber = require("bn.js");
 export class IntentBuilder {
     dependencies: Array<Dependency> = [];
     salt: string = "0x";
-    expiration: BigNumber;
-    action: IntentAction;
+    expiration: BigNumber = new BigNumber(Math.floor(new Date().getTime() + 86400 * 365));
+    action?: IntentAction
     maxGasLimit: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
     maxGasPrice: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
 
@@ -42,8 +42,8 @@ export class IntentBuilder {
     }
 
     build(): Intent {
-        if (this.expiration === undefined) {
-            this.expiration = new BigNumber(Math.floor(new Date().getTime() + 86400 * 365));
+        if (this.action === null || this.action === undefined) {
+            throw Error("The action intent is null or undefined")
         }
 
         return new Intent(

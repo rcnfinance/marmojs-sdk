@@ -11,7 +11,7 @@ export function toHexStringZeroPadded(value: string, lenght: number): string {
     return "0x" + source;
 }
 
-export function generateAddress2(from, salt, initHash) {
+export function generateAddress2(from: Uint8Array, salt: Uint8Array, initHash: Uint8Array) {
     assert(from.length === 20)
     assert(salt.length === 32)
 
