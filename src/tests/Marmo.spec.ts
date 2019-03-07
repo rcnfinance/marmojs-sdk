@@ -61,7 +61,7 @@ describe('IntentBuilder Test', () => {
     it("Should generate intent id (send ETH)", () => {
         const wallet = new Wallet(privs[1]);
         const intent = new IntentBuilder()
-            .withSalt("0x111151")
+            .withSalt("0x1111510000000000000000000000000000000000000000000000000000000000")
             .withIntentAction(new EthWallet().sendEth(
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
                 1

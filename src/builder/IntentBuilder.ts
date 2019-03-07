@@ -5,7 +5,7 @@ import BigNumber = require("bn.js");
 
 export class IntentBuilder {
     dependencies: Array<Dependency> = [];
-    salt: string = "0x";
+    salt: string = "0x0000000000000000000000000000000000000000000000000000000000000000";
     expiration: BigNumber = new BigNumber(Math.floor(new Date().getTime() + 86400 * 365));
     action?: IntentAction
     maxGasLimit: BigNumber = new BigNumber(2).pow(new BigNumber(256)).sub(new BigNumber(1));
