@@ -1,8 +1,8 @@
 import { equal } from "assert";
-import Web3 = require('web3')
+import Web3 from 'web3';
 import { IntentAction } from "../IntentAction";
 import BigNumber = require("bn.js");
-const web3 = new Web3()
+const web3 = new Web3("")
 
 export class Function {
     name: string

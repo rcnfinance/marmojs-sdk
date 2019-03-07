@@ -4,7 +4,7 @@ import { Wallet } from "../model/Wallet";
 import { RelayClient } from "../client/RelayClient";
 import { Provider } from "../Provider";
 import { Status, StatusCode, IntentReceipt } from "../model/response/Status";
-import Web3 = require('web3')
+import Web3 from 'web3';
 import { Dependency } from "./Dependency";
 
 interface LogDetail {
