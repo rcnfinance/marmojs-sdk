@@ -24,6 +24,7 @@ module.exports = {
       new TsconfigPathsPlugin()
     ]
   },
+  externals: ['tls', 'net', 'fs'],
   plugins: [
     // Ensures import paths match case of actual files in disk
     new CaseSensitivePathsPlugin()
