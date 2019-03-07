@@ -1,6 +1,5 @@
 
 /* Base configuration shared accross webpack bundles */
-const path = require("path");
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
 const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 
@@ -24,9 +23,13 @@ module.exports = {
       new TsconfigPathsPlugin()
     ]
   },
-  externals: ['tls', 'net', 'fs'],
   plugins: [
     // Ensures import paths match case of actual files in disk
     new CaseSensitivePathsPlugin()
-  ]
+  ],
+  node: {
+    fs: 'empty',
+    net: 'empty',
+    tls: 'empty'
+  }
 };
