@@ -1,22 +1,21 @@
-
 {
   "compilerOptions": {
-    "target": "es6",
     "module": "commonjs",
-    "noImplicitAny": false,
-    "strictNullChecks": true,
+    "target": "es5",
+    "lib": ["es2017", "dom"],
     "experimentalDecorators": true,
+    "downlevelIteration": true,
+    "noImplicitReturns": true,
+    "pretty": true,
+    "skipLibCheck": true,
+    "strict": true,
     "declaration": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es5",
-      "es2015",
-      "es6",
-      "dom",
-      "es2017.object"
-    ],
+    "declarationMap": true,
     "sourceMap": true,
-    "outDir": "./dist/",
-    "baseUrl": "."
-  }
+    "outDir": "lib",
+    "rootDir": "src",
+    "resolveJsonModule": true,
+    "baseUrl": "src"
+  },
+  "exclude": ["node_modules", "lib"]
 }
