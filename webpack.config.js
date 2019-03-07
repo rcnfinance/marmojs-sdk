@@ -1,33 +1,21 @@
-const path = require('path');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-module.exports = {
-    entry: './src/index.ts',
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/,
-            },
-        ],
-    },
-    devtool: 'source-map',
-    resolve: {
-        extensions: [ '.tsx', '.ts', '.js' ],
-    },
-    node: {
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-    },
-    output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'index.ts',
-        library: 'marmojs',
-        libraryTarget: 'umd',
-    },
-    plugins: [
-        new CleanWebpackPlugin(['dist']),
-    ],
-};
+    
+const path = require('path');
+const merge = require('webpack-merge');
+
+const baseConfig = require('./webpack.base');
+
+const buildConfig = merge.smart(baseConfig, {
+  devtool: 'source-map',
+  mode: 'production',
+  entry: path.resolve(__dirname, './src/index.ts'),
+  output: {
+    pathinfo: true,
+    filename: 'index.js',
+    path: path.resolve(__dirname, 'lib'),
+    library: '@marmojs/sdk',
+    libraryTarget: 'commonjs2'
+  }
+});
+
+module.exports = buildConfig;

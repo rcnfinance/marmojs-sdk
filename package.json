@@ -9,7 +9,8 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "name": "marmojs",
   "scripts": {
     "start": "npm run webpack",
@@ -26,6 +27,7 @@
     "@types/mocha": "^5.2.5",
     "@types/request-promise-native": "^1.0.15",
     "@types/web3": "^1.0.14",
+    "awesome-typescript-loader": "^5.2.1",
     "chai": "^4.2.0",
     "clean-webpack-plugin": "^1.0.0",
     "eth-sig-util": "^2.1.0",
@@ -38,6 +40,7 @@
     "request-promise-native": "^1.0.5",
     "ts-loader": "^5.3.2",
     "ts-node": "^7.0.1",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.5.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^3.0.1",
@@ -45,7 +48,9 @@
     "web3-eth": "^1.0.0-beta.37",
     "web3-utils": "^1.0.0-beta.37",
     "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.0"
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.2.1",
+    "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
     "@types/ethereumjs-util": "^5.2.0",
