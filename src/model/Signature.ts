@@ -1,12 +1,12 @@
 import { bufferToHex, toBuffer } from "ethereumjs-util";
 
 export class Signature {
-    v: number;
+    v: string;
     r: string;
     s: string;
 
     constructor(v: number, r: string, s: string) {
-        this.v = v;
+        this.v = bufferToHex(toBuffer(v));
         this.r = r;
         this.s = s;
     }

@@ -23,7 +23,7 @@ module.exports = {
     },
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'index.ts',
+        filename: 'index.js',
         library: 'marmojs',
         libraryTarget: 'umd',
     },
