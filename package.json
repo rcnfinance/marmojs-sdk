@@ -19,7 +19,7 @@
     "e2e": "mocha -r ts-node/register src/**/*.spec.e2e.ts --timeout 640000",
     "prepare": "npm run test && npm build"
   },
-  "version": "0.2.3",
+  "version": "0.2.4",
   "dependencies": {
     "@types/chai": "^4.1.7",
     "@types/ethereumjs-abi": "^0.6.1",
