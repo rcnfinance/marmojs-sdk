@@ -1,7 +1,5 @@
 # Build results
 dist/
-typings/**/*
-app/
 
 # Others
 ~$*

@@ -33,7 +33,7 @@ export class SignedIntent implements Dependency {
             id: this.id,
             wallet: this.wallet.address,
             signer: this.wallet.signer,
-            signature: this.signature.join(),
+            signature: this.signature,
             intent: {
                 implementation: this.wallet.config.implementation,
                 data: this.intent.build_implementation_call(this.wallet.config),
