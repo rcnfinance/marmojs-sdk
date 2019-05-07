@@ -1,7 +1,6 @@
-import * as RequestClient from 'request-promise-native';
-import { RequestPromiseOptions, FullResponse } from 'request-promise-native';
 import { SignedIntent } from "../model/SignedIntent"
 import { IntentResponse } from "../model/response/IntentResponse"
+import axios from 'axios';
 
 export class RelayClient {
     private path: string;
@@ -11,14 +10,22 @@ export class RelayClient {
     }
 
     async post(signedIntent: SignedIntent): Promise<IntentResponse> {
-        const options: RequestPromiseOptions = {};
-        options.form = signedIntent.toJson();
-        options.resolveWithFullResponse = true;
+        const data = signedIntent.toJson();
+
+        let config = {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-KEY': ''
+            }
+        }
 
         const intentResponse: IntentResponse = new IntentResponse(200)
-        const response: FullResponse = await RequestClient.post(this.path + '/v2/relay', options)
-        intentResponse.statusCode = response.statusCode;
+
+        axios.post(this.path + '/v2/relay', data, config).then((res) => {
+            intentResponse.statusCode = res.status;
+        })
 
         return intentResponse;
     }
+
 }

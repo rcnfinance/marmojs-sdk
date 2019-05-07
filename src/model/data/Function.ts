@@ -25,8 +25,10 @@ export class Function {
         equal(keys.length, values.length)
         let signatureBuilder: string = this.name
         signatureBuilder += '(';
+        let index = 0;
         keys.forEach(key => {
-            if (keys[0] !== key) signatureBuilder += ','
+            if (index !== 0) signatureBuilder += ','
+            index++
             signatureBuilder += key
         });
         signatureBuilder += ')'
