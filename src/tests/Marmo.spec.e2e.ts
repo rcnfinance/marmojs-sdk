@@ -13,7 +13,7 @@ const crypto = require('crypto');
 
 const ETH_NODE = "https://ropsten.node.rcn.loans:8545/";
 // TODO Change to main Ropsten relayer (port 80)
-const RELAYER = "http://ec2-18-188-99-203.us-east-2.compute.amazonaws.com/";
+const RELAYER = "https://marmo-relayer-ropsten.rcn.loans";
 const TEST_ERC20 = "0x2f45b6fb2f28a73f110400386da31044b2e953d4";
 const TEST_ERC20_2 = "0xa4aebb1ce2d7a3b7cd6f12e73bbcc9d0aaeb43a6";
 const TEST_CONTRACT = "0x1b1c4DC3102abEBE4c469ABA74cc94C381C62010";
