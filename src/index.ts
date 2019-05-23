@@ -10,6 +10,7 @@ import { ERC20 } from './model/data/ERC20';
 import { EthWallet } from './model/data/EthWallet';
 import { WETH } from './model/data/WETH';
 import { StatusCode } from './model/response/Status';
+import { Contract } from './model/data/Contract'
 
 export {
     IntentBuilder,
@@ -24,5 +25,6 @@ export {
     EthWallet,
     WETH,
     SignedIntent,
-    StatusCode
+    StatusCode,
+    Contract
 };
