@@ -2,7 +2,7 @@ import { Function } from "./Function";
 
 export class Contract {
 
-    contractAddress: string
+    protected contractAddress: string
 
     constructor(contractAddress: string) {
         this.contractAddress = contractAddress
