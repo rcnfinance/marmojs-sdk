@@ -9,7 +9,6 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
-      "es5",
       "es2015",
       "es6",
       "dom",
