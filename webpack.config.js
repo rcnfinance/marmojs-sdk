@@ -26,8 +26,9 @@ module.exports = {
         filename: 'index.js',
         library: 'marmojs',
         libraryTarget: 'umd',
+        globalObject: 'this'
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-    ],
+    ]
 };
