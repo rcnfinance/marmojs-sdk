@@ -15,7 +15,9 @@
   "scripts": {
     "start": "npm run webpack",
     "webpack": "webpack",
-    "prepare": "npm run test && npm build"
+    "prepare": "npm run test && npm build",
+    "test": "mocha -r ts-node/register src/**/*.spec.ts",	
+    "e2e": "mocha -r ts-node/register src/**/*.spec.e2e.ts --timeout 640000"
   },
   "version": "0.2.9",
   "dependencies": {
