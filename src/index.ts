@@ -9,7 +9,7 @@ import { Wallet } from './model/Wallet';
 import { ERC20 } from './model/data/ERC20';
 import { EthWallet } from './model/data/EthWallet';
 import { WETH } from './model/data/WETH';
-import { StatusCode } from './model/response/Status';
+import { Status, StatusCode } from './model/response/Status';
 import { Contract } from './model/data/Contract'
 
 export {
@@ -26,5 +26,6 @@ export {
     WETH,
     SignedIntent,
     StatusCode,
+    Status,
     Contract
 };
