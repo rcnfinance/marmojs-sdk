@@ -1,9 +1,8 @@
 import { equal } from "assert";
-import Web3 = require('web3')
 import { IntentAction } from "../IntentAction";
 import BigNumber = require("bn.js");
-const web3 = new Web3()
-
+import { AbiCoder } from 'web3-eth-abi';
+const abiCoder = new AbiCoder();
 export class Function {
     name: string
     contract: string
@@ -32,8 +31,8 @@ export class Function {
             signatureBuilder += key
         });
         signatureBuilder += ')'
-        const signature = web3.eth.abi.encodeFunctionSignature(signatureBuilder)
-        const parameters = web3.eth.abi.encodeParameters(keys, values).slice(2)
+        const signature = abiCoder.encodeFunctionSignature(signatureBuilder)
+        const parameters = abiCoder.encodeParameters(keys, values).slice(2)
         const encode = signature + parameters
         return new IntentAction(this.contract, value, encode, this)
     }
