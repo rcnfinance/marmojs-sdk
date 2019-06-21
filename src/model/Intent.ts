@@ -40,12 +40,13 @@ export class Intent {
     }
 
     id(wallet: Wallet): string {
-        return Web3.utils.soliditySha3(
+        const web3 = new Web3();
+        return web3.utils.soliditySha3(
             { t: 'address', v: wallet.address },
             { t: 'address', v: wallet.config.implementation },
             {
                 t: 'bytes32',
-                v: Web3.utils.soliditySha3({
+                v: web3.utils.soliditySha3({
                     t: 'bytes',
                     v: this.build_implementation_call(wallet.config)
                 })
@@ -54,7 +55,8 @@ export class Intent {
     }
 
     build_implementation_call(config: Config): string {
-        return new Web3().eth.abi.encodeParameters(
+        const web3 = new Web3();
+        return web3.eth.abi.encodeParameters(
             [
                 "bytes",
                 "address",
@@ -73,7 +75,7 @@ export class Intent {
                 this.maxGasLimit.toString(),
                 this.maxGasPrice.toString(),
                 this.expiration.toString(),
-                this.salt
+                web3.utils.padRight(this.salt, '64')
             ]
         )
     }
