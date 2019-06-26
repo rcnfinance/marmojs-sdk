@@ -6,10 +6,10 @@ import { Provider } from "../Provider";
 import { StatusCode } from "../model/response/Status";
 
 import { equal, ok } from 'assert'
-import BigNumber = require("bn.js");
 import { SignedIntent } from "../model/SignedIntent";
 
-const crypto = require('crypto');
+import BigNumber from "bignumber.js";
+import crypto from 'crypto';
 
 const ETH_NODE = "https://ropsten.node.rcn.loans:8545/";
 // TODO Change to main Ropsten relayer (port 80)

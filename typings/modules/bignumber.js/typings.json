@@ -1,0 +1,10 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/felixfbecker/typed-bignumber.js/3ed5f6486e625fa897b76591afd935a2cf2b88b2/typings.json",
+    "raw": "registry:npm/bignumber.js#2.4.0+20160714211320",
+    "main": "bignumber.d.ts",
+    "version": "^2.4.0",
+    "name": "bignumber.js"
+  }
+}

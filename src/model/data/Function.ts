@@ -1,8 +1,9 @@
-import { equal } from "assert";
 import { IntentAction } from "../IntentAction";
-import BigNumber = require("bn.js");
+import { BigNumber } from 'bignumber.js';
 import { AbiCoder } from 'web3-eth-abi';
+
 const abiCoder = new AbiCoder();
+
 export class Function {
     name: string
     contract: string
@@ -21,7 +22,6 @@ export class Function {
     }
 
     private resolve(keys: string[], values: any[], value: BigNumber): IntentAction {
-        equal(keys.length, values.length)
         let signatureBuilder: string = this.name
         signatureBuilder += '(';
         let index = 0;

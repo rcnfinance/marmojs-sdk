@@ -1,6 +1,6 @@
 import { Wallet } from "../model/Wallet";
 import { IntentAction } from "../model/IntentAction";
-import BigNumber = require("bn.js");
+import { BigNumber } from 'bignumber.js';
 import { IntentDependency } from "./IntentDependency";
 import { Config } from "../Config";
 import { Dependency } from "./Dependency";
@@ -70,11 +70,11 @@ export class Intent {
             [
                 this.build_dependency_call(config),
                 this.action.to,
-                this.action.value.toString(),
+                this.action.value.toFixed(),
                 this.action.data,
-                this.maxGasLimit.toString(),
-                this.maxGasPrice.toString(),
-                this.expiration.toString(),
+                this.maxGasLimit.toFixed(),
+                this.maxGasPrice.toFixed(),
+                this.expiration.toFixed(),
                 web3.utils.padRight(this.salt, '64')
             ]
         )

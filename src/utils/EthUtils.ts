@@ -1,4 +1,3 @@
-import assert = require("assert")
 import { keccak256 } from 'ethereumjs-util'
 
 export function toHexStringZeroPadded(value: string, lenght: number): string {
@@ -12,8 +11,8 @@ export function toHexStringZeroPadded(value: string, lenght: number): string {
 }
 
 export function generateAddress2(from, salt, initHash) {
-    assert(from.length === 20)
-    assert(salt.length === 32)
+    // assert(from.length === 20)
+    // assert(salt.length === 32)
 
     const address = keccak256(Buffer.concat([
       Buffer.from('ff', 'hex'),
