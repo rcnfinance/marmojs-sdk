@@ -1,10 +1,10 @@
 import { Config } from "../Config";
 import { Wallet } from "../model/Wallet";
 import { equal, throws, ok } from 'assert'
-import { IntentBuilder } from "../";
+import { IntentBuilder } from "../builder/IntentBuilder";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
-import BigNumber = require("bn.js");
+import { BigNumber } from "bignumber.js";
 import { WETH } from "../model/data/WETH";
 
 const privs = [
