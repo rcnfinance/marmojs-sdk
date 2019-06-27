@@ -15,7 +15,7 @@
     "prepare": "npm run test && npm build",
     "build": "rollup -c"
   },
-  "version": "0.2.11",
+  "version": "0.2.13",
   "dependencies": {
     "axios": "^0.19.0",
     "bignumber.js": "^9.0.0",
