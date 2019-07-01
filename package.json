@@ -1,4 +1,5 @@
 {
+  "name": "marmojs",
   "author": "RCN",
   "deprecated": false,
   "description": "Marmojs-sdk helps developers to consume Marmo Relayer.",
@@ -8,12 +9,15 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "name": "marmojs",
+  "main": "dist/marmojs.cjs.js",
+  "module": "dist/marmojs.esm.js",
+  "browser": "dist/marmojs.iife.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "prepare": "npm run test && npm build",
-    "build": "rollup -c"
+    "build:js": "npx rollup -c",
+    "test": "npm run build:js && mocha dist/**/*.spec.js",
+    "e2e": "npm run build:js && mocha dist/**/*.spec.e2e.js",
+    "build": "npm run"
   },
   "version": "0.2.13",
   "dependencies": {
@@ -39,6 +43,7 @@
     "@types/mocha": "^5.2.5",
     "@types/request-promise-native": "^1.0.15",
     "@types/web3": "^1.0.14",
+    "rollup-plugin-typescript": "^1.0.1",
     "chai": "^4.2.0",
     "eslint": "^5.12.1",
     "eslint-config-standard": "^12.0.0",

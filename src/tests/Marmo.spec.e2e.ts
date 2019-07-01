@@ -16,7 +16,6 @@ const ETH_NODE = "https://ropsten.node.rcn.loans:8545/";
 const RELAYER = "https://marmo-relayer-ropsten.rcn.loans";
 const TEST_ERC20 = "0x2f45b6fb2f28a73f110400386da31044b2e953d4";
 const TEST_ERC20_2 = "0xa4aebb1ce2d7a3b7cd6f12e73bbcc9d0aaeb43a6";
-const TEST_CONTRACT = "0x1b1c4DC3102abEBE4c469ABA74cc94C381C62010";
 
 function bn (value: number) {
     return new BigNumber(value);
