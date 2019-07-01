@@ -1,21 +1,22 @@
+
 {
   "compilerOptions": {
-    // Target latest version of ECMAScript.
-    "target": "es2015",
-    // Search under node_modules for non-relative imports.
-    "moduleResolution": "node",
-    // Process & infer types from .js files.
-    "allowJs": true,
-    // Don't emit; allow Babel to transform files.
-    "noEmit": true,
-    // Enable strictest settings like strictNullChecks & noImplicitAny.
-    "strict": true,
-    // Disallow features that require cross-file information for emit.
-    "isolatedModules": true,
-    // Import non-ES modules as default imports.
-    "esModuleInterop": true
-  },
-  "include": [
-    "src"
-  ]
+    "target": "es6",
+    "module": "ES2015",
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es2015",
+      "es6",
+      "dom",
+      "es2017.object"
+    ],
+    "sourceMap": true,
+    "outDir": "./dist/",
+    "baseUrl": "."
+  }
 }
