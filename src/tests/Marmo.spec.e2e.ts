@@ -68,7 +68,7 @@ describe('IntentBuilder e2e test', () => {
     it("Should relay a ERC20 transfer and fail", async () => {
         const walletReceiver = new Wallet('0x' + crypto.randomBytes(32).toString('hex'));
 
-        const intentAction = new ERC20(TEST_ERC20_2).transfer(walletReceiver.address, bn(120) * bn(10).pow(bn(18));
+        const intentAction = new ERC20(TEST_ERC20_2).transfer(walletReceiver.address, bn(120) * bn(10).pow(bn(18)));
         const intent = new IntentBuilder().withIntentAction(intentAction).build();
 
         const signedIntent = wallet.sign(intent);
