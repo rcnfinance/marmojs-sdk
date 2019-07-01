@@ -16,7 +16,7 @@
   "scripts": {
     "build:js": "rimraf dist && babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "test": "npm run build:js && mocha dist/**/*.spec.js",
-    "e2e": "npm run build:js && mocha dist/**/*.spec.e2e.js",
+    "e2e": "npm run build:js && mocha --timeout 15000000 dist/**/*.spec.e2e.js",
     "build": "npm run"
   },
   "version": "0.2.13",

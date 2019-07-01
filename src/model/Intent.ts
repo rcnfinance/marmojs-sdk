@@ -33,10 +33,12 @@ export class Intent {
     }
 
     add_dependency(dependency: Dependency) {
-        this.dependencies.push(new IntentDependency(
-            dependency.address,
-            dependency.id
-        ));
+        if (dependency) {
+            this.dependencies.push(new IntentDependency(
+                dependency.address,
+                dependency.id
+            ));
+        }
     }
 
     id(wallet: Wallet): string {
