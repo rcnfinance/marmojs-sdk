@@ -1,10 +1,10 @@
 import { Config } from "../Config";
 import { Wallet } from "../model/Wallet";
 import { equal, throws, ok } from 'assert'
-import { IntentBuilder } from "../";
+import { IntentBuilder } from "../builder/IntentBuilder";
 import { EthWallet } from "../model/data/EthWallet";
 import { ERC20 } from "../model/data/ERC20";
-import BigNumber = require("bn.js");
+import { BigNumber } from "bignumber.js";
 import { WETH } from "../model/data/WETH";
 
 const privs = [
@@ -115,7 +115,7 @@ describe('IntentBuilder Test', () => {
             .withDependencies([dependency_signed_intent])
             .withIntentAction(new ERC20("0x6Eb29e4Dffcbe467b755DCBa6fDdfA91F6f747e1").transfer(
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
-                bn(100).mul(bn(10).pow(bn(18)))
+                bn(100) * bn(10).pow(bn(18))
             ))
             .withMaxGasLimit("0")
             .withMaxGasPrice("9999999999")
@@ -137,7 +137,7 @@ describe('IntentBuilder Test', () => {
         const intent = new IntentBuilder()
             .withIntentAction(new ERC20("0x6Eb29e4Dffcbe467b755DCBa6fDdfA91F6f747e1").transfer(
                 "0x009ab4de1234c7066197d6ed75743add3576591f",
-                bn(100).mul(bn(10).pow(bn(18)))
+                bn(100) * bn(10).pow(bn(18))
             ))
             .withMaxGasLimit("0")
             .withMaxGasPrice("9999999999")

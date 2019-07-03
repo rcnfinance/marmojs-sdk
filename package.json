@@ -1,6 +1,6 @@
 {
+  "name": "marmojs",
   "author": "RCN",
-  "bundleDependencies": false,
   "deprecated": false,
   "description": "Marmojs-sdk helps developers to consume Marmo Relayer.",
   "directories": {
@@ -9,19 +9,20 @@
   "files": [
     "dist"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "name": "marmojs",
+  "main": "dist/marmojs.cjs.js",
+  "module": "dist/marmojs.esm.js",
+  "browser": "dist/marmojs.iife.js",
+  "types": "dist/types/index.d.ts",
   "scripts": {
-    "start": "npm run webpack",
-    "webpack": "webpack",
-    "prepare": "npm run test && npm build",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts",
-    "e2e": "mocha -r ts-node/register src/**/*.spec.e2e.ts --timeout 640000"
+    "build:js": "rimraf dist && babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline && rollup -c",
+    "test": "npm run build:js && mocha dist/**/*.spec.js",
+    "e2e": "npm run build:js && mocha --timeout 15000000 dist/**/*.spec.e2e.js",
+    "build": "npm run"
   },
-  "version": "0.2.12",
+  "version": "0.2.13",
   "dependencies": {
     "axios": "^0.19.0",
+    "bignumber.js": "^9.0.0",
     "clean-webpack-plugin": "^1.0.0",
     "eth-sig-util": "^2.1.0",
     "ethereumjs-abi": "^0.6.5",
@@ -35,6 +36,14 @@
     "web3-utils": "1.0.0-beta.55"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/plugin-transform-runtime": "^7.4.4",
+    "@babel/preset-env": "^7.4.1",
+    "@babel/preset-typescript": "^7.3.2",
+    "@babel/runtime": "^7.4.5",
     "@types/chai": "^4.1.7",
     "@types/ethereumjs-abi": "^0.6.1",
     "@types/ethereumjs-util": "^5.2.0",
@@ -51,13 +60,19 @@
     "eslint-plugin-standard": "^4.0.0",
     "fstream": ">=1.0.12",
     "mocha": "^5.2.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.16.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.0.1",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "rollup-plugin-typescript2": "^0.21.2",
     "scrypt": "^6.0.3",
     "ts-loader": "^5.3.2",
     "ts-node": "^7.0.1",
     "tslint": "^5.5.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^3.0.1",
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.1.0"
+    "yarn": "^1.16.0"
   }
 }

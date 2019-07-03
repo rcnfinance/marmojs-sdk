@@ -1,4 +1,4 @@
-import BigNumber = require("bn.js");
+import { BigNumber } from 'bignumber.js';
 import { Function } from "./data/Function";
 
 export class IntentAction {

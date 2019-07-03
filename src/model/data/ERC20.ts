@@ -1,5 +1,5 @@
 import { IntentAction } from '../IntentAction';
-import BigNumber = require("bn.js");
+import { BigNumber } from 'bignumber.js';
 import { Contract } from './Contract';
 
 export class ERC20 extends Contract {

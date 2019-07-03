@@ -1,5 +1,5 @@
 import { ERC20 } from "./ERC20";
-import BigNumber = require("bn.js");
+import { BigNumber } from 'bignumber.js';
 import { IntentAction } from "../IntentAction";
 
 export class WETH extends ERC20 {

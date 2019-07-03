@@ -1,7 +1,6 @@
 import { IntentAction } from "../IntentAction";
 
-import BigNumber = require("bn.js");
-import { Contract } from "./Contract";
+import { BigNumber } from 'bignumber.js';
 import { Function } from "./Function";
 
 export class EthWallet {
