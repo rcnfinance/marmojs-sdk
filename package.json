@@ -19,7 +19,7 @@
     "e2e": "npm run build:js && mocha --timeout 15000000 dist/**/*.spec.e2e.js",
     "build": "npm run build:js && rollup -c"
   },
-  "version": "0.2.13",
+  "version": "0.2.14",
   "dependencies": {
     "axios": "^0.19.0",
     "bignumber.js": "^9.0.0",
