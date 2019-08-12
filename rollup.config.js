@@ -1,8 +1,6 @@
 import typescript from 'rollup-plugin-typescript2';
 import pkg from './package.json';
 
-const name = 'RollupTypeScriptBabel';
-
 export default {
     input: './src/index.ts',
 
@@ -12,21 +10,13 @@ export default {
 
     plugins: [
         // Compile TypeScript/JavaScript files
-        typescript()
+        typescript({ module: 'ES2015' }),
     ],
 
     output: [{
         file: pkg.main,
-        format: 'cjs',
-    }, {
-        file: pkg.module,
-        format: 'es',
-    }, {
-        file: pkg.browser,
-        format: 'iife',
-        name,
-
-        // https://rollupjs.org/guide/en#output-globals-g-globals
-        globals: {},
+        format: 'umd',
+        name: 'library',
+        sourcemap: true,
     }],
 };
